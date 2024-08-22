@@ -1,0 +1,34 @@
+/* inter-regular - latin */
+@font-face {
+    font-display: swap;
+    /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    src: url('../assets/fonts/inter-v18-latin-regular.woff2') format('woff2');
+    /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+  font-family: 'Inter', sans-serif;
+}
+
+body {
+  height: 100vh;
+  font-family: 'Quicksand', sans-serif;
+}
+
+textarea:focus,
+input:focus {
+  outline: none;
+}
+
+a {
+  color: #000;
+  text-decoration: none;
+}
