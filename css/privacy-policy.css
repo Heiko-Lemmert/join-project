@@ -1,0 +1,26 @@
+.privacy-policy {
+    font-family: Arial, sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .privacy-policy-title {
+    font-size: 36px;
+    margin-bottom: 30px;
+  }
+  
+  .privacy-policy-section {
+    margin-bottom: 30px;
+  }
+  
+  .privacy-policy-subtitle {
+    font-size: 24px;
+    margin-bottom: 15px;
+  }
+  
+  .privacy-policy-text {
+    font-size: 16px;
+    line-height: 1.5;
+    color: #333;
+  }
