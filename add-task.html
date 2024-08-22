@@ -9,12 +9,78 @@
     <link rel="icon" type="image/png" sizes="16x16" href="./assets/img/favicon/favicon-16x16.png">
     <link rel="manifest" href="./assets/img/favicon/site.webmanifest">
     <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/add-task.css">
     <script src="./js/main.js"></script>
+    <script src="./js/add-task.js" defer></script>
     <title>Add Task</title>
 </head>
 
 <body>
-
+    <section class="task-section">
+        <h1>Add Task</h1>
+        <div class="task-main-container">
+            <form action="" class="task-form">
+                <div class="task-container-left">
+                    <label for="task-title">Title *</label>
+                    <input required type="text" id="task-title" placeholder="Enter a Title">
+                    <label for="task-description">Description</label>
+                    <textarea name="task-description" id="task-description" placeholder="Enter a Description"></textarea>
+                    <label for="task-contacts">Assigned to</label>
+                    <div class="contact-selector-container">
+                        <div class="contact-selector" id="contactSelector">
+                            Select contacts to assign
+                        </div>
+                        <div class="contact-options" id="contactOptions">
+                            <div class="contact-option">
+                                <span class="task-contact-initial">MM</span>
+                                <label>Max Mustermann</label>
+                                <input type="checkbox" name="contact" value="max_mustermann">
+                            </div>
+                            <div class="contact-option">
+                                <span class="task-contact-initial">EM</span>
+                                <label>Erika Musterfrau</label>
+                                <input type="checkbox" name="contact" value="erika_musterfrau">
+                            </div>
+                            <div class="contact-option">
+                                <span class="task-contact-initial">JD</span>
+                                <label>John Doe</label>
+                                <input type="checkbox" name="contact" value="john_doe">
+                            </div>
+                        </div>
+                        <div class="selected-contacts" id="selectedContacts"></div>
+                    </div>
+                </div>
+                <hr>
+                <div class="task-container-right">
+                    <label for="task-date">Due date *</label>
+                    <input type="date" id="task-date" name="task-date">
+                    <label for="task-prio">Prio</label>
+                    <button class="prio-btn-">Ugrent</button>
+                    <button class="prio-btn-">Medium</button>
+                    <button class="prio-btn-">Low</button>
+                    <label for="task-category">Category *</label>
+                    <select required name="task-category" id="category-selector">
+                        <option disabled>Select task category</option>
+                        <option value="1">Technical Task</option>
+                        <option value="2">User Story</option>
+                    </select>
+                    <label for="subtask">Subtasks</label>
+                    <div class="add-subtask">
+                        <input type="text" name="subtask" id="subtask" placeholder="Add new subtask">
+                        <img src="./assets/img/add.png" alt="add-subtask">
+                    </div>
+                    <div class="show-subtask" id="showSubtask"></div>
+                    <div class="task-btn-container">
+                        <button>Clear</button>
+                        <button>Create Task</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="task-bottom-container">
+            <span>* This field is required</span>
+        </div>
+    </section>
 </body>
 
 </html>
