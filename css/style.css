@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-
 /* inter-regular - latin */
 @font-face {
     font-display: swap;
@@ -23,6 +21,7 @@
 body {
     margin: 0;
     height: 100vh;
+    background-color: #F6F7F8;
 }
 
 textarea:focus,
@@ -33,3 +32,4 @@ input:focus {
 a {
     color: #000;
     text-decoration: none;
+}
