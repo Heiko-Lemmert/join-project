@@ -15,50 +15,37 @@
     <title>Add Task</title>
 </head>
 
-<body>
+<body onload="init()">
     <section class="task-section">
         <h1>Add Task</h1>
         <div class="task-main-container">
             <form action="" class="task-form">
                 <div class="task-container-left">
-                    <label for="task-title">Title *</label>
+                    <label for="task-title">Title <span class="required">*</span></label>
                     <input required type="text" id="task-title" placeholder="Enter a Title">
                     <label for="task-description">Description</label>
-                    <textarea name="task-description" id="task-description" placeholder="Enter a Description"></textarea>
+                    <textarea name="task-description" id="task-description"
+                        placeholder="Enter a Description"></textarea>
                     <label for="task-contacts">Assigned to</label>
                     <div class="contact-selector-container">
                         <div class="contact-selector" id="contactSelector">
                             Select contacts to assign
                         </div>
-                        <div class="contact-options" id="contactOptions">
-                            <div class="contact-option">
-                                <span class="task-contact-initial">MM</span>
-                                <label>Max Mustermann</label>
-                                <input type="checkbox" name="contact" value="max_mustermann">
-                            </div>
-                            <div class="contact-option">
-                                <span class="task-contact-initial">EM</span>
-                                <label>Erika Musterfrau</label>
-                                <input type="checkbox" name="contact" value="erika_musterfrau">
-                            </div>
-                            <div class="contact-option">
-                                <span class="task-contact-initial">JD</span>
-                                <label>John Doe</label>
-                                <input type="checkbox" name="contact" value="john_doe">
-                            </div>
-                        </div>
+                        <div class="contact-options" id="contactOptions"></div>
                         <div class="selected-contacts" id="selectedContacts"></div>
                     </div>
                 </div>
                 <hr>
                 <div class="task-container-right">
-                    <label for="task-date">Due date *</label>
+                    <label for="task-date">Due date <span class="required">*</span></label>
                     <input type="date" id="task-date" name="task-date">
                     <label for="task-prio">Prio</label>
-                    <button class="prio-btn-">Ugrent</button>
-                    <button class="prio-btn-">Medium</button>
-                    <button class="prio-btn-">Low</button>
-                    <label for="task-category">Category *</label>
+                    <div id="prioChooser">
+                        <a class="prio-btn-high">Ugrent <img src="./assets/img/prio_high.png" alt="Prio High"></a>
+                        <a class="prio-btn-medium">Medium <img src="./assets/img/prio_medium.png" alt="Prio Medium"></a>
+                        <a class="prio-btn-low">Low <img src="./assets/img/prio_low.png" alt="Prio Low"></a>
+                    </div>
+                    <label for="task-category">Category <span class="required">*</span></label>
                     <select required name="task-category" id="category-selector">
                         <option disabled>Select task category</option>
                         <option value="1">Technical Task</option>
@@ -71,14 +58,14 @@
                     </div>
                     <div class="show-subtask" id="showSubtask"></div>
                     <div class="task-btn-container">
-                        <button>Clear</button>
-                        <button>Create Task</button>
+                        <button class="clear-task-btn">Clear <img src="./assets/img/cancel.png" alt="Cancel"></button>
+                        <button class="create-task-btn">Create Task <img src="./assets/img/check_white.png" alt="Enter"></button>
                     </div>
                 </div>
             </form>
         </div>
         <div class="task-bottom-container">
-            <span>* This field is required</span>
+            <span><span class="required">*</span> This field is required</span>
         </div>
     </section>
 </body>

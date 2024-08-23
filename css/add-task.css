@@ -1,3 +1,86 @@
+.required {
+    color: red;
+}
+
+button {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 15px;
+    background-color: #fff;
+    border-radius: 10px;
+    border: none;
+    -webkit-box-shadow: 0px 0px 5px 1px rgba(79, 79, 79, 0.83);
+    -moz-box-shadow: 0px 0px 5px 1px rgba(79, 79, 79, 0.83);
+    box-shadow: 0px 0px 1px 0px rgba(79, 79, 79, 0.5);
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+button:hover {
+    -webkit-box-shadow: 0px 3px 5px 1px rgba(79, 79, 79, 0.83);
+    -moz-box-shadow: 0px 3px 5px 1px rgba(79, 79, 79, 0.83);
+    box-shadow: 0px 3px 1px 0px rgba(79, 79, 79, 0.5);
+}
+
+button img {
+    height: auto;
+    width: 15px;
+    margin-left: 5px;
+}
+
+.prio-btn-high,
+.prio-btn-medium,
+.prio-btn-low {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 15px;
+    background-color: #fff;
+    border-radius: 10px;
+    border: none;
+    -webkit-box-shadow: 0px 0px 1px 0px rgba(79, 79, 79, 0.5);
+    -moz-box-shadow: 0px 0px 1px 0px rgba(79, 79, 79, 0.5);
+    box-shadow: 0px 0px 1px 0px rgba(79, 79, 79, 0.5);
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.prio-btn-high:hover,
+.prio-btn-medium:hover,
+.prio-btn-low:hover {
+    -webkit-box-shadow: 0px 3px 1px 0px rgba(79, 79, 79, 0.5);
+    -moz-box-shadow: 0px 3px 1px 0px rgba(79, 79, 79, 0.5);
+    box-shadow: 0px 3px 1px 0px rgba(79, 79, 79, 0.5);
+}
+
+.prio-btn-high img,
+.prio-btn-medium img,
+.prio-btn-low img {
+    height: auto;
+    width: 15px;
+    margin-left: 5px;
+}
+
+.create-task-btn {
+    background-color: #2A3647;
+    color: #fff;
+    margin-left: 15px;
+}
+
+.create-task-btn:hover {
+    background-color: #29ABE2;
+}
+
+.clear-task-btn {
+    background-color: #F6F7F8;
+}
+
+.clear-task-btn:hover {
+    color: #29ABE2;
+    -webkit-box-shadow: 0px 0px 1px 1px rgba(41, 171, 226, 0.5);
+    -moz-box-shadow: 0px 0px 1px 1px rgba(41, 171, 226, 0.5);
+    box-shadow: 0px 0px 1px 1px rgba(41, 171, 226, 0.5);
+}
+
 .task-section {
     display: flex;
     flex-direction: column;
@@ -27,14 +110,40 @@
 .task-bottom-container textarea,
 .task-main-container select {
     width: 95%;
+    height: 22px;
+    padding: 10px;
+    font-size: 1rem;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #fff;
+}
+
+.task-main-container input:focus,
+.task-bottom-container textarea:focus,
+.task-main-container select:focus,
+.contact-selector:focus,
+#task-description:focus {
+    border: 1px solid #90D1ED;
+}
+
+.task-main-container input:focus:invalid,
+.task-main-container select:focus:invalid {
+    border: 1px solid #FD8F9C;
 }
 
 #task-description {
     display: inline-block;
-    width: 95%;
+    width: 99%;
     -webkit-box-sizing: border-box;
-       -moz-box-sizing: border-box;
-            box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 10px;
+    font-size: 1rem;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #fff;
 }
 
 
@@ -46,7 +155,9 @@
 
 .task-container-left,
 .task-container-right {
-    margin: 25px;
+    position: relative;
+    margin: 0px 25px;
+    flex: 1;
 }
 
 .task-container-left label,
@@ -60,7 +171,7 @@
 
 .contact-selector-container {
     position: relative;
-    width: 92%;
+    width: 95%;
 }
 
 .contact-selector {
@@ -69,7 +180,7 @@
     font-size: 1rem;
     cursor: pointer;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 10px;
     background-color: #fff;
 }
 
@@ -79,7 +190,7 @@
     left: 0;
     right: -21px;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 10px;
     background-color: #fff;
     max-height: 200px;
     overflow-y: auto;
@@ -88,14 +199,31 @@
 }
 
 .contact-option {
-    display: block ruby;
+    display: flex;
+    align-items: baseline;
     padding: 10px;
     cursor: pointer;
 }
 
-.contact-option label {
+.contact-initials {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    color: #fff;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     margin-right: 10px;
-    width: 80%;
+    font-size: 0.9rem;
+    border: 1px solid white;
+}
+
+.contact-option label {
+    width: 75%;
+    margin-right: 10px;
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 .contact-option input[type="checkbox"] {
@@ -113,45 +241,23 @@
     color: #555;
 }
 
-.task-contact-initial {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-weight: bold;
-    margin-right: 15px;
-    font-size: 14px;
-    flex: 1;
+#prioChooser {
+    display: flex;
+    gap: 15px;
 }
 
-/* Dynamic initial background colors */
-.contact-options:nth-child(1) .task-contact-initial {
-    background-color: purple;
+.add-subtask {
+    position: relative;
 }
 
-.contact-options:nth-child(2) .task-contact-initial {
-    background-color: teal;
+.add-subtask img {
+	position: absolute;
+	bottom: 15px;
+	right: 20px;
 }
 
-.contact-options:nth-child(3) .task-contact-initial {
-    background-color: pink;
-}
-
-.contact-options:nth-child(4) .task-contact-initial {
-    background-color: lightcoral;
-}
-
-.contact-options:nth-child(5) .task-contact-initial {
-    background-color: coral;
-}
-
-.contact-options:nth-child(6) .task-contact-initial {
-    background-color: green;
-}
-
-.contact-options:nth-child(7) .task-contact-initial {
-    background-color: blue;
+.task-btn-container {
+    position: absolute;
+    bottom: 0;
+    right: 0;
 }
