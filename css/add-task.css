@@ -2,6 +2,7 @@
     color: red;
 }
 
+/* Button Styling */
 button {
     display: inline-flex;
     align-items: center;
@@ -28,11 +29,11 @@ button img {
     margin-left: 5px;
 }
 
-.prio-btn-high,
-.prio-btn-medium,
-.prio-btn-low {
+.prio-btn {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
+    flex: 1;
     padding: 10px 15px;
     background-color: #fff;
     border-radius: 10px;
@@ -44,20 +45,88 @@ button img {
     cursor: pointer;
 }
 
-.prio-btn-high:hover,
-.prio-btn-medium:hover,
-.prio-btn-low:hover {
+.prio-btn:hover {
     -webkit-box-shadow: 0px 3px 1px 0px rgba(79, 79, 79, 0.5);
     -moz-box-shadow: 0px 3px 1px 0px rgba(79, 79, 79, 0.5);
     box-shadow: 0px 3px 1px 0px rgba(79, 79, 79, 0.5);
 }
 
-.prio-btn-high img,
-.prio-btn-medium img,
-.prio-btn-low img {
-    height: auto;
-    width: 15px;
-    margin-left: 5px;
+.btn-high::after {
+    content: "";
+    background-image: url('../assets/img/prio-high.png');
+    background-size: 17px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    width: 17px;
+    height: 13px;
+    margin-left: 8px;
+}
+
+.btn-medium::after {
+    content: "";
+    background-image: url('../assets/img/prio-medium.png');
+    background-size: 17px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    width: 17px;
+    height: 6px;
+    margin-left: 8px;
+}
+
+.btn-low::after {
+    content: "";
+    background-image: url('../assets/img/prio-low.png');
+    background-size: 17px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    width: 17px;
+    height: 13px;
+    margin-left: 8px;
+}
+
+.checked-high {
+    background-color: #FF3D00;
+}
+
+.checked-high:after {
+    content: "";
+    background-image: url('../assets/img/prio-high-white.png');
+    background-size: 17px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    width: 17px;
+    height: 13px;
+    margin-left: 8px;
+}
+
+.checked-medium {
+    background-color: #FFA800;
+}
+
+.checked-medium::after {
+    content: "";
+    background-image: url('../assets/img/prio-medium-white.png');
+    background-size: 17px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    width: 17px;
+    height: 6px;
+    margin-left: 8px;
+}
+
+.checked-low {
+    background-color: #7AE229;
+}
+
+.checked-low::after {
+    content: "";
+    background-image: url('../assets/img/prio-low-white.png');
+    background-size: 17px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    width: 17px;
+    height: 13px;
+    margin-left: 8px;
 }
 
 .create-task-btn {
@@ -244,16 +313,30 @@ button img {
 #prioChooser {
     display: flex;
     gap: 15px;
+    width: 100%;
 }
 
 .add-subtask {
-    position: relative;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+}
+
+.add-subtask input {
+    border: none;
+    width: 90%;
 }
 
 .add-subtask img {
-	position: absolute;
-	bottom: 15px;
-	right: 20px;
+    padding: 4px;
+}
+
+.add-subtask img:hover {
+    background-color: #dddcdc;
+    border-radius: 50%;
+    cursor: pointer;
 }
 
 .task-btn-container {

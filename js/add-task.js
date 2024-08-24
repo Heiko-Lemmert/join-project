@@ -54,6 +54,33 @@ function attachEventListeners() {
     });
 }
 
+function prioChooser(prio) {
+    switch (prio) {
+        case 'high':
+            checkedPrioBtn('prioHigh', prio);
+            break;
+        case 'medium':
+            checkedPrioBtn('prioMedium', prio);
+            break;
+        case 'low':
+            checkedPrioBtn('prioLow', prio);
+            break;
+        default:
+            break;
+    }
+}
+
+function checkedPrioBtn(id, prio) {
+    resetPrioBtn();
+    document.getElementById(id).classList.add('checked-'+prio);
+}
+
+function resetPrioBtn() {
+    document.getElementById('prioHigh').classList.remove('checked-high');
+    document.getElementById('prioMedium').classList.remove('checked-medium');
+    document.getElementById('prioLow').classList.remove('checked-low');
+}
+
  /**
 //  * updateSelectedContacts: This function collects the names of the selected contacts and 
 //  * updates the display in the drop-down menu as well as the list of selected contacts.

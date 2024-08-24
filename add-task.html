@@ -41,13 +41,13 @@
                     <input type="date" id="task-date" name="task-date">
                     <label for="task-prio">Prio</label>
                     <div id="prioChooser">
-                        <a class="prio-btn-high">Ugrent <img src="./assets/img/prio_high.png" alt="Prio High"></a>
-                        <a class="prio-btn-medium">Medium <img src="./assets/img/prio_medium.png" alt="Prio Medium"></a>
-                        <a class="prio-btn-low">Low <img src="./assets/img/prio_low.png" alt="Prio Low"></a>
+                        <a class="prio-btn btn-high" id="prioHigh" onclick="prioChooser('high')">Ugrent</a>
+                        <a class="prio-btn btn-medium" id="prioMedium" onclick="prioChooser('medium')">Medium</a>
+                        <a class="prio-btn btn-low" id="prioLow" onclick="prioChooser('low')">Low</a>
                     </div>
                     <label for="task-category">Category <span class="required">*</span></label>
                     <select required name="task-category" id="category-selector">
-                        <option disabled>Select task category</option>
+                        <option >Select task category</option>
                         <option value="1">Technical Task</option>
                         <option value="2">User Story</option>
                     </select>
