@@ -1,0 +1,108 @@
+* {
+    margin: 0;
+    padding: 0;
+    background-color: #F6F7F8;
+}
+
+.board-mainContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.board-page {
+    display: flex;
+}
+
+.board-top {
+    display: flex;
+    padding: 64px;
+    justify-content: space-between;
+}
+
+.board-InputFieldDiv {
+    margin-right: 32px;
+    position: relative;
+}
+
+.board-InputField {
+    border-radius: 5px;
+    background: white;
+    width: 280px;
+    height: 32px;
+}
+
+.board-input {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+}
+
+h1 {
+    font-size: 64px;
+    font-weight: 700;
+}
+
+.board-topAddtaskDiv {
+    display: flex;
+    align-items: center;
+    background-color: #2A3647;
+    border-radius: 6px;
+    padding: 8px;
+    cursor: pointer;
+}
+
+.board-topAddtaskDiv:hover {
+    transform: scale(1.1);
+    transition: 0.3s ease;
+    filter: brightness(0.9);
+}
+
+.board-topAddtaskFont {
+    font-size: 21px;
+    margin-right: 10px;
+    color: white;
+    font-weight: 700;
+    background-color: #2A3647;
+}
+
+.board-AddImage {
+    height: 16px;
+    width: 16px;
+    background-color: #2A3647;
+    cursor: pointer;
+}
+
+.board-searchImage {
+    position: absolute;
+    background-color: white;
+    top: 10px;
+    left: 250px;
+    cursor: pointer;
+}
+
+.board-searchImage:hover {
+    transform: scale(1.2);
+}
+
+.board-center {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.board-centerTitel {
+    font-size: 20px;
+    font-weight: 700;
+    margin-right: 10px;
+}
+
+.board-bottomPlusImg {
+    width: 24px;
+    height: 24px;
+}
+
+.board-bottomPlusImg:hover {
+    transform: scale(1.2);
+    cursor: pointer;
+    background-color: white;
+}
