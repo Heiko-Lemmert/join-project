@@ -1,0 +1,13 @@
+.summary-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: calc(100% - 150px);
+    padding: 100px 50px 50px;
+}
+
+.summary-header {
+    display: flex;
+    gap: 10px;
+}
