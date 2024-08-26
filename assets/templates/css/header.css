@@ -1,0 +1,59 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.header-mainDiv {
+    position: fixed;
+    right: 0;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #FFFFFF;
+    width: calc(100vw - 232px);
+    height: 96px;
+    box-shadow: 0px 3px 3px 0px #0000001a;
+}
+
+.header-titel {
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.helpIconImage {
+    width: 32px;
+    height: 32px;
+    margin-right: 16px;
+    cursor: pointer;
+    border-radius: 50px;
+}
+
+.helpIconImage:hover {
+    transform: scale(1.1);
+    box-shadow: 1px 1px 1px 1px #fefefe;
+}
+
+.header-rightSection {
+    display: flex;
+    align-items: center;
+    margin-right: 16px;
+}
+
+.header-user {
+    width: 50px;
+    height: 50px;
+    background-color: white;
+    border: 3px solid black;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.header-user:hover {
+    transform: scale(1.2);
+}
+
+.header-leftSection {
+    margin-left: 100px;
+}
