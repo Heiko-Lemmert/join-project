@@ -1,9 +1,9 @@
+// Beispiel Kontakte für Dummy -> später kommen Daten von Firebase
 const contacts = [
     { name: 'Max Mustermann', initials: 'MM' },
     { name: 'Erika Musterfrau', initials: 'EM' },
     { name: 'John Doe', initials: 'JD' },
     { name: 'Jane Smith', initials: 'JS' },
-    // Weitere Kontakte hier hinzufügen
 ];
 
 const contactSelector = document.getElementById('contactSelector');
@@ -32,6 +32,7 @@ function renderTaskContact() {
     });
 }
 
+// Erstellt Click events nach dem Rendern.
 function attachEventListeners() {
     const contactOptions = document.getElementById('contactOptions');
     const contactOptionsDivs = contactOptions.querySelectorAll('.contact-option');
@@ -54,6 +55,7 @@ function attachEventListeners() {
     });
 }
 
+// Funktionen für die Priorität Button`s
 function prioChooser(prio) {
     switch (prio) {
         case 'high':
