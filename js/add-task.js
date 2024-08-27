@@ -11,6 +11,7 @@ const selectedContacts = document.getElementById('selectedContacts');
 const contactBackgroundColor = ['#FF7A00', '#FF5EB3', '#6E52FF', '#9327FF', '#00BEE8', '#1FD7C1', '#FF745E', '#FFA35E', '#FC71FF', '#FFC701', '#0038FF', '#0038FF', '#FFE62B', '#FF4646', '#FFBB2B'];
 
 function init() {
+    includeHTML();
     renderTaskContact();
     attachEventListeners(); // Event-Listener erst nach dem Rendern der Kontakte hinzufügen
 }

@@ -9,11 +9,14 @@
     <link rel="icon" type="image/png" sizes="16x16" href="./assets/img/favicon/favicon-16x16.png">
     <link rel="manifest" href="./assets/img/favicon/site.webmanifest">
     <link rel="stylesheet" href="./css/contacts.css">
+    <link rel="stylesheet" href="./css/style.css">
     <script src="./js/main.js"></script>
     <title>Contacts</title>
 </head>
 
-<body>
+<body onload="init()">
+    <div w3-include-html="./assets/templates/header.html"></div>
+    <div w3-include-html="./assets/templates/side-bar.html"></div> 
     <div class="contact-list-sidebar">
         <div class="add-contact-button">
             <button class="btn-add-contact"><span style="margin-right: 10px;">Add new contact</span> <img src="./assets/img/person-add.svg"></button>
