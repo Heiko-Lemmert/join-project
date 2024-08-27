@@ -134,8 +134,7 @@ a {
 .sideBar-changeAreaSub {
     display: flex;
     align-items: center;
-    justify-content: center;
-    padding: 16px;
+    padding: 16px 50px;
     cursor: pointer;
     background-color: #2A3647;
     color: #CDCDCD !important;
@@ -147,12 +146,11 @@ a {
 }
 
 .sideBar-changeAreaSub:hover {
-    transform: scale(1.0);
-    box-shadow: 1px 1px 1px 1px #000000;
+    background-color: #2A3D59;
 }
 
 .sideBar-changeAreaSub.clicked {
-    background-color: #011630;
+    background-color: #091931;
 }
 
 .sideBar-InformationArea {
