@@ -3,9 +3,13 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: calc(100% - 150px);
-    padding: 100px 50px 50px;
+    height: calc(100vh - var(--header-height));
+    width: calc(100vw - var(--sidebar-width));
+    padding: 65px 65px 50px;
     gap: 40px;
+    position: absolute;
+    left: var(--sidebar-width);
+    top: var(--header-height);
 }
 
 .summary-header {
@@ -55,7 +59,7 @@
 
 .summary-task-btn {
     flex: 1;
-    padding: 64px;
+    padding: 35px;
     background-color: #fff;
     text-align: center;
     border-radius: 30px;

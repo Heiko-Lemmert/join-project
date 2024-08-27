@@ -1,12 +1,12 @@
-* {
-    margin: 0;
-    padding: 0;
-    background-color: #F6F7F8;
-}
-
 .board-mainContainer {
     display: flex;
     flex-direction: column;
+    height: calc(100vh - var(--header-height));
+    width: calc(100vw - var(--sidebar-width));
+    padding: 65px 65px 50px;
+    position: relative;
+    left: var(--sidebar-width);
+    top: var(--header-height);
 }
 
 .board-page {

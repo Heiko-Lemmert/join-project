@@ -1,8 +1,10 @@
 .privacy-policy {
-  font-family: Arial, sans-serif;
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
+  height: calc(100vh - var(--header-height));
+  width: calc(100vw - var(--sidebar-width));
+  padding: 65px 65px 50px;
+  position: relative;
+  left: var(--sidebar-width);
+  top: var(--header-height);
 }
 
 .privacy-policy-header {
