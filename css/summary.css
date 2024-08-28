@@ -15,14 +15,14 @@
 .summary-header {
     display: flex;
     gap: 10px;
-    height: 10%;
+    height: 5%;
     width: 100%;
 }
 
 .summary-container {
     display: flex;
     gap: 100px;
-    height: 90%;
+    height: 95%;
     width: 100%;
 }
 
@@ -87,3 +87,43 @@
     display: table-cell;
     vertical-align: middle;
 }
+
+.st-todo,
+.st-done,
+.st-info-left {
+    display: flex;
+    align-items: center;
+}
+
+.st-todo::before,
+.st-done::before,
+.st-info-left::before {
+    content: "";
+    background-size: 64px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    width: 64px;
+    height: 64px;
+    margin-left: 8px;
+}
+
+.st-todo::before {
+    background-image: url('../assets/img/round-backlog-dark.png');
+}
+
+.st-todo:hover::before {
+    background-image: url('../assets/img/round-backlog-white.png');
+}
+
+.st-done::before {
+    background-image: url('../assets/img/round-done-dark.png');
+}
+
+.st-done:hover::before {
+    background-image: url('../assets/img/round-done-white.png');
+}
+
+.st-info-left::before {
+    background-image: url('../assets/img/round-prio-high.png');
+}
+

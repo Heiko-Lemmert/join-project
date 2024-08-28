@@ -154,8 +154,10 @@ a {
 }
 
 .sideBar-InformationArea {
-    margin-top: 100px;
     width: 232px;
+    position: absolute;
+    bottom: 0;
+    margin-bottom: 50px;
 }
 
 .sideBar-InformationArea-textDiv {
