@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="./css/summary.css">
     <script src="./js/main.js"></script>
+    <script src="./js/summary.js"></script>
     <title>Summary</title>
 </head>
 
@@ -26,20 +27,26 @@
         <div class="summary-container">
             <div class="summary-container-left">
                 <div class="summary-task-top">
-                    <a href="#" class="summary-task-btn st-todo">
-                        <p class="st-number">1</p>
-                        <p>To-Do</p>
+                    <a href="./board.html" class="summary-task-btn st-todo">
+                        <div>
+                            <p class="st-number">1</p>
+                            <p>To-Do</p>
+                        </div>
                     </a>
-                    <a href="#" class="summary-task-btn st-done">
-                        <p class="st-number">1</p>
-                        <p>Done</p>
+                    <a href="./board.html" class="summary-task-btn st-done">
+                        <div>
+                            <p class="st-number">1</p>
+                            <p>Done</p>
+                        </div>
                     </a>
                 </div>
                 <div class="summary-task-middle">
-                    <a href="#" class="summary-task-btn st-info">
+                    <a href="./board.html" class="summary-task-btn st-info">
                         <div class="st-info-left">
-                            <p class="st-number">1</p>
-                            <p>Ugrent</p>
+                            <div>
+                                <p class="st-number">1</p>
+                                <p>Ugrent</p>
+                            </div>
                         </div>
                         <hr>
                         <div class="st-info-right">
@@ -51,22 +58,22 @@
                     </a>
                 </div>
                 <div class="summary-task-bottom">
-                    <a href="#" class="summary-task-btn st-in-board">
+                    <a href="./board.html" class="summary-task-btn st-in-board">
                         <p class="st-number">5</p>
                         <p>Task in Board</p>
                     </a>
-                    <a href="#" class="summary-task-btn st-in-progress">
+                    <a href="./board.html" class="summary-task-btn st-in-progress">
                         <p class="st-number">2</p>
                         <p>Task in Progress</p>
                     </a>
-                    <a href="#" class="summary-task-btn st-feedback">
+                    <a href="./board.html" class="summary-task-btn st-feedback">
                         <p class="st-number">2</p>
                         <p>Awaiting Feedback</p>
                     </a>
                 </div>
             </div>
             <div class="summary-container-right">
-                <h2>Good Morning,</h2>
+                <h2 id="welcomeText">Good Morning,</h2>
                 <h1>Sofia Müller</h1>
             </div>
         </div>
