@@ -1,10 +1,6 @@
 const currentDate = new Date();
 let currentHour = currentDate.getHours();
 
-function init() {
-    setWelcomeText();
-}
-
 function setWelcomeText() {
     const welcomeText = document.getElementById('welcomeText');
     if (currentHour >= 6 && currentHour <= 11) {

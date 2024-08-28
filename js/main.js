@@ -32,6 +32,7 @@ function includeHTML() {
 
 function init() {
     includeHTML();
+    setWelcomeText();
 }
 
 // Sidebar JS
