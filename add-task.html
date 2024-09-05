@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="./css/add-task.css">
     <script src="./js/main.js"></script>
     <script src="./js/add-task.js" defer></script>
+    <script src="./js/firebase.js"></script>
     <title>Add Task</title>
 </head>
 
@@ -24,44 +25,67 @@
             <form action="" class="task-form">
                 <div class="task-container-left">
                     <label for="task-title">Title <span class="required">*</span></label>
-                    <input required type="text" id="task-title" placeholder="Enter a Title">
+                    <input required type="text" id="taskTitle" placeholder="Enter a Title">
                     <label for="task-description">Description</label>
-                    <textarea name="task-description" id="task-description"
+                    <textarea name="task-description" id="taskDescription"
                         placeholder="Enter a Description"></textarea>
                     <label for="task-contacts">Assigned to</label>
                     <div class="contact-selector-container">
                         <div class="contact-selector" id="contactSelector">
                             Select contacts to assign
+                            <img class="contact-selector-arrow" src="./assets/img/arrow-down.png" alt="Arrow">
                         </div>
                         <div class="contact-options" id="contactOptions"></div>
-                        <div class="selected-contacts" id="selectedContacts"></div>
+                        <div class="selected-contacts">
+                            <div id="selectedContacts"></div>
+                            <div class="contact-search" id="contactSearch">
+                                <input type="text" placeholder="Search Contact...">
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <hr>
                 <div class="task-container-right">
                     <label for="task-date">Due date <span class="required">*</span></label>
-                    <input type="date" id="task-date" name="task-date">
+                    <input required type="date" id="taskDate" name="task-date">
                     <label for="task-prio">Prio</label>
                     <div id="prioChooser">
                         <a class="prio-btn btn-high" id="prioHigh" onclick="prioChooser('high')">Ugrent</a>
-                        <a class="prio-btn btn-medium" id="prioMedium" onclick="prioChooser('medium')">Medium</a>
+                        <a class="prio-btn btn-medium checked-medium" id="prioMedium"
+                            onclick="prioChooser('medium')">Medium</a>
                         <a class="prio-btn btn-low" id="prioLow" onclick="prioChooser('low')">Low</a>
                     </div>
                     <label for="task-category">Category <span class="required">*</span></label>
-                    <select required name="task-category" id="category-selector">
-                        <option >Select task category</option>
-                        <option value="1">Technical Task</option>
-                        <option value="2">User Story</option>
-                    </select>
+                    <div class="task-selector-container">
+                        <div class="task-selector" id="taskSelector">
+                            Select task category
+                            <img class="task-selector-arrow" src="./assets/img/arrow-down.png" alt="Arrow">
+                        </div>
+                        <div class="task-options" id="taskOptions">
+                            <div class="task-option">
+                                <label>Technical Task</label>
+                            </div>
+                            <div class="task-option">
+                                <label>User Story</label>
+                            </div>
+                        </div>
+                    </div>
                     <label for="subtask">Subtasks</label>
-                    <div class="add-subtask">
+                    <div class="add-subtask" id="addSubtask">
                         <input type="text" name="subtask" id="subtask" placeholder="Add new subtask">
-                        <img src="./assets/img/add.png" alt="add-subtask">
+                        <img src="./assets/img/add.png" alt="add-subtask" id="addBtn">
+                        <div class="enhance-subtask-btn" id="enhanceBtn">
+                            <img src="./assets/img/close.png" alt="Cancel" id="closeBtn">
+                            <hr>
+                            <img src="./assets/img/check-addtask.png" alt="Enter" id="checkBtn">
+                        </div>
                     </div>
                     <div class="show-subtask" id="showSubtask"></div>
                     <div class="task-btn-container">
-                        <button class="clear-task-btn">Clear <img src="./assets/img/cancel.png" alt="Cancel"></button>
-                        <button class="create-task-btn">Create Task <img src="./assets/img/check_white.png" alt="Enter"></button>
+                        <button class="clear-task-btn" onclick="clearTask(event)">Clear <img src="./assets/img/close.png"
+                                alt="Cancel"></button>
+                        <button class="create-task-btn" onclick="createTask(event)">Create Task <img
+                                src="./assets/img/check_white.png" alt="Enter"></button>
                     </div>
                 </div>
             </form>

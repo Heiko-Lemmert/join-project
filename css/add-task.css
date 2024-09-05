@@ -69,7 +69,7 @@ button img {
     background-repeat: no-repeat;
     display: inline-block;
     width: 17px;
-    height: 6px;
+    height: 8px;
     margin-left: 8px;
 }
 
@@ -110,7 +110,7 @@ button img {
     background-repeat: no-repeat;
     display: inline-block;
     width: 17px;
-    height: 6px;
+    height: 8px;
     margin-left: 8px;
 }
 
@@ -182,8 +182,8 @@ button img {
 .task-main-container input,
 .task-bottom-container textarea,
 .task-main-container select {
-    width: 95%;
-    height: 22px;
+    width: 100%;
+    height: 40px;
     padding: 10px;
     font-size: 1rem;
     cursor: pointer;
@@ -195,8 +195,7 @@ button img {
 .task-main-container input:focus,
 .task-bottom-container textarea:focus,
 .task-main-container select:focus,
-.contact-selector:focus,
-#task-description:focus {
+#taskDescription:focus {
     border: 1px solid #90D1ED;
 }
 
@@ -205,9 +204,9 @@ button img {
     border: 1px solid #FD8F9C;
 }
 
-#task-description {
+#taskDescription {
     display: inline-block;
-    width: 99%;
+    width: 100%;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -242,12 +241,14 @@ button img {
 }
 
 
-.contact-selector-container {
+.contact-selector-container,
+.task-selector-container {
     position: relative;
-    width: 95%;
+    width: 100%;
 }
 
-.contact-selector {
+.contact-selector,
+.task-selector {
     width: 100%;
     padding: 10px;
     font-size: 1rem;
@@ -255,13 +256,28 @@ button img {
     border: 1px solid #ccc;
     border-radius: 10px;
     background-color: #fff;
+    position: relative;
+    display: flex;
+    align-items: center;
 }
 
-.contact-options {
+
+.contact-selector-arrow,
+.task-selector-arrow {
+    position: absolute;
+    right: 5px;
+}
+
+.arrow-rotate {
+    transform: rotate(180deg);
+}
+
+.contact-options,
+.task-options {
     position: absolute;
     top: 100%;
     left: 0;
-    right: -21px;
+    right: 0px;
     border: 1px solid #ccc;
     border-radius: 10px;
     background-color: #fff;
@@ -271,7 +287,8 @@ button img {
     z-index: 10;
 }
 
-.contact-option {
+.contact-option,
+.task-option {
     display: flex;
     align-items: baseline;
     padding: 10px;
@@ -292,11 +309,13 @@ button img {
     border: 1px solid white;
 }
 
-.contact-option label {
-    width: 75%;
+.contact-option label,
+.task-option label {
+    width: 80%;
     margin-right: 10px;
     margin-top: 0;
     margin-bottom: 0;
+    cursor: pointer;
 }
 
 .contact-option input[type="checkbox"] {
@@ -304,14 +323,43 @@ button img {
     width: 10%;
 }
 
-.contact-option:hover {
+.contact-option:hover,
+.task-option:hover {
     background-color: #f0f0f0;
 }
 
 .selected-contacts {
-    display: block;
+    display: flex;
     margin-top: 5px;
     color: #555;
+}
+
+#selectedContacts {
+    display: flex;
+}
+
+.sc-check {
+    background-color: #091931;
+    color: #fff;
+}
+
+.sc-check:hover {
+    background-color: #2a3647;
+}
+
+.contact-search {
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    width: 90%;
+    border: none;
+    display: none;
+}
+
+.contact-search input,
+.contact-search input:focus,
+.edit-field input:focus {
+    border: none;
 }
 
 #prioChooser {
@@ -330,14 +378,28 @@ button img {
 
 .add-subtask input {
     border: none;
-    width: 90%;
+    width: 94%;
 }
 
 .add-subtask img {
-    padding: 4px;
+    height: 20px;
+    width: 20px;
 }
 
-.add-subtask img:hover {
+.enhance-subtask-btn {
+    align-items: center;
+    gap: 3px;
+    display: none;
+}
+
+.enhance-subtask-btn hr,
+.edit-field-btn hr {
+    height: 20px;
+}
+
+.add-subtask img:hover,
+.contact-selector-arrow:hover,
+.task-selector-arrow:hover {
     background-color: #dddcdc;
     border-radius: 50%;
     cursor: pointer;
@@ -347,4 +409,79 @@ button img {
     position: absolute;
     bottom: 0;
     right: 0;
+}
+
+.show-subtask {
+    width: 100%;
+    font-size: 14px;
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.new-subtask {
+    display: flex;
+    position: relative;
+}
+
+.new-subtask p {
+    padding: 5px 25px;
+    width: 80%;
+}
+
+.new-subtask:hover,
+.new-subtask:hover .new-subtask-btn,
+.edit-field-btn img:hover {
+    border-radius: 10px;
+    background-color: #f0f0f0;
+    opacity: 1;
+}
+
+.new-subtask-btn,
+.edit-field-btn {
+    width: 20%;
+    display: flex;
+    justify-content: end;
+    opacity: 0;
+    align-items: center;
+    gap: 3px;
+}
+
+.edit-field-btn {
+    opacity: 1;
+}
+
+.new-subtask-btn img,
+.edit-field img {
+    width: 20px;
+    height: 20px;
+}
+
+#subtask:focus {
+    border: none !important;
+}
+
+.field-activ {
+    border: 1px solid #90D1ED !important;
+}
+
+.edit-field {
+    position: absolute;
+    width: 100%;
+    display: none;
+    background-color: #fff;
+    border-bottom: 1px solid #90D1ED;
+}
+
+.edit-field input {
+    width: 80%;
+    height: 28px;
+    padding: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    border: none;
+    border-radius: 0;
+    background-color: #fff;
 }
