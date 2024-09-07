@@ -27,8 +27,7 @@
                     <label for="task-title">Title <span class="required">*</span></label>
                     <input required type="text" id="taskTitle" placeholder="Enter a Title">
                     <label for="task-description">Description</label>
-                    <textarea name="task-description" id="taskDescription"
-                        placeholder="Enter a Description"></textarea>
+                    <textarea name="task-description" id="taskDescription" placeholder="Enter a Description"></textarea>
                     <label for="task-contacts">Assigned to</label>
                     <div class="contact-selector-container">
                         <div class="contact-selector" id="contactSelector">
@@ -82,8 +81,8 @@
                     </div>
                     <div class="show-subtask" id="showSubtask"></div>
                     <div class="task-btn-container">
-                        <button class="clear-task-btn" onclick="clearTask(event)">Clear <img src="./assets/img/close.png"
-                                alt="Cancel"></button>
+                        <button class="clear-task-btn" onclick="clearTask(event)">Clear <img
+                                src="./assets/img/close.png" alt="Cancel"></button>
                         <button class="create-task-btn" onclick="createTask(event)">Create Task <img
                                 src="./assets/img/check_white.png" alt="Enter"></button>
                     </div>
@@ -93,6 +92,7 @@
         <div class="task-bottom-container">
             <span><span class="required">*</span> This field is required</span>
         </div>
+        <div id="toast" class="toast-message">Added to Board</div>
     </section>
 </body>
 

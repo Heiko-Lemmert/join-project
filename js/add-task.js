@@ -23,16 +23,15 @@ const contactBackgroundColor = ['#FF7A00', '#FF5EB3', '#6E52FF', '#9327FF', '#00
 const dotMarker = '&bull;';
 let writtenSubtask = [];
 let selected = [];
+let selectedContactName = [];
+let currentPrio = 'medium';
+let category = '';
 
 function init() {
     includeHTML();
     renderTaskContact();
     attachEventListeners(); // Event-Listener erst nach dem Rendern der Kontakte hinzufügen
     contact = getData('contacts');
-    postData("contacts", contacts)
-    .catch(error => {
-        console.error("Error posting data:", error);
-    });
 }
 
 // Funktion zur Generierung einer zufälligen Farbe
@@ -101,6 +100,7 @@ function taskEventlister() {
             console.log(event.target.innerText);
             taskSelector.textContent = '';
             taskSelector.textContent = event.target.innerText;
+            category = event.target.innerText;
         })
     })
 }
@@ -109,13 +109,16 @@ function taskEventlister() {
 function updateSelectedContacts() {
     const contactOptions = document.getElementById('contactOptions');
     selected = [];
+    selectedContactName = [];
 
     contactOptions.querySelectorAll('.contact-option').forEach(optionDiv => {
         const checkIcon = optionDiv.querySelector('.check-icon');
         if (checkIcon.getAttribute('src') === './assets/img/check-btn.png') {
+            const textLabel = optionDiv.querySelector('label').textContent;
             const textContent = optionDiv.querySelector('.contact-initials').textContent;
             const getStyle = optionDiv.querySelector('.contact-initials').getAttribute('style');
             selected.push(`<div class="contact-initials" style="${getStyle}">${textContent}</div>`);
+            selectedContactName.push(textLabel)
         }
     });
 
@@ -130,25 +133,32 @@ function updateSelectedContacts() {
 function prioChooser(prio) {
     switch (prio) {
         case 'high':
-            checkedPrioBtn('prioHigh', prio);
+            setPrioBtn('prioHigh', prio);
             break;
         case 'medium':
-            checkedPrioBtn('prioMedium', prio);
+            setPrioBtn('prioMedium', prio);
             break;
         case 'low':
-            checkedPrioBtn('prioLow', prio);
+            setPrioBtn('prioLow', prio);
             break;
         default:
             break;
     }
 }
 
-function checkedPrioBtn(id, prio) {
-    resetPrioBtn();
+function setPrioBtn(id, prio) {
+    removeClassPrio();
     document.getElementById(id).classList.add('checked-' + prio);
+    currentPrio = prio
 }
 
 function resetPrioBtn() {
+    removeClassPrio();
+    document.getElementById('prioMedium').classList.add('checked-medium');
+    currentPrio = 'medium'
+}
+
+function removeClassPrio() {
     document.getElementById('prioHigh').classList.remove('checked-high');
     document.getElementById('prioMedium').classList.remove('checked-medium');
     document.getElementById('prioLow').classList.remove('checked-low');
@@ -238,6 +248,7 @@ function clearTask(event) {
     taskTitle.value = '';
     taskDescription.value = '';
     selected = [];
+    selectedContactName = [];
     selectedContacts.textContent = '';
     contactOptionsDivs.forEach(optionDiv => {
         checkOptionDiv(optionDiv);
@@ -251,7 +262,65 @@ function clearTask(event) {
 
 function createTask(event) {
     event.preventDefault();
-    console.log('Hello World')
+    const isValid = validateForm();
+
+    if (isValid) {
+        console.log('Formular ist gültig.');
+        const taskAsObject = getValues();
+        postData("tasks", taskAsObject)
+            .catch(error => {
+                console.error("Error posting data:", error);
+            });
+        clearTask(event);
+        showToast();
+    } else {
+        console.log('Formular ist ungültig.');
+        whichValueIsFalse();
+    }
+}
+
+function validateForm() {
+    if (taskTitle.value && taskDate.value && taskSelector.innerText !== 'Select task category') {
+        return true
+    }
+}
+
+function getValues() {
+    const title = taskTitle.value;
+    const description = taskDescription.value;
+    const date = taskDate.value;
+
+    return { 'title': title, 'description': description, 'date': date, 'contacts' : selectedContactName, 'prio': currentPrio, 'category': category, 'subtask': writtenSubtask }
+}
+
+function whichValueIsFalse() {
+    if (!taskTitle.value) {
+        taskTitle.classList.add('required-border');
+    }
+    if (!taskDate.value) {
+        taskDate.classList.add('required-border');
+    }
+    if (taskSelector.innerText === 'Select task category') {
+        taskSelector.classList.add('required-border');
+    }
+    setTimeout(() => {
+        taskTitle.classList.remove('required-border');
+        taskDate.classList.remove('required-border');
+        taskSelector.classList.remove('required-border');
+    }, 1000)
+
+}
+
+function showToast() {
+    const toast = document.getElementById('toast');
+    
+    // Zeige die Toast-Nachricht an
+    toast.classList.add('toast-visible');
+
+    // Nach 3 Sekunden die Toast-Nachricht verschwinden lassen
+    setTimeout(() => {
+        toast.classList.remove('toast-visible');
+    }, 3000);
 }
 
 document.addEventListener('click', (event) => {
