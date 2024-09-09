@@ -26,6 +26,7 @@ function renderCode() {
     checkForEmptyLists();
     checkForList();
     initializeImageHover();
+    includeHTML();
 }
 
 /*
