@@ -9,6 +9,12 @@
     top: var(--header-height);
 }
 
+
+body {
+    background-color: #F6F7F8;
+}
+
+
 .board-page {
     display: flex;
 }
