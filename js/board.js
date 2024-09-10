@@ -157,12 +157,12 @@ function initializeImageHover() {
     hoverImages.forEach(function (hoverImage) {
       // Füge einen Event-Listener hinzu, der auf das "mouseenter" Event hört
       hoverImage.addEventListener('mouseenter', function () {
-        hoverImage.src = 'img/plusButton.transiction.png'; // Bildquelle ändern, wenn die Maus darüber schwebt
+        hoverImage.src = './assets/img/plusButton.transiction.png'; // Bildquelle ändern, wenn die Maus darüber schwebt
       });
   
       // Füge einen Event-Listener hinzu, der auf das "mouseleave" Event hört
       hoverImage.addEventListener('mouseleave', function () {
-        hoverImage.src = 'img/plusButton.png'; // Ursprüngliche Bildquelle wiederherstellen, wenn die Maus das Bild verlässt
+        hoverImage.src = './assets/img/plusButton.png'; // Ursprüngliche Bildquelle wiederherstellen, wenn die Maus das Bild verlässt
       });
     });
   }
