@@ -6,6 +6,7 @@
     position: relative;
     left: var(--sidebar-width);
     top: var(--header-height);
+    overflow-y: scroll;
 }
 
 
@@ -144,7 +145,7 @@ h1 {
     align-items: center;
     justify-content: center;
     height: 300px;
-   /* overflow-y: scroll;*/
+    /* overflow-y: scroll;*/
     /* Verhindert anfängliche Anzeige der Scrollleiste */
 }
 
@@ -231,7 +232,7 @@ h1 {
 
 
 
-@media(max-width: 970px) {
+@media(max-width: 1217px) {
 
     .board-topAddtaskFont {
         display: none;
@@ -307,7 +308,7 @@ h1 {
 
 }
 
-@media(max-width: 690px) {
+@media(max-width: 901px) {
 
     .board-InputFieldDiv {
         position: initial;
