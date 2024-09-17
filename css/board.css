@@ -3,7 +3,6 @@
     flex-direction: column;
     height: calc(100vh - var(--header-height));
     width: calc(100vw - var(--sidebar-width));
-    padding: 65px 65px 50px;
     position: relative;
     left: var(--sidebar-width);
     top: var(--header-height);
@@ -13,7 +12,6 @@
 body {
     background-color: #F6F7F8;
 }
-
 
 .board-mainContainer {
     display: flex;
@@ -26,8 +24,8 @@ body {
 
 .board-top {
     display: flex;
-    padding: 64px;
-    justify-content: space-between;
+    margin: 48px;
+    margin-right: 90px;
 }
 
 .board-InputFieldDiv {
@@ -75,7 +73,7 @@ h1 {
     margin-right: 10px;
     color: white;
     font-weight: 700;
-   
+
 }
 
 .board-AddImage {
@@ -146,7 +144,8 @@ h1 {
     align-items: center;
     justify-content: center;
     height: 300px;
-    overflow-y: scroll; /* Verhindert anfängliche Anzeige der Scrollleiste */
+   /* overflow-y: scroll;*/
+    /* Verhindert anfängliche Anzeige der Scrollleiste */
 }
 
 
@@ -180,7 +179,8 @@ h1 {
 }
 
 .list {
-    height: 200px;
+    height: 224px;
+    width: 224px;
     margin-bottom: 8px;
     display: flex;
     align-items: center;
@@ -221,3 +221,126 @@ h1 {
 .close-bigListView-button {
     cursor: pointer;
 }
+
+.board-centerTitel {
+    padding-right: 100px;
+}
+
+
+
+
+
+
+@media(max-width: 970px) {
+
+    .board-topAddtaskFont {
+        display: none;
+        height: 24px;
+        width: 24px;
+    }
+
+    .board-AddImage {
+        height: 24px;
+        width: 24px;
+    }
+
+    .board-bottom {
+        display: flex;
+        flex-direction: column;
+        align-items: initial;
+        justify-content: space-around;
+    }
+
+    #left,
+    #right,
+    #leftNum2,
+    #rightNum2 {
+        display: flex;
+        width: 1000px;
+        padding: 1px;
+    }
+
+    .toAdd-bottom {
+        padding: 16px;
+    }
+
+    .scroll-div {
+        height: 270px;
+        justify-content: initial;
+        /* damit wird es zurückgesetzt auf dem anfangs zustand */
+        overflow-y: hidden;
+    }
+
+    .list {
+        height: 224px;
+        width: 224px;
+        margin: 8px;
+    }
+
+
+    /* Stil für die horizontale Scrollleiste */
+    .scroll-div::-webkit-scrollbar {
+        height: 4px;
+        /* Höhe der horizontalen Scrollleiste */
+    }
+
+    .scroll-div::-webkit-scrollbar-track {
+        background: #e9ebeb;
+        border-radius: 10px;
+    }
+
+    .scroll-div::-webkit-scrollbar-thumb {
+        background-color: #dcdada;
+        border-radius: 10px;
+        border: 2px solid #aeabab;
+    }
+
+    .scroll-div::-webkit-scrollbar-thumb:hover {
+        background-color: #c5c2c2;
+        /* Farbe des Scrollbalkens beim Hover */
+    }
+
+    .board-bottom {
+        margin-top: 64px;
+    }
+
+
+}
+
+@media(max-width: 690px) {
+
+    .board-InputFieldDiv {
+        position: initial;
+    }
+
+    .board-InputField {
+        position: absolute;
+        top: 130px;
+        right: 10px;
+        left: auto;
+        border-radius: 10px;
+        width: 278px;
+        height: 39px;
+    }
+
+    .board-searchImage {
+        position: absolute;
+        background-color: white;
+        top: 140px;
+        right: 24px;
+        left: auto;
+        cursor: pointer;
+    }
+
+    h1 {
+        font-size: 47px;
+    }
+
+    .board-top {
+        display: flex;
+        margin: 40px;
+        margin-right: 10px;
+    }
+}
+
+@media(max-width: 320px) {}

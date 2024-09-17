@@ -18,7 +18,6 @@
 <body onload="renderCode()">
     <div w3-include-html="./assets/templates/header.html"></div>
     <div w3-include-html="./assets/templates/side-bar.html"></div>
-  
     <div class="board-mainContainer">
 
         <div class="board-top">
@@ -30,57 +29,65 @@
                 <div class="board-InputFieldDiv">
                     <input class="board-InputField" id="filterTaskInput" onkeyup="filterAndShowNames()" type="text"
                         placeholder="">
-                    <img class="board-searchImage" src="./assets/img/searchImage.png" alt="">
+                    <img class="board-searchImage" src="img/searchImage.png" alt="">
                 </div>
                 <div class="board-topAddtaskDiv">
                     <span class="board-topAddtaskFont">Add task</span>
-                    <img class="board-AddImage" src="./assets/img/addImage.png" alt="">
+                    <img class="board-AddImage" src="img/addImage.png" alt="">
                 </div>
             </div>
         </div>
-        
-        <div class="board-center">
-            <div><span class="board-centerTitel">To do</span> <img class="board-bottomPlusImg hover-image"
-                    src="./assets/img/plusButton.png" alt=""></div>
-            <div><span class="board-centerTitel">In progress</span><img class="board-bottomPlusImg hover-image"
-                    src="./assets/img/plusButton.png" alt=""></div>
-            <div><span class="board-centerTitel">Await feedback</span><img class="board-bottomPlusImg hover-image"
-                    src="./assets/img/plusButton.png" alt=""></div>
-            <div><span class="board-centerTitel">Done</span></div>
-        </div>
+
 
 
 
         <div class="board-bottom">
-            <div class="scroll-div" id="scroll-div-1">
-                <div id="left">
-                    <span class="noTaskSpan">No tasks in to do</span>
-                    <div class="list" draggable="true" onclick="openList()">
-                        <h3>title</h3>
-                        <p>description</p>
+
+            <div class="overDiv-bottom">
+                <div class="toAdd-bottom"><span class="board-centerTitel">To do</span> <img class="board-bottomPlusImg hover-image"
+                        src="img/plusButton.png" alt=""></div>
+                <div class="scroll-div" id="scroll-div-1">
+                    <div id="left">
+                        <span class="noTaskSpan">No tasks in to do</span>
+                        <div class="list" draggable="true" onclick="openList()">
+                            <h3>title</h3>
+                            <p>description</p>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="scroll-div" id="scroll-div-2">
-                <div id="leftNum2">
-                    <span class="noTaskSpan">No tasks in progress</span>
-                </div>
-            </div>
 
-            <div class="scroll-div" id="scroll-div-3">
-                <div id="right">
-                    <span class="noTaskSpan">No tasks in await feedback</span>
-                    <div class="list" draggable="true" onclick="openList()">
-                        <h3>title</h3>
-                        <p>description</p>
+            <div class="overDiv-bottom">
+                <div class="toAdd-bottom"><span class="board-centerTitel">In progress</span><img class="board-bottomPlusImg hover-image"
+                        src="img/plusButton.png" alt=""></div>
+                <div class="scroll-div" id="scroll-div-2">
+                    <div id="leftNum2">
+                        <span class="noTaskSpan">No tasks in progress</span>
                     </div>
                 </div>
             </div>
 
-            <div class="scroll-div" id="scroll-div-4">
-                <div id="rightNum2">
-                    <span class="noTaskSpan">No tasks in done</span>
+            <div class="overDiv-bottom">
+                <div class="toAdd-bottom"><span class="board-centerTitel">Await feedback</span><img class="board-bottomPlusImg hover-image"
+                        src="img/plusButton.png" alt=""></div>
+                <div class="scroll-div" id="scroll-div-3">
+                    <div id="right">
+                        <span class="noTaskSpan">No tasks in await feedback</span>
+                        <div class="list" draggable="true" onclick="openList()">
+                            <h3>title</h3>
+                            <p>description</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="overDiv-bottom">
+                <div class="toAdd-bottom"><span class="board-centerTitel">Done</span></div>
+                <div class="scroll-div" id="scroll-div-4">
+                    <div id="rightNum2">
+                        <span class="noTaskSpan">No tasks in done</span>
+                    </div>
                 </div>
             </div>
         </div>

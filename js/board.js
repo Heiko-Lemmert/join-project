@@ -63,6 +63,7 @@ function checkForEmptyLists() {         //Diese Funktion dient dazu, die Anzeige
         let box = document.getElementById(boxIds[i]); //definieren eine variable , und holen uns das jeweilige id name des divs
         let lists = box.querySelectorAll(".list");//Findet alle Elemente innerhalb des aktuellen Containers (box), die die Klasse .list haben, und speichert sie als NodeList in der Variablen lists.
 
+        //merken : noSpan div ist anfangs in css ausgeblendet
         let noTaskSpanList = box.querySelectorAll(".noTaskSpan");//struktur : let element = document.querySelectorAll('selector'); Erklärung : sucht innerhalb des Containers (box) nach alle Elemente, das die Klasse .noTaskSpan hat.
         //querySelector wird auf ein Dokument (document) oder ein bestimmtes Element angewendet und akzeptiert einen String als Parameter. Dieser String ist ein CSS-Selektor, der verwendet wird, um das gewünschte Element zu finden.
         if (lists.length === 0) { //Überprüft, ob die NodeList lists keine Aufgaben (list-Elemente) enthält (lists.length === 0).
@@ -86,14 +87,32 @@ function checkForList() {
         let scrollDiv = scrollDivs[i]; // Greifen Sie auf das aktuelle Element zu
         let lists = scrollDiv.querySelectorAll(".list"); // Suchen Sie nach '.list'-Elementen innerhalb dieses 'div'
 
+        // Setze overflowX und overflowY zurück
+        scrollDiv.style.overflowX = "hidden";
+        scrollDiv.style.overflowY = "hidden";
+
         // Überprüft, ob keine '.list'-Elemente vorhanden sind
-        if (lists.length === 0) {
-            scrollDiv.style.overflowY = "hidden"; // Scrollleiste entfernen
+        if (window.innerWidth <= 970) {
+            // Wenn die Bildschirmbreite kleiner oder gleich 970px ist
+            if (lists.length === 0) {
+                scrollDiv.style.overflowX = "hidden"; // Horizontale Scrollleiste entfernen
+            } else {
+                scrollDiv.style.overflowX = "scroll"; // Horizontale Scrollleiste hinzufügen
+            }
         } else {
-            scrollDiv.style.overflowY = "scroll"; // Scrollleiste hinzufügen
+            // Wenn die Bildschirmbreite größer als 970px ist
+            if (lists.length === 0) {
+                scrollDiv.style.overflowY = "hidden"; // Vertikale Scrollleiste entfernen
+            } else {
+                scrollDiv.style.overflowY = "scroll"; // Vertikale Scrollleiste hinzufügen
+            }
         }
     }
 }
+
+// Fügen Sie ein Event-Listener für die Größenänderung des Fensters hinzu
+window.addEventListener('resize', checkForList);//Nutze Events wie resize und DOMContentLoaded: Stelle sicher, dass deine Funktionen, die auf Fenstergröße oder andere dynamische Änderungen reagieren sollen, immer an die entsprechenden Events gebunden sind
+
 
 function dagAndDrop() {
     let lists = document.getElementsByClassName("list");
@@ -121,6 +140,7 @@ function dagAndDrop() {
             checkForEmptyLists();
         });
     }
+
 
     setupDropArea(rightBox);
     setupDropArea(rightBoxNum2);
@@ -152,25 +172,20 @@ function closeViewList() {
 function initializeImageHover() {
     // Finde alle Bild-Elemente mit der Klasse 'hover-image'
     const hoverImages = document.querySelectorAll('.hover-image');
-  
+
     // Durchlaufe alle gefundenen Bild-Elemente
     hoverImages.forEach(function (hoverImage) {
-      // Füge einen Event-Listener hinzu, der auf das "mouseenter" Event hört
-      hoverImage.addEventListener('mouseenter', function () {
-        hoverImage.src = './assets/img/plusButton.transiction.png'; // Bildquelle ändern, wenn die Maus darüber schwebt
-      });
-  
-      // Füge einen Event-Listener hinzu, der auf das "mouseleave" Event hört
-      hoverImage.addEventListener('mouseleave', function () {
-        hoverImage.src = './assets/img/plusButton.png'; // Ursprüngliche Bildquelle wiederherstellen, wenn die Maus das Bild verlässt
-      });
+        // Füge einen Event-Listener hinzu, der auf das "mouseenter" Event hört
+        hoverImage.addEventListener('mouseenter', function () {
+            hoverImage.src = 'img/plusButton.transiction.png'; // Bildquelle ändern, wenn die Maus darüber schwebt
+        });
+
+        // Füge einen Event-Listener hinzu, der auf das "mouseleave" Event hört
+        hoverImage.addEventListener('mouseleave', function () {
+            hoverImage.src = 'img/plusButton.png'; // Ursprüngliche Bildquelle wiederherstellen, wenn die Maus das Bild verlässt
+        });
     });
-  }
-  
-  // Stelle sicher, dass die Funktion beim Laden der Seite aufgerufen wird
-  window.onload = function () {
-    renderCode(); // Deine vorhandene Funktion, die bereits beim Laden der Seite aufgerufen wird
-    initializeImageHover(); // Die neue Funktion, die den Hover-Effekt hinzufügt
-  };
-  
-  
+}
+
+// Stelle sicher, dass die Funktion beim Laden der Seite aufgerufen wird
+
