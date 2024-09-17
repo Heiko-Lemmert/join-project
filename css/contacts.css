@@ -16,6 +16,11 @@ body {
     top: var(--header-height);
 }
 
+.contact-content {
+    position: relative;
+    top: var(--header-height);
+}
+
 .contact-list-header {
     flex: 1;
     padding: 50px;
