@@ -193,7 +193,7 @@ function subtaskEventlister() {
 }
 
 function createSubtask(newSubtask) {
-    writtenSubtask.push(newSubtask);
+    writtenSubtask.push({title: newSubtask, done: 'none'});
     subtask.value = '';
     renderSubtask();
 }
@@ -213,7 +213,7 @@ function editSubtask(id) {
 function editSubtaskArry(id) {
     const editSubtaskField = document.getElementById('editTaskField-' + id);
     const newSubtask = editSubtaskField.value;
-    writtenSubtask.splice(id, 1, newSubtask);
+    writtenSubtask[id].title = newSubtask
     renderSubtask();
 }
 
@@ -224,13 +224,13 @@ function renderSubtask() {
         const subtask = writtenSubtask[i];
         showSubtask.innerHTML += `
             <div class="new-subtask">
-                <p>${dotMarker} ${subtask}</p>
+                <p>${dotMarker} ${subtask.title}</p>
                 <div class="new-subtask-btn">
                     <img src="./assets/img/edit-subtask.png" onclick="editSubtask(${i})" alt="Edit">
                     <img src="./assets/img/delete-subtask.png" onclick="deleteSubtask(${i})" alt="Delete">
                 </div>
                 <div class="edit-field" id="edit-${i}">
-                    <input name="" value="${subtask}" id="editTaskField-${i}">
+                    <input name="" value="${subtask.title}" id="editTaskField-${i}">
                     <div class="edit-field-btn">
                         <img src="./assets/img/delete-subtask.png" onclick="deleteSubtask(${i})" alt="Delete">
                         <hr>
@@ -256,6 +256,7 @@ function clearTask(event) {
     taskDate.value = '';
     resetPrioBtn();
     taskSelector.innerHTML = 'Select task category <img class="task-selector-arrow" src="./assets/img/arrow-down.png" alt="Arrow">';
+    subtask.value = '';
     writtenSubtask = [];
     renderSubtask();
 }
@@ -290,7 +291,7 @@ function getValues() {
     const description = taskDescription.value;
     const date = taskDate.value;
 
-    return { 'title': title, 'description': description, 'date': date, 'contacts' : selectedContactName, 'prio': currentPrio, 'category': category, 'subtask': writtenSubtask }
+    return { 'title': title, 'description': description, 'date': date, 'contacts': selectedContactName, 'prio': currentPrio, 'category': category, 'subtask': writtenSubtask,  'progress': 'to-do' }
 }
 
 function whichValueIsFalse() {

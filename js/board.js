@@ -1,32 +1,68 @@
-let loadAllTasks = [];
-let currentTaksName = [];
+let currentTask = [];
+let allTasks = [];
+let toDoSection = [];
+let inProgressSection = [];
+let awaitFeedbackSection = [];
+let doneSection = [];
 
-
-
-/*
-async function getTasks() {
-    //von der Api daten ziehen und im array speichern
-
-    setTimeout(async () => {
-        for (let i = 1; i <= 20; i++) {
-            let url = ``;//url einfügen
-            let response = await fetch(url);
-            let currentTask = await response.json();
-            loadAllTasks.push(currentTask);
-        }
-
-    }, 500);
-
-}
-
-
-*/
 function renderCode() {
     dagAndDrop();
     checkForEmptyLists();
     checkForList();
     initializeImageHover();
     includeHTML();
+    loadAllTasks();
+}
+
+async function loadAllTasks() {
+    allTasks = await getData('tasks').catch(error => {
+        console.error("Error loading data:", error);
+    }); // Auf Promise warten
+    moveTask();
+}
+
+function moveTask() {
+    Object.keys(allTasks).forEach(taskKey => {
+        currentTask = allTasks[taskKey];
+        currentTask.databaseKey = taskKey
+        if (currentTask.progress === 'to-do') {
+            toDoSection.push(currentTask)
+        }
+        if (currentTask.progress === 'in-progress') {
+            inProgressSection.push(currentTask)
+        }
+        if (currentTask.progress === 'await-feedback') {
+            awaitFeedbackSection.push(currentTask)
+        }
+        if (currentTask.progress === 'done') {
+            doneSection.push(currentTask)
+        }
+    })
+    renderToDo();
+}
+
+function renderToDo() {
+    const toDo = document.getElementById('left');
+    let subtaskCounter = 0
+    toDo.innerHTML = '<span class="noTaskSpan">No tasks in to do</span>';
+    toDoSection.forEach((currentTask, i) => {
+        subtaskCounter = ''
+        if (currentTask.subtask) {
+            currentTask.subtask.forEach(() => {
+                subtaskCounter++
+            })
+        }
+        toDo.innerHTML += `
+            <div class="list" draggable="true" onclick="openList(${i})">
+                <span>${currentTask.category}</span>
+                <h3>${currentTask.title}</h3>
+                <p>${currentTask.description}</p>
+                <p>Prio: ${currentTask.prio}</p>
+                <p>Subtask: ${subtaskCounter}</p>
+
+            </div>`
+        console.log(currentTask)
+    });
 }
 
 /*
