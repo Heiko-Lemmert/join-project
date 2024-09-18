@@ -163,3 +163,80 @@ a {
 .sideBar-InformationArea-textDiv {
     padding: 10px;
 }
+
+
+@media(max-width: 1000px) {
+
+    .sideBar-mainDiv {
+        background-color: #2A3647;
+        width: 100%;
+        height: auto;
+        bottom: 0;
+        display: flex;
+        align-items: center;
+    }
+
+    .sideBar-changeArea {
+        display: flex;
+        flex-direction: initial;
+        margin-top: auto;
+        width: auto;
+        gap: 116px;
+    }
+
+    .sideBar-changeArea-icon {
+        height: 32px;
+        width: 32px;
+        margin-right: initial;
+    }
+
+    .sideBar-changeAreaSub {
+        display: flex;
+        flex-direction: column;
+        padding: 0;
+        /* margin: 20px; */
+        cursor: pointer;
+        height: 88px;
+        width: 88px;
+    }
+
+    .sideBar-InformationArea {
+        margin-top: initial;
+        /* Setzt den oberen Rand auf den Standardwert zurück */
+        width: auto;
+    }
+
+    .sideBar-InformationArea {
+        display: none;
+    }
+
+    .joinImg-sideBar {
+        display: none;
+    }
+
+}
+
+@media(max-width: 740px) {
+    .sideBar-changeArea {
+        gap: 50px;
+    }
+}
+
+@media(max-width: 500px) {
+
+
+    .sideBar-changeAreaSub {
+        display: flex;
+        flex-direction: column;
+        padding: 0;
+        /* margin: 20px; */
+        cursor: pointer;
+        height: 80px;
+        width: 80px;
+    }
+
+
+    .sideBar-changeArea {
+        gap: 1px;
+    }
+}
