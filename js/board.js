@@ -46,7 +46,7 @@ function renderToDo() {
     let subtaskCounter = 0
     toDo.innerHTML = '<span class="noTaskSpan">No tasks in to do</span>';
     toDoSection.forEach((currentTask, i) => {
-        subtaskCounter = ''
+        subtaskCounter = '';
         if (currentTask.subtask) {
             currentTask.subtask.forEach(() => {
                 subtaskCounter++
@@ -57,12 +57,33 @@ function renderToDo() {
                 <span>${currentTask.category}</span>
                 <h3>${currentTask.title}</h3>
                 <p>${currentTask.description}</p>
-                <p>Prio: ${currentTask.prio}</p>
                 <p>Subtask: ${subtaskCounter}</p>
-
+                <div class="task-card-bottom">
+                    <div class="task-card-contacts" id="boardTaskContacts-${i}"></div>
+                    <p>Prio: ${currentTask.prio}</p>
+                </div>
             </div>`
-        console.log(currentTask)
+        if (currentTask.contacts) {
+            renderBoardTaskContacts(currentTask.contacts, i)
+        }
     });
+}
+
+function renderBoardTaskContacts(taskContacts, i) {
+    const boardTaskContacts = document.getElementById('boardTaskContacts-' + i);
+    taskContacts.forEach(contact => {
+        let contactsInitials = generateInitials(contact);
+        boardTaskContacts.innerHTML += `<p class="contact-initials" style="background-color: ${getRandomColor()}">${contactsInitials}</p>`
+    })
+}
+
+function generateInitials(contact) {
+    let initials = '';
+    let splitString = contact.split(' ');
+    splitString.forEach(name => {
+        initials += name.charAt(0)
+    });
+    return initials;
 }
 
 /*

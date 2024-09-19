@@ -1,4 +1,5 @@
 // Für Template übegreifende JS Funktionen
+const contactBackgroundColor = ['#FF7A00', '#FF5EB3', '#6E52FF', '#9327FF', '#00BEE8', '#1FD7C1', '#FF745E', '#FFA35E', '#FC71FF', '#FFC701', '#0038FF', '#0038FF', '#FFE62B', '#FF4646', '#FFBB2B'];
 
 // W3-HTML-Include
 function includeHTML() {
@@ -64,4 +65,9 @@ function checkHTMLforClassList() {
 
 function addClassList(id) {
     return document.getElementById(id).classList.add('clicked');
+}
+
+// Funktion zur Generierung einer zufälligen Farbe
+function getRandomColor() {
+    return contactBackgroundColor[Math.floor(Math.random() * contactBackgroundColor.length)];
 }

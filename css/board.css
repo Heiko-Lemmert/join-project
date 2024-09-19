@@ -228,10 +228,18 @@ h1 {
     padding-right: 100px;
 }
 
+/* Task Card Styling */
 
+.task-card-bottom {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
 
-
-
+.task-card-contacts {
+    display: flex;
+    margin-right: initial;
+}
 
 @media(max-width: 1217px) {
 
