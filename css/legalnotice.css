@@ -1,0 +1,47 @@
+h1 {
+    font-size: 61px;
+}
+
+h2 {
+
+    font-size: 27px;
+}
+
+p {
+    font-size: 16px;
+}
+
+
+.legal-notice {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.legal-notice-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+}
+
+.legal-notice-body {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.imprint-list {
+    list-style-position: inside;
+    padding-left: 0;
+    margin: 0;
+}
+
+.legal-notice-main {
+    height: calc(100vh - var(--header-height));
+    width: calc(100vw - var(--sidebar-width));
+    padding: 65px 65px 50px;
+    position: relative;
+    left: var(--sidebar-width);
+    top: var(--header-height);
+}
