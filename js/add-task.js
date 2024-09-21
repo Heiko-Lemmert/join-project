@@ -187,7 +187,7 @@ function subtaskEventlister() {
 }
 
 function createSubtask(newSubtask) {
-    writtenSubtask.push({title: newSubtask, done: 'none'});
+    writtenSubtask.push({title: newSubtask, done: false});
     subtask.value = '';
     renderSubtask();
 }

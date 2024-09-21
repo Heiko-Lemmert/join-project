@@ -190,6 +190,7 @@ h1 {
     border: 1px solid #ddd;
     cursor: grab;
     border-radius: 16px;
+    padding: 10px;
 }
 
 .background-bigListView {
@@ -230,15 +231,88 @@ h1 {
 
 /* Task Card Styling */
 
+.task-card-category,
+.task-card-title,
+.task-card-description,
+.task-card-subtask,
 .task-card-bottom {
+    width: 90%;
+    flex: 1;
+}
+
+.task-card-category {
+    display: flex;
+    align-items: center;
+}
+
+.category-user,
+.category-technical {
+    border-radius: 10px;
+    padding: 5px 10px;
+    color: white;
+}
+
+.category-user {
+    background-color: #1FD7C1;
+}
+
+.category-technical {
+    background-color: #0038ff;
+}
+
+.task-card-bottom,
+.task-card-subtask {
     display: flex;
     justify-content: space-between;
-    width: 100%;
+    align-items: baseline;
+}
+
+.task-card-subtask {
+    align-items: center;
+    gap: 10px;
+}
+
+.task-card-description {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    color: #A8A8A8;
+}
+
+.subtask-container {
+    background-color: #dfdfdf;
+    height: 8px;
+    width: 55%;
+    border-radius: 8px;
+}
+
+.subtask-value {
+    background-color: #4589ff;
+    height: 8px;
+    border-radius: 8px;
+}
+
+.subtask-info {
+    width: 45%;
+    text-wrap: nowrap;
+    font-size: 14px;
 }
 
 .task-card-contacts {
     display: flex;
     margin-right: initial;
+}
+
+.task-card-prio {
+    width: 17px;
+    height: 13px;
+}
+
+.task-card-prio-medium {
+    width: 17px;
+    height: 8px;
 }
 
 @media(max-width: 1217px) {

@@ -38,35 +38,71 @@ function moveTask() {
             doneSection.push(currentTask)
         }
     })
-    renderToDo();
+    renderBoard();
 }
 
-function renderToDo() {
-    const toDo = document.getElementById('left');
-    let subtaskCounter = 0
-    toDo.innerHTML = '<span class="noTaskSpan">No tasks in to do</span>';
-    toDoSection.forEach((currentTask, i) => {
-        subtaskCounter = '';
-        if (currentTask.subtask) {
-            currentTask.subtask.forEach(() => {
-                subtaskCounter++
-            })
+function renderBoard() {
+    renderSection(toDoSection, 'left');
+    renderSection(inProgressSection, 'leftNum2');
+    renderSection(awaitFeedbackSection, 'right');
+    renderSection(doneSection, 'rightNum2');
+}
+
+function renderSection(section, id) {
+    const sectionArray = document.getElementById(id);
+    sectionArray.innerHTML = '<span class="noTaskSpan">No tasks in to do</span>';
+    if (section) {
+        section.forEach((currentTask, i) => {
+            const prioImg = prioImgChooser(currentTask.prio);
+            const categoryBanner = bannerChooser(currentTask.category);
+            sectionArray.innerHTML += `
+                <div class="list" draggable="true" onclick="openList(${i})">
+                    <div class="task-card-category">${categoryBanner}</div>
+                    <h3 class="task-card-title">${currentTask.title}</h3>
+                    <p class="task-card-description">${currentTask.description}</p>
+                    <div class="task-card-subtask" id="boardSubtask-${i}">
+                    </div>
+                    <div class="task-card-bottom">
+                        <div class="task-card-contacts" id="boardTaskContacts-${i}"></div>
+                        ${prioImg}
+                    </div>
+                </div>`;
+            if (currentTask.subtask) {
+                renderBoardSubtaskCounter(currentTask.subtask, i);
+            };
+            if (currentTask.contacts) {
+                renderBoardTaskContacts(currentTask.contacts, i);
+            };
+        });
+    }
+}
+
+function bannerChooser(category) {
+    switch (category) {
+        case 'User Story':
+            return '<span class="category-story">User Story</span>';
+        case 'Technical Task':
+            return '<span class="category-technical">Technical Task</span>';
+        default:
+            break;
+    }
+}
+
+function renderBoardSubtaskCounter(subtasks, i) {
+    const boardSubtask = document.getElementById('boardSubtask-' + i);
+    const subtaskLength = subtasks.length
+    let subtaskCounter = 0;
+    subtasks.forEach(currentSubtask => {
+        if (currentSubtask.done) {
+            subtaskCounter++
         }
-        toDo.innerHTML += `
-            <div class="list" draggable="true" onclick="openList(${i})">
-                <span>${currentTask.category}</span>
-                <h3>${currentTask.title}</h3>
-                <p>${currentTask.description}</p>
-                <p>Subtask: ${subtaskCounter}</p>
-                <div class="task-card-bottom">
-                    <div class="task-card-contacts" id="boardTaskContacts-${i}"></div>
-                    <p>Prio: ${currentTask.prio}</p>
-                </div>
-            </div>`
-        if (currentTask.contacts) {
-            renderBoardTaskContacts(currentTask.contacts, i)
-        }
-    });
+    })
+    const subtaskValue = (100 / subtaskLength) * subtaskCounter;
+    boardSubtask.innerHTML = `
+        <div class="subtask-container">
+            <div class="subtask-value" style="width: ${subtaskValue}%"></div>
+        </div>
+        <div class="subtask-info">${subtaskCounter}/${subtaskLength} Subtasks</div>`
 }
 
 function renderBoardTaskContacts(taskContacts, i) {
@@ -84,6 +120,19 @@ function generateInitials(contact) {
         initials += name.charAt(0)
     });
     return initials;
+}
+
+function prioImgChooser(prio) {
+    switch (prio) {
+        case 'high':
+            return '<img class="task-card-prio" src="./assets/img/prio-high.png" alt=""></img>'
+        case 'medium':
+            return '<img class="task-card-prio-medium" src="./assets/img/prio-medium.png" alt=""></img>'
+        case 'low':
+            return '<img class="task-card-prio" src="./assets/img/prio-low.png" alt=""></img>'
+        default:
+            break;
+    }
 }
 
 /*
