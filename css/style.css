@@ -223,7 +223,7 @@ a {
 
 /*sidebar responsive*/
 
-@media(max-width: 1000px) {
+@media (max-width: 1200px) {
 
     .sideBar-mainDiv {
         background-color: #2A3647;
@@ -303,7 +303,7 @@ a {
 
 
 
-@media(max-width: 1000px) {
+@media(max-width: 1200px) {
 
     .header-mainDiv {
         right: initial;
