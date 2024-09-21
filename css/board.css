@@ -242,14 +242,14 @@ h1 {
     align-items: center;
 }
 
-.category-user,
+.category-story,
 .category-technical {
     border-radius: 10px;
     padding: 5px 10px;
     color: white;
 }
 
-.category-user {
+.category-story {
     background-color: #1FD7C1;
 }
 

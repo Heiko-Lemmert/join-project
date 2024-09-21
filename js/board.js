@@ -50,6 +50,7 @@ function renderBoard() {
 
 function renderSection(section, id) {
     const sectionArray = document.getElementById(id);
+    const whichSection = sectionChooser(section);
     sectionArray.innerHTML = '<span class="noTaskSpan">No tasks in to do</span>';
     if (section) {
         section.forEach((currentTask, i) => {
@@ -60,36 +61,25 @@ function renderSection(section, id) {
                     <div class="task-card-category">${categoryBanner}</div>
                     <h3 class="task-card-title">${currentTask.title}</h3>
                     <p class="task-card-description">${currentTask.description}</p>
-                    <div class="task-card-subtask" id="boardSubtask-${i}">
+                    <div class="task-card-subtask" id="boardSubtask-${whichSection}-${i}">
                     </div>
                     <div class="task-card-bottom">
-                        <div class="task-card-contacts" id="boardTaskContacts-${i}"></div>
+                        <div class="task-card-contacts" id="boardTaskContacts-${whichSection}-${i}"></div>
                         ${prioImg}
                     </div>
                 </div>`;
             if (currentTask.subtask) {
-                renderBoardSubtaskCounter(currentTask.subtask, i);
+                renderBoardSubtaskCounter(currentTask.subtask, whichSection, i);
             };
             if (currentTask.contacts) {
-                renderBoardTaskContacts(currentTask.contacts, i);
+                renderBoardTaskContacts(currentTask.contacts, whichSection, i);
             };
         });
     }
 }
 
-function bannerChooser(category) {
-    switch (category) {
-        case 'User Story':
-            return '<span class="category-story">User Story</span>';
-        case 'Technical Task':
-            return '<span class="category-technical">Technical Task</span>';
-        default:
-            break;
-    }
-}
-
-function renderBoardSubtaskCounter(subtasks, i) {
-    const boardSubtask = document.getElementById('boardSubtask-' + i);
+function renderBoardSubtaskCounter(subtasks, section, i) {
+    const boardSubtask = document.getElementById('boardSubtask-' + section + '-' + i);
     const subtaskLength = subtasks.length
     let subtaskCounter = 0;
     subtasks.forEach(currentSubtask => {
@@ -105,8 +95,8 @@ function renderBoardSubtaskCounter(subtasks, i) {
         <div class="subtask-info">${subtaskCounter}/${subtaskLength} Subtasks</div>`
 }
 
-function renderBoardTaskContacts(taskContacts, i) {
-    const boardTaskContacts = document.getElementById('boardTaskContacts-' + i);
+function renderBoardTaskContacts(taskContacts, section, i) {
+    const boardTaskContacts = document.getElementById('boardTaskContacts-' + section + '-' + i);
     taskContacts.forEach(contact => {
         let contactsInitials = generateInitials(contact);
         boardTaskContacts.innerHTML += `<p class="contact-initials" style="background-color: ${getRandomColor()}">${contactsInitials}</p>`
@@ -130,6 +120,32 @@ function prioImgChooser(prio) {
             return '<img class="task-card-prio-medium" src="./assets/img/prio-medium.png" alt=""></img>'
         case 'low':
             return '<img class="task-card-prio" src="./assets/img/prio-low.png" alt=""></img>'
+        default:
+            break;
+    }
+}
+
+function bannerChooser(category) {
+    switch (category) {
+        case 'User Story':
+            return '<span class="category-story">User Story</span>';
+        case 'Technical Task':
+            return '<span class="category-technical">Technical Task</span>';
+        default:
+            break;
+    }
+}
+
+function sectionChooser(section) {
+    switch (section) {
+        case toDoSection:
+            return 'to-do';
+        case inProgressSection:
+            return 'in-progress';
+        case awaitFeedbackSection:
+            return 'feedback';
+        case doneSection:
+            return 'done';
         default:
             break;
     }
