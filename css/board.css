@@ -14,10 +14,7 @@ body {
     background-color: #F6F7F8;
 }
 
-.board-mainContainer {
-    display: flex;
-    flex-direction: column;
-}
+
 
 .board-page {
     display: flex;
@@ -185,7 +182,6 @@ h1 {
     margin-bottom: 8px;
     display: flex;
     align-items: center;
-    flex-direction: column;
     background-color: #ffffff;
     border: 1px solid #ddd;
     cursor: grab;
@@ -228,20 +224,20 @@ h1 {
     padding-right: 100px;
 }
 
-/* Task Card Styling */
 
-.task-card-bottom {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-}
 
-.task-card-contacts {
-    display: flex;
-    margin-right: initial;
-}
 
-@media(max-width: 1217px) {
+
+
+@media(max-width: 1190px) {
+
+
+
+    .board-mainContainer {
+        left: auto;
+        width: auto;
+        
+    }
 
     .board-topAddtaskFont {
         display: none;
@@ -317,7 +313,8 @@ h1 {
 
 }
 
-@media(max-width: 901px) {
+
+@media(max-width: 690px) {
 
     .board-InputFieldDiv {
         position: initial;
@@ -353,4 +350,3 @@ h1 {
     }
 }
 
-@media(max-width: 320px) {}
