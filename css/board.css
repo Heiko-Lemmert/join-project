@@ -216,6 +216,8 @@ h1 {
 .top-content-bigListView {
     display: flex;
     justify-content: space-between;
+    flex-direction: column;
+    gap: 15px;
 }
 
 .close-bigListView-button {
@@ -312,8 +314,30 @@ h1 {
     height: 8px;
 }
 
+/* Task Card Overlay Styling */
 
+.task-card-overlay-top {
+	display: flex;
+	justify-content: space-between;
+}
 
+.task-card-overlay-title {
+    font-size: 40px;
+}
+
+.task-card-overlay-bottom {
+	display: flex;
+	justify-content: end;
+	gap: 10px;
+}
+
+.btn-delete:hover {
+    background-image: url(../assets/img/board-delete-blue.png);
+}
+
+.btn-edit:hover {
+    background-image: url(../assets/img/board-edit-blue.png);
+}
 
 @media(max-width: 1190px) {
 

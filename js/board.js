@@ -57,7 +57,7 @@ function renderSection(section, id) {
             const prioImg = prioImgChooser(currentTask.prio);
             const categoryBanner = bannerChooser(currentTask.category);
             sectionArray.innerHTML += `
-                <div class="list" draggable="true" onclick="openList(${i})">
+                <div class="list" draggable="true" data-task='${JSON.stringify(currentTask)}' onclick="openList(this)">
                     <div class="task-card-category">${categoryBanner}</div>
                     <h3 class="task-card-title">${currentTask.title}</h3>
                     <p class="task-card-description">${currentTask.description}</p>
@@ -271,26 +271,74 @@ function dagAndDrop() {
 }
 
 
-function openList() {
-    let content = document.getElementById('bigViewList');
+function openList(element) {
+    const task = JSON.parse(element.getAttribute('data-task'));
+    const content = document.getElementById('bigViewList');
+    const categoryBanner = bannerChooser(task.category);
+    const prioImg = prioImgChooser(task.prio);
+    console.log(task)
     content.innerHTML = `
      <div class="background-bigListView">
                <div class="inner-bigListView">
-                  <div class="content-bigListView">
-                  <div class="top-content-bigListView">
-                           <span > text </span>
-                    <span class="close-bigListView-button" onclick="closeViewList()"> X </span>
-       
-                   </div>
-                  </div>
+                    <div class="content-bigListView">
+                        <div class="top-content-bigListView">
+                            <div class="task-card-overlay-top">
+                                <div class="task-card-overlay-category">${categoryBanner}</div>
+                                <span class="close-bigListView-button" onclick="closeViewList()"> X </span>
+                            </div>
+                            <h3 class="task-card-overlay-title">${task.title}</h3>
+                            <p class="task-card-overlay-description">${task.description}</p>
+                            <p class="task-card-overlay-date">Due date: ${task.date}</p>
+                            <p class="task-card-overlay-prio">Priority: ${prioImg}</p>
+                            <div class="task-card-contacts" id="overlayTaskContacts"></div>
+                            <div class="task-card-subtask" id="overlaySubtask"></div>
+                            <div class="task-card-overlay-bottom">
+                                <img class="overlay-action-btn btn-delete" src="./assets/img/board-delete.png" alt=""></img>
+                                <hr>
+                                <img class="overlay-action-btn btn-edit" src="./assets/img/board-edit.png" alt=""></img>
+                            </div>
+                        </div>
+                    </div>
                </div>
             </div>    
     `;
+    if (task.subtask) {
+        renderOverlaySubtask(task.subtask);
+    };
+    if (task.contacts) {
+        renderOverlayTaskContacts(task.contacts);
+    };
+}
+
+function renderOverlaySubtask(subtasks) {
+    const boardSubtask = document.getElementById('overlaySubtask');
+    const subtaskLength = subtasks.length
+    let subtaskCounter = 0;
+    subtasks.forEach(currentSubtask => {
+        if (currentSubtask.done) {
+            subtaskCounter++
+        }
+    })
+    const subtaskValue = (100 / subtaskLength) * subtaskCounter;
+    boardSubtask.innerHTML = `
+        <div class="subtask-container">
+            <div class="subtask-value" style="width: ${subtaskValue}%"></div>
+        </div>
+        <div class="subtask-info">${subtaskCounter}/${subtaskLength} Subtasks</div>`
+}
+
+function renderOverlayTaskContacts(taskContacts) {
+    const boardTaskContacts = document.getElementById('overlayTaskContacts');
+    taskContacts.forEach(contact => {
+        let contactsInitials = generateInitials(contact);
+        boardTaskContacts.innerHTML += `<p class="contact-initials" style="background-color: ${getRandomColor()}">${contactsInitials}</p>`
+    })
 }
 
 function closeViewList() {
     document.getElementById('bigViewList').innerHTML = '';
 }
+
 function initializeImageHover() {
     // Finde alle Bild-Elemente mit der Klasse 'hover-image'
     const hoverImages = document.querySelectorAll('.hover-image');
