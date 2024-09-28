@@ -26,7 +26,7 @@ let selectedContactName = [];
 let currentPrio = 'medium';
 let category = '';
 
-function init() {
+function initTask() {
     includeHTML();
     renderTaskContact();
     attachEventListeners(); // Event-Listener erst nach dem Rendern der Kontakte hinzufügen

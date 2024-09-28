@@ -206,7 +206,7 @@ h1 {
     padding: 50px;
     flex-direction: column;
     border-radius: 40px;
-    height: 400px;
+    min-height: 400px;
     width: 400px;
     background-color: whitesmoke;
     scrollbar-width: none;
@@ -319,6 +319,12 @@ h1 {
 .task-card-overlay-top {
 	display: flex;
 	justify-content: space-between;
+}
+
+.task-card-overlay-top img:hover {
+    background-color: #dddcdc;
+    border-radius: 50%;
+    cursor: pointer;
 }
 
 .task-card-overlay-title {

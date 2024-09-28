@@ -6,11 +6,11 @@ let awaitFeedbackSection = [];
 let doneSection = [];
 
 function renderCode() {
+    includeHTML();
     dagAndDrop();
     checkForEmptyLists();
     checkForList();
     initializeImageHover();
-    includeHTML();
     loadAllTasks();
 }
 
@@ -42,10 +42,18 @@ function moveTask() {
 }
 
 function renderBoard() {
-    renderSection(toDoSection, 'left');
-    renderSection(inProgressSection, 'leftNum2');
-    renderSection(awaitFeedbackSection, 'right');
-    renderSection(doneSection, 'rightNum2');
+    if (toDoSection) {
+        renderSection(toDoSection, 'left');
+    }
+    if (inProgressSection) {
+        renderSection(inProgressSection, 'leftNum2');
+    }
+    if (awaitFeedbackSection) {
+        renderSection(awaitFeedbackSection, 'right');
+    }
+    if (doneSection) {
+        renderSection(doneSection, 'rightNum2');
+    }
 }
 
 function renderSection(section, id) {
@@ -270,13 +278,39 @@ function dagAndDrop() {
     setupDropArea(leftBoxNum2);
 }
 
+function showOrHideOverlay() {
+    const atOverlay = document.getElementById('atOverlay');
+    const cancelBtn = document.getElementById('cancelBtn');
+    const createBtn = document.getElementById('createBtn');
+    atOverlay.classList.toggle('at-overlay-hidden'); 
+    if (document.scripts.namedItem('addTaskOnBoard') === null) {
+        loadExternalScript('./js/add-task.js', () => {
+            initTask();
+            cancelBtn.addEventListener('click', () => {
+                showOrHideOverlay()
+            });
+            createBtn.addEventListener('click', () => {
+               setTimeout(showOrHideOverlay, 1000);
+            });
+        })
+    }
+}
+
+function loadExternalScript(src, callback) {
+    const script = document.createElement('script');
+    script.src = src;
+    script.type = 'text/javascript';
+    script.id = 'addTaskOnBoard'
+    script.onload = callback; // Optional: eine Funktion, die nach dem Laden ausgeführt wird
+    document.head.appendChild(script);
+}
+
 
 function openList(element) {
     const task = JSON.parse(element.getAttribute('data-task'));
     const content = document.getElementById('bigViewList');
     const categoryBanner = bannerChooser(task.category);
     const prioImg = prioImgChooser(task.prio);
-    console.log(task)
     content.innerHTML = `
      <div class="background-bigListView">
                <div class="inner-bigListView">
@@ -284,7 +318,7 @@ function openList(element) {
                         <div class="top-content-bigListView">
                             <div class="task-card-overlay-top">
                                 <div class="task-card-overlay-category">${categoryBanner}</div>
-                                <span class="close-bigListView-button" onclick="closeViewList()"> X </span>
+                                <img src="./assets/img/close.png" alt="close" onclick="closeViewList()">
                             </div>
                             <h3 class="task-card-overlay-title">${task.title}</h3>
                             <p class="task-card-overlay-description">${task.description}</p>

@@ -201,7 +201,7 @@ button img {
 
 .task-main-container input:focus:invalid,
 .task-main-container select:focus:invalid,
-.required-border{
+.required-border {
     border: 1px solid #FD8F9C !important;
 }
 
@@ -386,7 +386,8 @@ button img {
 
 .add-subtask img:hover,
 .contact-selector-arrow:hover,
-.task-selector-arrow:hover {
+.task-selector-arrow:hover,
+.task-main-container-top img:hover {
     background-color: #dddcdc;
     border-radius: 50%;
     cursor: pointer;
@@ -473,10 +474,50 @@ button img {
     background-color: #fff;
 }
 
+/* Overlay Styling */
+
+.at-overlay-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    overflow: hidden;
+    background-color: rgba(151, 149, 149, 0.37);
+}
+
+.at-overlay {
+    background-color: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    height: 90%;
+    border-radius: 25px;
+    padding: 50px;
+}
+
+.at-overlay-hidden {
+    display: none;
+}
+
+.task-main-container-top {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin: 0px 25px;
+}
+
+.task-main-container-top img {
+    cursor: pointer;
+}
+
 /* Grundlegender Stil für die Toast-Nachricht */
 .toast-message {
     position: fixed;
-    bottom: -100px; /* Startpunkt außerhalb des Bildschirms */
+    bottom: -100px;
+    /* Startpunkt außerhalb des Bildschirms */
     left: 50%;
     transform: translateX(-50%);
     background-color: #333;
@@ -491,6 +532,8 @@ button img {
 
 /* Toast-Nachricht in die Mitte des Bildschirms schieben */
 .toast-visible {
-    bottom: 50%; /* Mitte des Bildschirms */
-    opacity: 1; /* Sichtbar */
+    bottom: 50%;
+    /* Mitte des Bildschirms */
+    opacity: 1;
+    /* Sichtbar */
 }
