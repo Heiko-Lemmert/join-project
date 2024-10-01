@@ -6,7 +6,6 @@
     position: relative;
     left: var(--sidebar-width);
     top: var(--header-height);
-    overflow-y: scroll;
 }
 
 

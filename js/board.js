@@ -42,19 +42,15 @@ function moveTask() {
 }
 
 function renderBoard() {
-    if (toDoSection) {
-        renderSection(toDoSection, 'left');
-    }
-    if (inProgressSection) {
-        renderSection(inProgressSection, 'leftNum2');
-    }
-    if (awaitFeedbackSection) {
-        renderSection(awaitFeedbackSection, 'right');
-    }
-    if (doneSection) {
-        renderSection(doneSection, 'rightNum2');
-    }
+    renderSection(toDoSection, 'left');
+    renderSection(inProgressSection, 'leftNum2');
+    renderSection(awaitFeedbackSection, 'right');
+    renderSection(doneSection, 'rightNum2');
+    
+    dagAndDrop();
+    checkForEmptyLists(); // Überprüfe, ob Listen leer sind
 }
+
 
 function renderSection(section, id) {
     const sectionArray = document.getElementById(id);
