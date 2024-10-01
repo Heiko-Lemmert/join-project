@@ -43,6 +43,7 @@ a {
 /* Header */
 .header-mainDiv {
     position: fixed;
+    z-index: 1000;
     right: 0;
     top: 0;
     display: flex;
@@ -143,6 +144,7 @@ a {
     position: fixed;
     width: var(--sidebar-width);
     height: 100vh;
+    z-index: 1000;
 
 }
 
@@ -232,6 +234,7 @@ a {
         bottom: 0;
         display: flex;
         align-items: center;
+        z-index: 1000;
     }
 
     .sideBar-changeArea {
