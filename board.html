@@ -23,7 +23,7 @@
 
     <div class="board-mainContainer">
 
-       
+
         <div class="board-top">
             <div class="board-title">
                 <h1>Board</h1>
@@ -48,8 +48,9 @@
         <div class="board-bottom">
 
             <div class="overDiv-bottom">
-                <div class="toAdd-bottom"><span class="board-centerTitel">To do</span> <img class="board-bottomPlusImg hover-image"
-                        src="./assets/img/plusButton.png" alt="" onclick="showOrHideOverlay()"></div>
+                <div class="toAdd-bottom"><span class="board-centerTitel">To do</span> <img
+                        class="board-bottomPlusImg hover-image" src="./assets/img/plusButton.png" alt=""
+                        onclick="showOrHideOverlay()"></div>
                 <div class="scroll-div" id="scroll-div-1">
                     <div id="left">
                         <span class="noTaskSpan">No tasks in to do</span>
@@ -63,8 +64,9 @@
 
 
             <div class="overDiv-bottom">
-                <div class="toAdd-bottom"><span class="board-centerTitel">In progress</span><img class="board-bottomPlusImg hover-image"
-                        src="./assets/img/plusButton.png" alt="" onclick="showOrHideOverlay()"></div>
+                <div class="toAdd-bottom"><span class="board-centerTitel">In progress</span><img
+                        class="board-bottomPlusImg hover-image" src="./assets/img/plusButton.png" alt=""
+                        onclick="showOrHideOverlay()"></div>
                 <div class="scroll-div" id="scroll-div-2">
                     <div id="leftNum2">
                         <span class="noTaskSpan">No tasks in progress</span>
@@ -73,8 +75,9 @@
             </div>
 
             <div class="overDiv-bottom">
-                <div class="toAdd-bottom"><span class="board-centerTitel">Await feedback</span><img class="board-bottomPlusImg hover-image"
-                        src="./assets/img/plusButton.png" alt="" onclick="showOrHideOverlay()"></div>
+                <div class="toAdd-bottom"><span class="board-centerTitel">Await feedback</span><img
+                        class="board-bottomPlusImg hover-image" src="./assets/img/plusButton.png" alt=""
+                        onclick="showOrHideOverlay()"></div>
                 <div class="scroll-div" id="scroll-div-3">
                     <div id="right">
                         <span class="noTaskSpan">No tasks in await feedback</span>
@@ -88,23 +91,22 @@
                     <div id="rightNum2">
                         <span class="noTaskSpan">No tasks in done</span>
                         <div class="list" draggable="true" onclick="openList()"></div>
-                            <h3>title</h3>
-                            <p>description</p>
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
-
-        <!-- Containert to show the filtered tasks -->
-        <div id="taskArea"></div>
-
-        <!-- Container to show the "big View" of class slist -->
-        <div id="bigViewList"></div>
-
-       
     </div>
-    <div class="at-overlay-container at-overlay-hidden" id="atOverlay" w3-include-html="./assets/templates/add-task-overlay.html"></div>
+
+    <!-- Containert to show the filtered tasks -->
+    <div id="taskArea"></div>
+
+    <!-- Container to show the "big View" of class slist -->
+    <div id="bigViewList"></div>
+
+
+    </div>
+    <div class="at-overlay-container at-overlay-hidden" id="atOverlay"
+        w3-include-html="./assets/templates/add-task-overlay.html"></div>
 </body>
 
 </html>

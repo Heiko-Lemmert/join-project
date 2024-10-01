@@ -46,16 +46,15 @@ function renderBoard() {
     renderSection(inProgressSection, 'leftNum2');
     renderSection(awaitFeedbackSection, 'right');
     renderSection(doneSection, 'rightNum2');
-    
+
     dagAndDrop();
     checkForEmptyLists(); // Überprüfe, ob Listen leer sind
 }
 
-
 function renderSection(section, id) {
     const sectionArray = document.getElementById(id);
     const whichSection = sectionChooser(section);
-    sectionArray.innerHTML = '<span class="noTaskSpan">No tasks in to do</span>';
+    //sectionArray.innerHTML = '<span class="noTaskSpan">No tasks </span>'; auskommentiert weil es sonst den code von  board hindert
     if (section) {
         section.forEach((currentTask, i) => {
             const prioImg = prioImgChooser(currentTask.prio);
@@ -278,7 +277,7 @@ function showOrHideOverlay() {
     const atOverlay = document.getElementById('atOverlay');
     const cancelBtn = document.getElementById('cancelBtn');
     const createBtn = document.getElementById('createBtn');
-    atOverlay.classList.toggle('at-overlay-hidden'); 
+    atOverlay.classList.toggle('at-overlay-hidden');
     if (document.scripts.namedItem('addTaskOnBoard') === null) {
         loadExternalScript('./js/add-task.js', () => {
             initTask();
@@ -286,7 +285,7 @@ function showOrHideOverlay() {
                 showOrHideOverlay()
             });
             createBtn.addEventListener('click', () => {
-               setTimeout(showOrHideOverlay, 1000);
+                setTimeout(showOrHideOverlay, 1000);
             });
         })
     }
