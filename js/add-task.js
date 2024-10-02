@@ -36,9 +36,10 @@ function initTask() {
 function renderTaskContact() {
     const contactOptions = document.getElementById('contactOptions');
     contacts.forEach(contact => {
+        const contactsInitials = generateInitials(contact.name);
         contactOptions.innerHTML += `
         <div class="contact-option">
-            <div class="contact-initials" style="background-color: ${getRandomColor()}">${contact.initials}</div>
+            <div class="contact-initials" style="background-color: ${getRandomColor()}">${contactsInitials}</div>
             <label>${contact.name}</label>
             <img src="./assets/img/no-check-btn.png" alt="Check" class="check-icon" id="checkIcon">
         </div>`;

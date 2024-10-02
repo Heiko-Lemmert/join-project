@@ -106,15 +106,6 @@ function renderBoardTaskContacts(taskContacts, section, i) {
     })
 }
 
-function generateInitials(contact) {
-    let initials = '';
-    let splitString = contact.split(' ');
-    splitString.forEach(name => {
-        initials += name.charAt(0)
-    });
-    return initials;
-}
-
 function prioImgChooser(prio) {
     switch (prio) {
         case 'high':
@@ -260,17 +251,34 @@ function dagAndDrop() {
 
         box.addEventListener("drop", function (e) {
             box.appendChild(selected);
+            const selectedTask = JSON.parse(selected.dataset.task);
+            selectedTask.progress = checkDropArea(selected.parentElement.id);
+            updateData("tasks/" + selectedTask.databaseKey, selectedTask);
             selected = null;
             checkForList();//die Funktion checkForList() nach dem Verschieben der Liste erneut aufrufen, damit die Scrollleisten in beiden div-Elementen aktualisiert werden
             checkForEmptyLists();
         });
     }
 
-
     setupDropArea(rightBox);
     setupDropArea(rightBoxNum2);
     setupDropArea(leftBox);
     setupDropArea(leftBoxNum2);
+}
+
+function checkDropArea(column) {
+    switch (column) {
+        case 'left':
+            return 'to-do'
+        case 'leftNum2':
+            return 'in-progress'
+        case 'right':
+            return 'await-feedback'
+        case 'rightNum2':
+            return 'done'
+        default:
+            break;
+    }
 }
 
 function showOrHideOverlay() {
