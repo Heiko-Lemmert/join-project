@@ -19,10 +19,10 @@
 <body onload="loadContacts(); init();">
     <div w3-include-html="./assets/templates/header.html"></div>
     <div w3-include-html="./assets/templates/side-bar.html"></div> 
-    
+    <div id="overlay" class="d-none" onclick="toggleOverlay()"></div>
     <div class="contact-list-sidebar">
         <div class="add-contact-button">
-            <button class="btn-add-contact"><span style="margin-right: 10px;">Add new contact</span> <img src="./assets/img/person-add.svg"></button>
+            <button class="btn-add-contact" onclick="toggleOverlay(); renderDialog();"><span style="margin-right: 10px;">Add new contact</span> <img src="./assets/img/person-add.svg"></button>
         </div>
 
         <div class="contact-section" id="contact-section">

@@ -26,7 +26,7 @@
 
 body {
     margin: 0;
-    height: 100vh;
+    max-height: 100vh;
     background-color: #F6F7F8;
 }
 
@@ -38,6 +38,10 @@ input:focus {
 a {
     color: #000;
     text-decoration: none;
+}
+
+.d-none {
+    display: none;
 }
 
 /* Header */
@@ -330,6 +334,5 @@ a {
     .header-leftSection {
         margin-left: 16px;
     }
-
-
 }
+

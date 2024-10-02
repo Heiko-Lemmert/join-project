@@ -1,7 +1,5 @@
-/* General styles */
 body {
     display: flex;
-    height: auto;
     margin: 0;
 }
 
@@ -20,9 +18,7 @@ body {
 
 .contact-content {
     position: absolute;
-    z-index: -1;
     left: 550px;
-    width: max-content;
     height: 100%;
     top: var(--header-height);
 }
@@ -80,7 +76,6 @@ body {
     background-color: #0056b3;
 }
 
-/* Contact sections by letter */
 .contact-section {
     margin-bottom: 30px;
 }
@@ -92,7 +87,6 @@ body {
     color: gray;
 }
 
-/* Contact item styles */
 .contact-item {
     display: flex;
     align-items: center;
@@ -149,7 +143,6 @@ body {
     background-color: blue;
 }
 
-/* Contact name and email */
 .contact-info {
     display: flex;
     flex-direction: column;
@@ -180,7 +173,6 @@ body {
 .profile-img {
     width: 80px;
     height: 80px;
-    background-color: #f39c12;
     border-radius: 50%;
     display: inline-block;
 }
@@ -199,6 +191,7 @@ body {
     color: #3498db;
     margin-right: 10px;
     font-size: 14px;
+    cursor: pointer;
 }
 
 .contact-details {
@@ -221,4 +214,110 @@ body {
     font-size: 14px;
     display: block;
     margin-bottom: 10px;
+}
+
+#overlay {
+    z-index: 1000;
+    position: relative;
+    height: 100vh;
+    width: 100vw;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.264);
+}
+
+#dialog {
+    display: flex;
+    flex-direction: row;
+    height: 500px;
+    width: 950px;
+    background-color: #ffffff;
+    border-radius: 24px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.contact-form-description {
+    display: flex;
+    height: 100%;
+    width: 35%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    background-color: #2A3647;
+    border-top-left-radius: 24px;
+    border-bottom-left-radius: 24px;
+}
+
+.contact-form-description h2 {
+    font-size: 24px; 
+    font-weight: bold;
+    margin-bottom: 10px; 
+}
+
+.contact-form-description p {
+    font-size: 16px;
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.profile-image {
+    width: 100px; 
+    height: 100px; 
+    border-radius: 50%; 
+    margin-bottom: 20px; 
+    margin:0px  48px;
+}
+
+.contact-form-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 350px;
+}
+
+.name-input, .email-input, .phone-input {
+    width: 100%;
+    padding: 10px; 
+    border: 1px solid #ccc; 
+    border-radius: 5px; 
+    margin-bottom: 10px; 
+}
+
+.email-icon, .phone-icon {
+    position: absolute; 
+    right: 10px; 
+    top: 50%; 
+    transform: translateY(-50%); 
+    font-size: 18px; 
+}
+
+.button-container {
+    display: flex;
+    flex-direction: row;
+    width: 350px;
+    margin-top: 24px;
+}
+
+.cancel-button, .create-contact-button {
+    padding: 10px 20px; 
+    background-color: #2A3647; 
+    color: #fff; 
+    border: none; 
+    border-radius: 5px; 
+    cursor: pointer; 
+}
+
+.cancel-button {
+    background-color: white; 
+    color: #2A3647; 
+    border: 1px solid #2A3647; 
+    margin-right: 20px
 }

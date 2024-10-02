@@ -37,11 +37,11 @@ function showContactDetails(index) {
 
 function contactDetailsTemplate(index) {
     return `            <div class="profile-section">
-                <img class="profile-img">
+                <img src="./assets/img/Frame 79.png"class="profile-img">
                 <div class="contact-name">
                     <h1 class="profile-name">${contactArray[index].name}</h1>
                     <div class="profile-actions">
-                    <a href="#" class="profile-edit">Edit</a>
+                    <a href="#" class="profile-edit" onclick="toggleOverlay(); renderDialog();">Edit</a>
                     <a href="#" class="profile-delete">Delete</a>
                     </div>
                 </div>
@@ -54,3 +54,43 @@ function contactDetailsTemplate(index) {
                 <a href="#" class="contact-phone">${contactArray[index].number}</a>
             </div>`
 }
+
+function toggleOverlay() {
+    let overlayRef = document.getElementById('overlay');
+    overlayRef.classList.toggle('d-none');
+}
+
+function renderDialog(index) {
+    let overlayRef = document.getElementById('overlay');
+    overlayRef.innerHTML = '';
+    overlayRef.innerHTML += getDialogTemplate(index);
+ }
+
+
+ function getDialogTemplate(index) {
+    return `<div id="dialog" onclick="preventEventBubbling(event)">
+    <div class="contact-form-description">
+        <img src="./assets/img/Capa 2 (1).png">
+        <h2>Add contact</h2>
+        <p>Tasks are better with a team!</p>
+    </div>
+    <div class="contact-form">
+        <img src="./assets/img/Frame 79.png" class="profile-image">
+        <div class="contact-form-text">
+            <input type="text" placeholder="Name" class="name-input">
+            <img src="" alt="" class="email-icon"> 
+            <input type="email" placeholder="Email" class="email-input">
+            <img src="" alt="" class="phone-icon">
+            <input type="tel" placeholder="Phone" class="phone-input">
+            <div class="button-container">
+                <button class="cancel-button" onclick="toggleOverlay();">Cancel</button>
+                <button class="create-contact-button">Create contact</button>
+            </div>
+        </div>
+      </div>
+    </div>`
+ }
+
+ function preventEventBubbling(event) {
+    event.stopPropagation();
+ }
