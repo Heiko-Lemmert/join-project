@@ -16,7 +16,7 @@
     <title>Contacts</title>
 </head>
 
-<body onload="init()">
+<body onload="loadContacts(); init();">
     <div w3-include-html="./assets/templates/header.html"></div>
     <div w3-include-html="./assets/templates/side-bar.html"></div> 
     
@@ -37,6 +37,8 @@
                 <span class="contact-list-subtitle">Better with a team</span>
             </div>
         </div>
+        <div class="contact-card" id="contact-card">
+        </div>        
     </div>
 </body>
 

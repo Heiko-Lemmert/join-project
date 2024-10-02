@@ -1,7 +1,7 @@
 /* General styles */
 body {
     display: flex;
-    height: 100vh;
+    height: auto;
     margin: 0;
 }
 
@@ -21,8 +21,9 @@ body {
 .contact-content {
     position: absolute;
     z-index: -1;
-    left: 500px;
-    /* height: 100%; */
+    left: 550px;
+    width: max-content;
+    height: 100%;
     top: var(--header-height);
 }
 
@@ -96,6 +97,14 @@ body {
     display: flex;
     align-items: center;
     margin-bottom: 20px;
+    padding: 4px;
+    cursor: pointer;
+}
+
+.contact-item:hover {
+    background-color: #2A3647;
+    color: white;
+    border-radius: 16px;
 }
 
 .contact-initial {
@@ -149,9 +158,67 @@ body {
 .contact-name {
     font-weight: bold;
     font-size: 16px;
+    margin-left: 32px;
 }
 
 .contact-email {
     color: gray;
     font-size: 14px;
+}
+
+.contact-card {
+    padding: 20px;
+}
+
+.profile-section {
+    text-align: center;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: row;
+}
+
+.profile-img {
+    width: 80px;
+    height: 80px;
+    background-color: #f39c12;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.profile-name {
+    font-size: 24px;
+    margin: 10px 0;
+}
+
+.profile-actions {
+    margin-top: 10px;
+}
+
+.profile-actions a {
+    text-decoration: none;
+    color: #3498db;
+    margin-right: 10px;
+    font-size: 14px;
+}
+
+.contact-details {
+    margin-top: 20px;
+}
+
+.details-heading {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.contact-label {
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+.contact-email, .contact-phone {
+    text-decoration: none;
+    color: #3498db;
+    font-size: 14px;
+    display: block;
+    margin-bottom: 10px;
 }
