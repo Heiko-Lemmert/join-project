@@ -78,26 +78,29 @@ function openInfBox() {
     let content = document.getElementById('infoBox');
     content.innerHTML = `
       <div class="infoBox">
-        <span class="infoBox-Header-text" >Legal Notice</span>
-        <span class="infoBox-Header-text" >Privacy Policy</span>
+        <a href="./legal-notice.html" id="legalNotice"     
+           <span class="infoBox-Header-text" >Legal Notice</span>
+        </a>
+            <a href="./privacy-policy.html" id="privacyPolicy"
+                  <span class="infoBox-Header-text" >Privacy Policy</span>
+             </a>
         <span class="infoBox-Header-text">Log Out</span>
       </div>
     `;
     content.style.display = 'block';
-  
+
     // Füge den Event-Listener zum Dokument hinzu
     document.addEventListener('click', function closeOnClickOutside(event) {
-      // Überprüfe, ob der Klick außerhalb der Info-Box stattfindet
-      if (!event.target.closest('.infoBox') && !event.target.closest('.header-user')) {
-        closeViewList();
-        document.removeEventListener('click', closeOnClickOutside); // Entferne den Event-Listener, wenn geschlossen wird
-      }
+        // Überprüfe, ob der Klick außerhalb der Info-Box stattfindet
+        if (!event.target.closest('.infoBox') && !event.target.closest('.header-user')) {
+            closeViewList();
+            document.removeEventListener('click', closeOnClickOutside); // Entferne den Event-Listener, wenn geschlossen wird
+        }
     });
-  }
-  
-  function closeViewList() {
+}
+
+function closeViewList() {
     let content = document.getElementById('infoBox');
     content.style.display = 'none';
     content.innerHTML = ''; // Entferne den Inhalt der Info-Box
-  }
-  
+}
