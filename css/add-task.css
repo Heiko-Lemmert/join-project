@@ -484,6 +484,7 @@ button img {
     right: 0;
     overflow: hidden;
     background-color: rgba(151, 149, 149, 0.37);
+    z-index: 2000;
 }
 
 .at-overlay {
