@@ -14,7 +14,7 @@ function renderCode() {
     loadAllTasks();
 }
 
-async function loadAllTasks() {
+async function loadAllTasks() {//Lädt alle Aufgaben asynchron aus der Datenbank.
     allTasks = await getData('tasks').catch(error => {
         console.error("Error loading data:", error);
     }); // Auf Promise warten
@@ -41,7 +41,7 @@ function moveTask() {
     renderBoard();
 }
 
-function renderBoard() {
+function renderBoard() {//Rendert jede Sektion des Boards (to-do, in-progress, await-feedback, done)
     renderSection(toDoSection, 'left');
     renderSection(inProgressSection, 'leftNum2');
     renderSection(awaitFeedbackSection, 'right');
@@ -51,7 +51,7 @@ function renderBoard() {
     checkForEmptyLists(); // Überprüfe, ob Listen leer sind
 }
 
-function renderSection(section, id) {
+function renderSection(section, id) {//  Rendert eine einzelne Sektion (z.B. to-do) auf dem Board und zeigt die Aufgaben an.   Falls Unteraufgaben oder Kontakte vorhanden sind, werden zusätzliche Funktionen aufgerufen
     const sectionArray = document.getElementById(id);
     const whichSection = sectionChooser(section);
     //sectionArray.innerHTML = '<span class="noTaskSpan">No tasks </span>'; auskommentiert weil es sonst den code von  board hindert
@@ -106,6 +106,7 @@ function renderBoardTaskContacts(taskContacts, section, i) {
     })
 }
 
+//Generiert Initialen für jeden Kontakt basierend auf dem Namen (z.B. "John Doe" → "JD").
 function generateInitials(contact) {
     let initials = '';
     let splitString = contact.split(' ');
@@ -115,6 +116,7 @@ function generateInitials(contact) {
     return initials;
 }
 
+//Wählt das entsprechende Prioritätsbild basierend auf der Priorität der Aufgabe (high, medium, low).
 function prioImgChooser(prio) {
     switch (prio) {
         case 'high':
@@ -128,6 +130,7 @@ function prioImgChooser(prio) {
     }
 }
 
+//Wählt das Banner für eine Aufgabe basierend auf ihrer Kategorie (User Story, Technical Task).
 function bannerChooser(category) {
     switch (category) {
         case 'User Story':
@@ -182,7 +185,8 @@ function renderTasks() { //rendern von gefilterten Tasks
 
 
 // Funktion zur Überprüfung der Listen auf leere Inhalte
-function checkForEmptyLists() {         //Diese Funktion dient dazu, die Anzeige der Meldung "No tasks" zu steuern, je nachdem, ob in den jeweiligen Containern (div-Elementen) Aufgaben (list-Elemente) vorhanden sind oder nicht.
+//Diese Funktion dient dazu, die Anzeige der Meldung "No tasks" zu steuern, je nachdem, ob in den jeweiligen Containern (div-Elementen) Aufgaben (list-Elemente) vorhanden sind oder nicht.
+function checkForEmptyLists() {
     let boxIds = ["left", "leftNum2", "right", "rightNum2"];  //: Eine Variable, die ein Array von IDs speichert
     for (let i = 0; i < boxIds.length; i++) { //wir iterieren über die länge der variable
         let box = document.getElementById(boxIds[i]); //definieren eine variable , und holen uns das jeweilige id name des divs
@@ -204,10 +208,10 @@ function checkForEmptyLists() {         //Diese Funktion dient dazu, die Anzeige
 
 }
 function checkForList() {
-    // Wählen Sie alle Elemente mit der Klasse "scroll-div"
+    // Wählen  alle Elemente mit der Klasse "scroll-div"
     let scrollDivs = document.querySelectorAll(".scroll-div");
 
-    // Iterieren Sie über die ausgewählten Elemente
+    // Iterieren  über die ausgewählten Elemente
     for (let i = 0; i < scrollDivs.length; i++) {
         let scrollDiv = scrollDivs[i]; // Greifen Sie auf das aktuelle Element zu
         let lists = scrollDiv.querySelectorAll(".list"); // Suchen Sie nach '.list'-Elementen innerhalb dieses 'div'
@@ -273,6 +277,7 @@ function dagAndDrop() {
     setupDropArea(leftBoxNum2);
 }
 
+//Zeigt oder versteckt das Overlay zum Erstellen oder Bearbeiten einer Aufgabe.
 function showOrHideOverlay() {
     const atOverlay = document.getElementById('atOverlay');
     const cancelBtn = document.getElementById('cancelBtn');
@@ -291,6 +296,7 @@ function showOrHideOverlay() {
     }
 }
 
+//Lädt ein externes Skript (z.B. für das Erstellen einer neuen Aufgabe) und führt eine Callback-Funktion nach dem Laden aus.
 function loadExternalScript(src, callback) {
     const script = document.createElement('script');
     script.src = src;
@@ -300,7 +306,7 @@ function loadExternalScript(src, callback) {
     document.head.appendChild(script);
 }
 
-
+//Öffnet eine detaillierte Ansicht einer Aufgabe, zeigt Titel, Beschreibung, Datum, Priorität, Unteraufgaben und Kontakte an.
 function openList(element) {
     const task = JSON.parse(element.getAttribute('data-task'));
     const content = document.getElementById('bigViewList');
@@ -331,43 +337,50 @@ function openList(element) {
                </div>
             </div>    
     `;
-    if (task.subtask) {
-        renderOverlaySubtask(task.subtask);
+    if (task.subtask) { // wenn aufgabe eine subtask hat ((task)siehe oben in der variable initialisiert)
+        renderOverlaySubtask(task.subtask); // dann wird die funktion aufgerufen 
     };
     if (task.contacts) {
         renderOverlayTaskContacts(task.contacts);
     };
 }
-
+//Die Anzahl der gesamten und der erledigten Unteraufgaben wird berechnet
+//subtasks: Ein Array, das die Unteraufgaben der Aufgabe enthält.
 function renderOverlaySubtask(subtasks) {
     const boardSubtask = document.getElementById('overlaySubtask');
     const subtaskLength = subtasks.length
     let subtaskCounter = 0;
+    //durch alle unteraufgaben iteriert und für jede wenn sie fertig ist um ein erhöht
     subtasks.forEach(currentSubtask => {
         if (currentSubtask.done) {
             subtaskCounter++
         }
     })
+    //Der Fortschritt der Unteraufgaben wird als Prozentsatz dargestellt
     const subtaskValue = (100 / subtaskLength) * subtaskCounter;
+    //werden im HTML als Fortschrittsbalken und Text angezeigt.
     boardSubtask.innerHTML = `
         <div class="subtask-container">
             <div class="subtask-value" style="width: ${subtaskValue}%"></div>
         </div>
         <div class="subtask-info">${subtaskCounter}/${subtaskLength} Subtasks</div>`
 }
-
+//Diese Funktion zeigt die Kontakte der Aufgabe im Overlay an.
+//taskContacts: Ein Array, das die Kontakte der Aufgabe enthält.
 function renderOverlayTaskContacts(taskContacts) {
     const boardTaskContacts = document.getElementById('overlayTaskContacts');
     taskContacts.forEach(contact => {
-        let contactsInitials = generateInitials(contact);
-        boardTaskContacts.innerHTML += `<p class="contact-initials" style="background-color: ${getRandomColor()}">${contactsInitials}</p>`
+        let contactsInitials = generateInitials(contact);//Die Initialen werden mit der Funktion generateInitials generiert
+        boardTaskContacts.innerHTML += `<p class="contact-initials" style="background-color: ${getRandomColor()}">${contactsInitials}</p>`//Eine zufällige Hintergrundfarbe wird für jede Initialen-Karte verwendet (mittels getRandomColor).
     })
 }
+
 
 function closeViewList() {
     document.getElementById('bigViewList').innerHTML = '';
 }
 
+//style
 function initializeImageHover() {
     // Finde alle Bild-Elemente mit der Klasse 'hover-image'
     const hoverImages = document.querySelectorAll('.hover-image');
