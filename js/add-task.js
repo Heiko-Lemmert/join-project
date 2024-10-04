@@ -217,7 +217,7 @@ function renderSubtask() {
     for (let i = 0; i < writtenSubtask.length; i++) {
         const subtask = writtenSubtask[i];
         showSubtask.innerHTML += `
-            <div class="new-subtask">
+          <div class="new-subtask" contenteditable="true">   
                 <p>${dotMarker} ${subtask.title}</p>
                 <div class="new-subtask-btn">
                     <img src="./assets/img/edit-subtask.png" onclick="editSubtask(${i})" alt="Edit">

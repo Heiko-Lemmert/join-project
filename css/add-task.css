@@ -537,3 +537,25 @@ button img {
     opacity: 1;
     /* Sichtbar */
 }
+
+/*Aditierbares div eingeschaften*/
+[contenteditable] {
+	padding: 1em;
+	padding-left: 3em;
+	margin: 1em;
+	outline: 2px dashed #CCC;
+	position: relative;
+}
+
+[contenteditable]:after {
+	position: absolute;
+	content: '✏';
+	left: 0em;
+	top: 0em;
+	font-size: 3em;
+	transform: rotate(45deg);
+}
+
+[contenteditable]:hover {
+	outline: 2px dashed #c32e04;
+}
