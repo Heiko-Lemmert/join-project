@@ -4,6 +4,7 @@ let toDoSection = [];
 let inProgressSection = [];
 let awaitFeedbackSection = [];
 let doneSection = [];
+let currentTaskName = [];
 
 function renderCode() {
     includeHTML();
@@ -13,13 +14,25 @@ function renderCode() {
     initializeImageHover();
     loadAllTasks();
 }
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 async function loadAllTasks() {
     allTasks = await getData('tasks').catch(error => {
         console.error("Error loading data:", error);
-    }); // Auf Promise warten
-    moveTask();
+    });
+
+    console.log("Loaded allTasks:", allTasks);  // Überprüfe, was allTasks tatsächlich ist
+
+    if (allTasks && Object.keys(allTasks).length > 0) {
+        moveTask();
+    } else {
+        console.error("No tasks found or allTasks is not an array");
+    }
 }
+
+
 
 function moveTask() {
     Object.keys(allTasks).forEach(taskKey => {
@@ -145,30 +158,88 @@ function sectionChooser(section) {
     }
 }
 
-/*
-function filterAndShowNames() { //suchfunktion
-    let filterWord = document.getElementById('filterTaskInput').value.toLowerCase();
-    currentTaksName = loadAllTasks.filter( => .toLowerCase().includes(filterWord));
+function filterAndShowTask() {
+    // Wandelt das allTasks-Objekt in ein Array von Aufgaben um
+    let tasksArray = Object.values(allTasks);
+
+    let filterInputElement = document.getElementById('filterTaskInput');
+    
+    if (!filterInputElement) {
+        console.error("Filter input element not found!");
+        return;
+    }
+
+    let filterWord = filterInputElement.value.toLowerCase();
+    console.log("Filter word: ", filterWord);
+
+    // Filtere die Aufgaben basierend auf dem Titel oder der Beschreibung
+    currentTaskName = tasksArray.filter(task => {
+        return (task.title && task.title.toLowerCase().includes(filterWord)) ||
+               (task.description && task.description.toLowerCase().includes(filterWord));
+    });
+
+    console.log("Filtered tasks: ", currentTaskName);
+
+    // Gefilterte Aufgaben rendern
     renderTasks();
 }
 
 
-function renderTasks() { //rendern von gefilterten Tasks
-    let container = document.getElementById('taskArea');
-    container.innerHTML = '';
-    for (let i = 0; i < currentTaksName.length; i++) {
-        let task = currentTaksName[i];
-        container.innerHTML += `
-            <div class="list" draggable="true">
-                <h3>${task.name}</h3>
-                <p>${task.description}</p>
-            </div>
-          
-        `;
-    }
+function renderTasks() {
+    let leftContainer = document.getElementById('left');
+    let leftNum2Container = document.getElementById('leftNum2');
+    let rightContainer = document.getElementById('right');
+    let rightNum2Container = document.getElementById('rightNum2');
+
+    // Leere alle Container
+    leftContainer.innerHTML = '';
+    leftNum2Container.innerHTML = '';
+    rightContainer.innerHTML = '';
+    rightNum2Container.innerHTML = '';
+
+    // Verwende entweder gefilterte Aufgaben oder alle Aufgaben, wenn kein Filter aktiv ist
+    let tasksToRender = currentTaskName.length > 0 ? currentTaskName : allTasks;
+
+    // Iteriere über die Aufgaben und generiere HTML
+    tasksToRender.forEach((task, i) => {
+        let prioImg = prioImgChooser(task.prio);
+        let categoryBanner = bannerChooser(task.category);
+        let whichSection = task.progress;  // Nutze den "progress"-Wert direkt, da `sectionChooser` eine Funktion benötigt
+
+        let taskHTML = `
+            <div class="list" draggable="true" data-task='${JSON.stringify(task)}' onclick="openList(this)">
+                <div class="task-card-category">${categoryBanner}</div>
+                <h3 class="task-card-title">${task.title}</h3>
+                <p class="task-card-description">${task.description}</p>
+                <div class="task-card-subtask" id="boardSubtask-${whichSection}-${i}"></div>
+                <div class="task-card-bottom">
+                    <div class="task-card-contacts" id="boardTaskContacts-${whichSection}-${i}"></div>
+                    ${prioImg}
+                </div>
+            </div>`;
+
+        // Aufgabe in die entsprechende Section einfügen
+        switch (task.progress) {
+            case 'to-do':
+                leftContainer.innerHTML += taskHTML;
+                break;
+            case 'in-progress':
+                leftNum2Container.innerHTML += taskHTML;
+                break;
+            case 'await-feedback':
+                rightContainer.innerHTML += taskHTML;
+                break;
+            case 'done':
+                rightNum2Container.innerHTML += taskHTML;
+                break;
+        }
+    });
 }
 
-*/
+
+
+
+
 
 
 
