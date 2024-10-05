@@ -9,15 +9,48 @@
     <link rel="icon" type="image/png" sizes="16x16" href="./assets/img/favicon/favicon-16x16.png">
     <link rel="manifest" href="./assets/img/favicon/site.webmanifest">
     <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/login.css">
     <script src="./js/main.js"></script>
+    <script src="./js/login.js"></script>
     <title>Join</title>
 </head>
 
-<body >
-  
-    <h1>Join Login</h1>
-    <!-- Wie Junus im Video meinte für die Login / Sigin Seite -->
-
+<body>
+    <div class="container">
+        <div class="logo">
+            <img src="./assets/img/logo.png" alt="Join Logo">
+        </div>
+        
+        <div class="login-box">
+            <h2>Log in</h2>
+            <form>
+                <div class="input-group">
+                    <input type="email" placeholder="Email" id="email-input" required>
+                </div>
+                <div class="input-group">
+                    <input type="password" placeholder="Password" id="password-input" required>
+                </div>
+                <div class="remember-me">
+                    <input type="checkbox" id="remember">
+                    <label for="remember">Remember me</label>
+                </div>
+                <div class="buttons">
+                    <a href="#" class="btn-primary" onclick="login();">Log in</a>
+                    <a href="board.html" class="btn-secondary">Guest Log in</a>
+                </div>
+            </form>
+        </div>
+        
+        <div class="signup-link">
+            <span>Not a Join user?</span>
+            <a href="sign_up.html">Sign up</a>
+        </div>
+        
+        <footer>
+            <a href="privacy-policy.html">Privacy Policy</a>
+            <a href="legal-notice.html">Legal notice</a>
+        </footer>
+    </div>
 </body>
 
 </html>

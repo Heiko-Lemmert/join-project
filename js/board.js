@@ -106,6 +106,7 @@ function renderBoardTaskContacts(taskContacts, section, i) {
     })
 }
 
+<<<<<<< HEAD
 //Generiert Initialen für jeden Kontakt basierend auf dem Namen (z.B. "John Doe" → "JD").
 function generateInitials(contact) {
     let initials = '';
@@ -117,6 +118,8 @@ function generateInitials(contact) {
 }
 
 //Wählt das entsprechende Prioritätsbild basierend auf der Priorität der Aufgabe (high, medium, low).
+=======
+>>>>>>> 10c61c60975532d2af1ccc18c982cdd1279824e8
 function prioImgChooser(prio) {
     switch (prio) {
         case 'high':
@@ -264,12 +267,14 @@ function dagAndDrop() {
 
         box.addEventListener("drop", function (e) {
             box.appendChild(selected);
+            const selectedTask = JSON.parse(selected.dataset.task);
+            selectedTask.progress = checkDropArea(selected.parentElement.id);
+            updateData("tasks/" + selectedTask.databaseKey, selectedTask);
             selected = null;
             checkForList();//die Funktion checkForList() nach dem Verschieben der Liste erneut aufrufen, damit die Scrollleisten in beiden div-Elementen aktualisiert werden
             checkForEmptyLists();
         });
     }
-
 
     setupDropArea(rightBox);
     setupDropArea(rightBoxNum2);
@@ -277,7 +282,25 @@ function dagAndDrop() {
     setupDropArea(leftBoxNum2);
 }
 
+<<<<<<< HEAD
 //Zeigt oder versteckt das Overlay zum Erstellen oder Bearbeiten einer Aufgabe.
+=======
+function checkDropArea(column) {
+    switch (column) {
+        case 'left':
+            return 'to-do'
+        case 'leftNum2':
+            return 'in-progress'
+        case 'right':
+            return 'await-feedback'
+        case 'rightNum2':
+            return 'done'
+        default:
+            break;
+    }
+}
+
+>>>>>>> 10c61c60975532d2af1ccc18c982cdd1279824e8
 function showOrHideOverlay() {
     const atOverlay = document.getElementById('atOverlay');
     const cancelBtn = document.getElementById('cancelBtn');

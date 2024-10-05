@@ -72,6 +72,15 @@ function getRandomColor() {
     return contactBackgroundColor[Math.floor(Math.random() * contactBackgroundColor.length)];
 }
 
+function generateInitials(contact) {
+    let initials = '';
+    let splitString = contact.split(' ');
+    splitString.forEach(name => {
+        initials += name.charAt(0)
+    });
+    return initials;
+}
+
 //header
 
 function openInfBox() {
