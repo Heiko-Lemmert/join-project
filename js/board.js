@@ -14,23 +14,20 @@ function renderCode() {
     initializeImageHover();
     loadAllTasks();
 }
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
 async function loadAllTasks() {
     allTasks = await getData('tasks').catch(error => {
         console.error("Error loading data:", error);
     });
 
-    console.log("Loaded allTasks:", allTasks);  // Überprüfe, was allTasks tatsächlich ist
+    console.log("Loaded allTasks:", allTasks);  // Hier wird der Inhalt von allTasks angezeigt
 
     if (allTasks && Object.keys(allTasks).length > 0) {
         moveTask();
     } else {
-        console.error("No tasks found or allTasks is not an array");
+        console.error("No tasks found or allTasks is not an object");
     }
 }
+
 
 
 
@@ -184,7 +181,6 @@ function filterAndShowTask() {
     renderTasks();
 }
 
-
 function renderTasks() {
     let leftContainer = document.getElementById('left');
     let leftNum2Container = document.getElementById('leftNum2');
@@ -198,9 +194,8 @@ function renderTasks() {
     rightNum2Container.innerHTML = '';
 
     // Verwende entweder gefilterte Aufgaben oder alle Aufgaben, wenn kein Filter aktiv ist
-    let tasksToRender = currentTaskName.length > 0 ? currentTaskName : allTasks;
+    let tasksToRender = currentTaskName.length > 0 ? currentTaskName : Object.values(allTasks);
 
-    // Iteriere über die Aufgaben und generiere HTML
     tasksToRender.forEach((task, i) => {
         let prioImg = prioImgChooser(task.prio);
         let categoryBanner = bannerChooser(task.category);
