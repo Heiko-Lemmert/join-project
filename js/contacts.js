@@ -37,12 +37,13 @@ function showContactDetails(index) {
 
 function contactDetailsTemplate(index) {
     return `          
-        <div class"card-mainDivv">
+        <div class="card-mainDivv">
+
             <div class="profile-section">
-               <div class= "profile-higher-section">
+               <div class="profile-higher-section">
                   <img src="./assets/img/Frame 79.png"class="profile-img">
-                 <img src="./assets/img/back-arrow.svg" alt="" class="back-contact-arrow"  onclick="arrowDeleteContact()>
-               </div>
+                <img src="./assets/img/back-arrow.svg" alt="" class="back-contact-arrow"  onclick="arrowDeleteContact()">
+                  </div>
                 <div class="contact-name">
                     <h1 class="profile-name">${contactArray[index].name}</h1>
                     <div class="profile-actions">
@@ -62,8 +63,8 @@ function contactDetailsTemplate(index) {
             `
 }
 
-function arrowDeleteContact(){
-
+function arrowDeleteContact() {
+    document.getElementById('contact-card').innerHTML = '';
 
 }
 
