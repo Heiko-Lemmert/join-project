@@ -147,3 +147,43 @@
     background-image: url('../assets/img/round-prio-high.png');
 }
 
+@media (max-width: 1200px) {
+    .summary-section {
+        left: auto;
+
+    }
+}
+
+@media (max-width: 870px) {
+    .summary-container-right {
+        visibility: hidden;
+    }
+
+    .summary-header hr {
+        height: 4px;
+        width: 100px;
+        color: #43B5E5;
+        background-color: #43B5E5;
+        border-radius: 8px;
+    }
+
+    .summary-header {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        gap: 10px;
+        height: auto;
+        width: 100%;
+    }
+
+    .summary-header h2 {
+        font-size: 18px;
+        font-weight: 400;
+        color: #444E5D;
+    }
+
+    .summary-header h1 {
+        font-size: 24px;
+        font-weight: 700;
+    }
+}
