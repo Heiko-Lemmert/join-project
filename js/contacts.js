@@ -4,7 +4,7 @@ async function loadContacts() {
     const contacts = await getData("contacts");
     contactArray = Object.values(contacts)[0];
     console.log(contactArray);
-     
+
 
     renderContacts();
 }
@@ -15,7 +15,7 @@ function renderContacts() {
 
     for (let index = 0; index < contactArray.length; index++) {
         contactSection.innerHTML += contactItemTemplate(index);
-        
+
     }
 }
 
@@ -36,8 +36,13 @@ function showContactDetails(index) {
 }
 
 function contactDetailsTemplate(index) {
-    return `            <div class="profile-section">
-                <img src="./assets/img/Frame 79.png"class="profile-img">
+    return `          
+        <div class"card-mainDivv">
+            <div class="profile-section">
+               <div class= "profile-higher-section">
+                  <img src="./assets/img/Frame 79.png"class="profile-img">
+                 <img src="./assets/img/back-arrow.svg" alt="" class="back-contact-arrow"  onclick="arrowDeleteContact()>
+               </div>
                 <div class="contact-name">
                     <h1 class="profile-name">${contactArray[index].name}</h1>
                     <div class="profile-actions">
@@ -52,7 +57,14 @@ function contactDetailsTemplate(index) {
                 <a href="#" class="contact-email">${contactArray[index].email}</a>
                 <p class="contact-label"><strong>Phone</strong></p>
                 <a href="#" class="contact-phone">${contactArray[index].number}</a>
-            </div>`
+            </div>
+     </div>
+            `
+}
+
+function arrowDeleteContact(){
+
+
 }
 
 function toggleOverlay() {
@@ -64,10 +76,10 @@ function renderDialog(index) {
     let overlayRef = document.getElementById('overlay');
     overlayRef.innerHTML = '';
     overlayRef.innerHTML += getDialogTemplate(index);
- }
+}
 
 
- function getDialogTemplate(index) {
+function getDialogTemplate(index) {
     return `<div id="dialog" onclick="preventEventBubbling(event)">
     <div class="contact-form-description">
         <img src="./assets/img/Capa 2 (1).png">
@@ -89,8 +101,8 @@ function renderDialog(index) {
         </div>
       </div>
     </div>`
- }
+}
 
- function preventEventBubbling(event) {
+function preventEventBubbling(event) {
     event.stopPropagation();
- }
+}
