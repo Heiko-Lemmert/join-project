@@ -536,3 +536,16 @@ button img {
     opacity: 1;
     /* Sichtbar */
 }
+
+
+@media (max-width: 1200px) {
+    .task-section {
+
+        left: auto;
+
+    }
+
+    .task-form {
+        display: block;
+    }
+}

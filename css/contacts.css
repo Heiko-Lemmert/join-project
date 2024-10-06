@@ -208,7 +208,8 @@ body {
     font-size: 14px;
 }
 
-.contact-email, .contact-phone {
+.contact-email,
+.contact-phone {
     text-decoration: none;
     color: #3498db;
     font-size: 14px;
@@ -253,9 +254,9 @@ body {
 }
 
 .contact-form-description h2 {
-    font-size: 24px; 
+    font-size: 24px;
     font-weight: bold;
-    margin-bottom: 10px; 
+    margin-bottom: 10px;
 }
 
 .contact-form-description p {
@@ -269,11 +270,11 @@ body {
 }
 
 .profile-image {
-    width: 100px; 
-    height: 100px; 
-    border-radius: 50%; 
-    margin-bottom: 20px; 
-    margin:0px  48px;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-bottom: 20px;
+    margin: 0px 48px;
 }
 
 .contact-form-text {
@@ -283,20 +284,23 @@ body {
     width: 350px;
 }
 
-.name-input, .email-input, .phone-input {
+.name-input,
+.email-input,
+.phone-input {
     width: 100%;
-    padding: 10px; 
-    border: 1px solid #ccc; 
-    border-radius: 5px; 
-    margin-bottom: 10px; 
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
 }
 
-.email-icon, .phone-icon {
-    position: absolute; 
-    right: 10px; 
-    top: 50%; 
-    transform: translateY(-50%); 
-    font-size: 18px; 
+.email-icon,
+.phone-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
 }
 
 .button-container {
@@ -306,18 +310,58 @@ body {
     margin-top: 24px;
 }
 
-.cancel-button, .create-contact-button {
-    padding: 10px 20px; 
-    background-color: #2A3647; 
-    color: #fff; 
-    border: none; 
-    border-radius: 5px; 
-    cursor: pointer; 
+.cancel-button,
+.create-contact-button {
+    padding: 10px 20px;
+    background-color: #2A3647;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
 .cancel-button {
-    background-color: white; 
-    color: #2A3647; 
-    border: 1px solid #2A3647; 
+    background-color: white;
+    color: #2A3647;
+    border: 1px solid #2A3647;
     margin-right: 20px
+}
+
+
+
+@media (max-width: 1200px) {
+
+    .contact-list-sidebar {
+        left: unset;
+    }
+
+    .contact-content {
+        left: 350px;
+    }
+}
+
+
+@media (max-width: 775px) {
+    .contact-list-subtitle {
+        font-size: 16px;
+    }
+
+    .contact-list-title {
+        font-size: 16px;
+    }
+
+    .contact-list-header-content {
+        height: unset;
+        width: unset;
+    }
+}
+
+
+
+
+@media (max-width: 640px) {
+
+    .contact-list-header {
+        display: none
+    }
 }
