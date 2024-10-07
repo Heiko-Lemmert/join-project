@@ -5,6 +5,7 @@ let inProgressSection = [];
 let awaitFeedbackSection = [];
 let doneSection = [];
 let currentTaskName = [];
+let openTask = [];
 
 function renderCode() {
     includeHTML();
@@ -29,9 +30,15 @@ async function loadAllTasks() {
 }
 
 
-
+function resetSectionArr() {
+    toDoSection = [];
+    inProgressSection = [];
+    awaitFeedbackSection = [];
+    doneSection = [];
+}
 
 function moveTask() {
+    resetSectionArr();
     Object.keys(allTasks).forEach(taskKey => {
         currentTask = allTasks[taskKey];
         currentTask.databaseKey = taskKey
@@ -64,7 +71,8 @@ function renderBoard() {
 function renderSection(section, id) {
     const sectionArray = document.getElementById(id);
     const whichSection = sectionChooser(section);
-    //sectionArray.innerHTML = '<span class="noTaskSpan">No tasks </span>'; auskommentiert weil es sonst den code von  board hindert
+    sectionArray.innerHTML = '';
+    sectionArray.innerHTML += '<span class="noTaskSpan">No tasks </span>';
     if (section) {
         section.forEach((currentTask, i) => {
             const prioImg = prioImgChooser(currentTask.prio);
@@ -129,6 +137,10 @@ function prioImgChooser(prio) {
     }
 }
 
+function prioText(prio) {
+    return prio.charAt(0).toUpperCase() + prio.slice(1)
+}
+
 function bannerChooser(category) {
     switch (category) {
         case 'User Story':
@@ -160,7 +172,7 @@ function filterAndShowTask() {
     let tasksArray = Object.values(allTasks);
 
     let filterInputElement = document.getElementById('filterTaskInput');
-    
+
     if (!filterInputElement) {
         console.error("Filter input element not found!");
         return;
@@ -172,7 +184,7 @@ function filterAndShowTask() {
     // Filtere die Aufgaben basierend auf dem Titel oder der Beschreibung
     currentTaskName = tasksArray.filter(task => {
         return (task.title && task.title.toLowerCase().includes(filterWord)) ||
-               (task.description && task.description.toLowerCase().includes(filterWord));
+            (task.description && task.description.toLowerCase().includes(filterWord));
     });
 
     console.log("Filtered tasks: ", currentTaskName);
@@ -376,10 +388,11 @@ function loadExternalScript(src, callback) {
 
 
 function openList(element) {
-    const task = JSON.parse(element.getAttribute('data-task'));
+    openTask = JSON.parse(element.getAttribute('data-task'));
     const content = document.getElementById('bigViewList');
-    const categoryBanner = bannerChooser(task.category);
-    const prioImg = prioImgChooser(task.prio);
+    const categoryBanner = bannerChooser(openTask.category);
+    const prioTextUpperCase = prioText(openTask.prio);
+    const prioImg = prioImgChooser(openTask.prio);
     content.innerHTML = `
      <div class="background-bigListView">
                <div class="inner-bigListView">
@@ -389,14 +402,14 @@ function openList(element) {
                                 <div class="task-card-overlay-category">${categoryBanner}</div>
                                 <img src="./assets/img/close.png" alt="close" onclick="closeViewList()">
                             </div>
-                            <h3 class="task-card-overlay-title">${task.title}</h3>
-                            <p class="task-card-overlay-description">${task.description}</p>
-                            <p class="task-card-overlay-date">Due date: ${task.date}</p>
-                            <p class="task-card-overlay-prio">Priority: ${prioImg}</p>
-                            <div class="task-card-contacts" id="overlayTaskContacts"></div>
-                            <div class="task-card-subtask" id="overlaySubtask"></div>
+                            <h3 class="task-card-overlay-title">${openTask.title}</h3>
+                            <p class="task-card-overlay-description">${openTask.description}</p>
+                            <p class="task-card-overlay-date">Due date: ${openTask.date}</p>
+                            <p class="task-card-overlay-prio">Priority: ${prioTextUpperCase} ${prioImg}</p>
+                            <div class="task-card-contacts tc-column" id="overlayTaskContacts"></div>
+                            <div class="task-card-subtask-overlay" id="overlaySubtask"></div>
                             <div class="task-card-overlay-bottom">
-                                <img class="overlay-action-btn btn-delete" src="./assets/img/board-delete.png" alt=""></img>
+                                <img class="overlay-action-btn btn-delete" src="./assets/img/board-delete.png" alt="" onclick="deleteTask('${openTask.databaseKey}')"></img>
                                 <hr>
                                 <img class="overlay-action-btn btn-edit" src="./assets/img/board-edit.png" alt=""></img>
                             </div>
@@ -405,41 +418,65 @@ function openList(element) {
                </div>
             </div>    
     `;
-    if (task.subtask) {
-        renderOverlaySubtask(task.subtask);
+    if (openTask.subtask) {
+        renderOverlaySubtask(openTask.subtask);
     };
-    if (task.contacts) {
-        renderOverlayTaskContacts(task.contacts);
+    if (openTask.contacts) {
+        renderOverlayTaskContacts(openTask.contacts);
     };
 }
 
 function renderOverlaySubtask(subtasks) {
+    currentSubtasks = subtasks;
     const boardSubtask = document.getElementById('overlaySubtask');
-    const subtaskLength = subtasks.length
-    let subtaskCounter = 0;
-    subtasks.forEach(currentSubtask => {
-        if (currentSubtask.done) {
-            subtaskCounter++
-        }
+    boardSubtask.innerHTML = '<p>Subtasks</p>'
+    subtasks.forEach((subtask, i) => {
+        const checkImg = subtask.done ? 'check-btn-dark' : 'no-check-btn';
+        boardSubtask.innerHTML += `
+        <div class="st-overlay">
+            <img src="./assets/img/${checkImg}.png" alt="${checkImg}" id="${i}">
+            <p>${subtask.title}
+        </div>`
     })
-    const subtaskValue = (100 / subtaskLength) * subtaskCounter;
-    boardSubtask.innerHTML = `
-        <div class="subtask-container">
-            <div class="subtask-value" style="width: ${subtaskValue}%"></div>
-        </div>
-        <div class="subtask-info">${subtaskCounter}/${subtaskLength} Subtasks</div>`
+    overlaySubtaskEventlister(boardSubtask);
+}
+
+function overlaySubtaskEventlister(id) {
+    const checkImgTag = id.querySelectorAll('img');
+    checkImgTag.forEach(imgTag => {
+        imgTag.addEventListener('click', event => {
+            changeSubtaskStatus(event.target.id);
+        })
+    })
+}
+
+function changeSubtaskStatus(index) {
+    const status = openTask.subtask[index].done ? false : true;
+    openTask.subtask[index].done = status;
+    updateData("tasks/" + openTask.databaseKey, openTask);
+    renderOverlaySubtask(openTask.subtask);
 }
 
 function renderOverlayTaskContacts(taskContacts) {
     const boardTaskContacts = document.getElementById('overlayTaskContacts');
+    boardTaskContacts.innerHTML = '<p>Assigned To:</p>'
     taskContacts.forEach(contact => {
         let contactsInitials = generateInitials(contact);
-        boardTaskContacts.innerHTML += `<p class="contact-initials" style="background-color: ${getRandomColor()}">${contactsInitials}</p>`
+        boardTaskContacts.innerHTML += `
+        <div class="tc-overlay">
+            <p class="contact-initials" style="background-color: ${getRandomColor()}">${contactsInitials}</p>
+            <p>${contact}</p>
+        </div>`
     })
+}
+
+function deleteTask(dbObjectKey) {
+    deleteData('tasks/' + dbObjectKey);
 }
 
 function closeViewList() {
     document.getElementById('bigViewList').innerHTML = '';
+    loadAllTasks();
 }
 
 function initializeImageHover() {

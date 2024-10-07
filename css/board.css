@@ -316,11 +316,12 @@ h1 {
 /* Task Card Overlay Styling */
 
 .task-card-overlay-top {
-	display: flex;
-	justify-content: space-between;
+    display: flex;
+    justify-content: space-between;
 }
 
-.task-card-overlay-top img:hover {
+.task-card-overlay-top img:hover,
+.task-card-subtask-overlay img:hover {
     background-color: #dddcdc;
     border-radius: 50%;
     cursor: pointer;
@@ -331,9 +332,9 @@ h1 {
 }
 
 .task-card-overlay-bottom {
-	display: flex;
-	justify-content: end;
-	gap: 10px;
+    display: flex;
+    justify-content: end;
+    gap: 10px;
 }
 
 .btn-delete:hover {
@@ -344,6 +345,28 @@ h1 {
     background-image: url(../assets/img/board-edit-blue.png);
 }
 
+.tc-column {
+    flex-direction: column;
+    gap: 10px;
+}
+
+.tc-overlay {
+    display: flex;
+    align-items: baseline;
+}
+
+.task-card-subtask-overlay {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.st-overlay {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
 @media(max-width: 1190px) {
 
 
@@ -351,7 +374,7 @@ h1 {
     .board-mainContainer {
         left: auto;
         width: auto;
-        
+
     }
 
     .board-topAddtaskFont {
@@ -464,4 +487,3 @@ h1 {
         margin-right: 10px;
     }
 }
-
