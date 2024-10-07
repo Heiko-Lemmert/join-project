@@ -542,12 +542,43 @@ button img {
 
 @media (max-width: 1200px) {
     .task-section {
-
+        height: auto;
         left: auto;
-
     }
 
     .task-form {
         display: block;
+    }
+
+    .task-btn-container {
+        margin-bottom: 30px;
+    }
+}
+
+@media (max-width: 730px) {
+    .task-section {
+        height: auto;
+        width: auto;
+    }
+}
+
+@media (max-width: 470px) {
+
+    .task-container-left,
+    .task-container-right {
+        margin: auto;
+    }
+
+    #prioChooser {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        width: 100%;
+    }
+
+    .task-btn-container {
+        margin-top: 16px;
+        margin-bottom: 30px;
+        display: flex;
     }
 }
