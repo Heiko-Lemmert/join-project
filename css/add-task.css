@@ -537,9 +537,6 @@ button img {
     /* Sichtbar */
 }
 
-
-
-
 @media (max-width: 1200px) {
     .task-section {
         height: auto;
@@ -560,6 +557,8 @@ button img {
         height: auto;
         width: auto;
     }
+
+    
 }
 
 @media (max-width: 470px) {
@@ -581,4 +580,6 @@ button img {
         margin-bottom: 30px;
         display: flex;
     }
+
+   
 }
