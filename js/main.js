@@ -101,8 +101,14 @@ function openInfBox() {
     // Füge den Event-Listener zum Dokument hinzu
     document.addEventListener('click', function closeOnClickOutside(event) {
         // Überprüfe, ob der Klick außerhalb der Info-Box stattfindet
+        console.log('Event ausgelöst:', event.target);  // Überprüfen, ob der Event-Listener überhaupt ausgelöst wird
+
         if (!event.target.closest('.infoBox') && !event.target.closest('.header-user')) {
+            console.log('Klick war außerhalb der InfoBox und header-user');  // Verfolge, ob diese Bedingung erfüllt ist
+  
             closeViewList();
+            console.log('Klick close');  // Verfolge, ob diese Bedingung erfüllt ist
+  
             document.removeEventListener('click', closeOnClickOutside); // Entferne den Event-Listener, wenn geschlossen wird
         }
     });
