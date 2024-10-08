@@ -304,6 +304,10 @@ a {
     .sideBar-changeArea {
         gap: 1px;
     }
+
+    .sideBar-changeArea-text {
+        font-size: 14px;
+    }
 }
 
 /*header responsive */
@@ -335,4 +339,3 @@ a {
         margin-left: 16px;
     }
 }
-
