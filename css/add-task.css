@@ -195,7 +195,8 @@ button img {
 .task-main-container input:focus,
 .task-bottom-container textarea:focus,
 .task-main-container select:focus,
-#taskDescription:focus {
+#taskDescription:focus,
+#editTaskDescription:focus {
     border: 1px solid #90D1ED;
 }
 
@@ -205,7 +206,8 @@ button img {
     border: 1px solid #FD8F9C !important;
 }
 
-#taskDescription {
+#taskDescription,
+#editTaskDescription {
     display: inline-block;
     width: 100%;
     -webkit-box-sizing: border-box;
@@ -472,9 +474,10 @@ button img {
     background-color: #fff;
 }
 
-/* Overlay Styling */
+/* Add Task & Edit Overlay Styling */
 
-.at-overlay-container {
+.at-overlay-container,
+.et-overlay-container {
     position: absolute;
     top: 0;
     left: 0;
@@ -485,7 +488,8 @@ button img {
     z-index: 2000;
 }
 
-.at-overlay {
+.at-overlay,
+.et-overlay {
     background-color: white;
     position: absolute;
     top: 50%;
@@ -497,7 +501,8 @@ button img {
     padding: 50px;
 }
 
-.at-overlay-hidden {
+.at-overlay-hidden,
+.et-overlay-hidden {
     display: none;
 }
 
@@ -510,6 +515,18 @@ button img {
 
 .task-main-container-top img {
     cursor: pointer;
+}
+
+.et-overlay {
+    width: 400px;
+}
+
+.et-close {
+    justify-content: end;
+}
+
+.et-form {
+    flex-direction: column;
 }
 
 /* Grundlegender Stil für die Toast-Nachricht */

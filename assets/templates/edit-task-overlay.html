@@ -1,0 +1,66 @@
+<div class="et-overlay">
+    <div class="task-main-container-top et-close">
+        <img src="./assets/img/close.png" alt="close" onclick="openOrCloseEditTask()">
+    </div>
+    <div class="task-main-container">
+        <form action="" class="task-form et-form">
+            <label for="task-title">Title</label>
+            <input required type="text" id="editTaskTitle" placeholder="Enter a Title">
+            <label for="task-description">Description</label>
+            <textarea name="task-description" id="editTaskDescription" placeholder="Enter a Description"></textarea>
+            <label for="task-contacts">Assigned to</label>
+            <div class="contact-selector-container">
+                <div class="contact-selector" id="editContactSelector">
+                    Select contacts to assign
+                    <img class="contact-selector-arrow" src="./assets/img/arrow-down.png" alt="Arrow">
+                </div>
+                <div class="contact-options" id="editContactOptions"></div>
+                <div class="selected-contacts">
+                    <div id="editSelectedContacts"></div>
+                    <div class="contact-search" id="editContactSearch">
+                        <input type="text" placeholder="Search Contact...">
+                    </div>
+                </div>
+            </div>
+            <label for="task-date">Due date</label>
+            <input required type="date" id="editTaskDate" name="task-date">
+            <label for="task-prio">Prio</label>
+            <div id="prioChooser">
+                <a class="prio-btn btn-high" id="editPrioHigh" onclick="prioChooser('high')">Ugrent</a>
+                <a class="prio-btn btn-medium checked-medium" id="editPrioMedium" onclick="prioChooser('medium')">Medium</a>
+                <a class="prio-btn btn-low" id="editPrioLow" onclick="prioChooser('low')">Low</a>
+            </div>
+            <label for="task-category">Category</label>
+            <div class="task-selector-container">
+                <div class="task-selector" id="editTaskSelector">
+                    Select task category
+                    <img class="task-selector-arrow" src="./assets/img/arrow-down.png" alt="Arrow">
+                </div>
+                <div class="task-options" id="editTaskOptions">
+                    <div class="task-option">
+                        <label>Technical Task</label>
+                    </div>
+                    <div class="task-option">
+                        <label>User Story</label>
+                    </div>
+                </div>
+            </div>
+            <label for="subtask">Subtasks</label>
+            <div class="add-subtask" id="editAddSubtask">
+                <input type="text" name="subtask" id="editSubtaskInput" placeholder="Add new subtask">
+                <img src="./assets/img/add.png" alt="add-subtask" id="editAddBtn">
+                <div class="enhance-subtask-btn" id="editEnhanceBtn">
+                    <img src="./assets/img/close.png" alt="Cancel" id="editCloseBtn">
+                    <hr>
+                    <img src="./assets/img/check-addtask.png" alt="Enter" id="checkBtn">
+                </div>
+            </div>
+            <div class="show-subtask" id="editShowSubtask"></div>
+            <div class="task-btn-container">
+                <button class="create-task-btn" id="editBtn" onclick="createTask(event)">OK <img
+                        src="./assets/img/check_white.png" alt="Enter"></button>
+            </div>
+        </form>
+    </div>
+    <div id="editToast" class="toast-message">Changed Task</div>
+</div>

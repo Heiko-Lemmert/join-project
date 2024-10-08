@@ -411,7 +411,7 @@ function openList(element) {
                             <div class="task-card-overlay-bottom">
                                 <img class="overlay-action-btn btn-delete" src="./assets/img/board-delete.png" alt="" onclick="deleteTask('${openTask.databaseKey}')"></img>
                                 <hr>
-                                <img class="overlay-action-btn btn-edit" src="./assets/img/board-edit.png" alt=""></img>
+                                <img class="overlay-action-btn btn-edit" src="./assets/img/board-edit.png" alt="" onclick="openOrCloseEditTask()"></img>
                             </div>
                         </div>
                     </div>
@@ -474,9 +474,36 @@ function deleteTask(dbObjectKey) {
     deleteData('tasks/' + dbObjectKey);
 }
 
+function openOrCloseEditTask() {
+    const etOverlay = document.getElementById('etOverlay');
+    const editBtn = document.getElementById('editBtn');
+    etOverlay.classList.toggle('et-overlay-hidden');
+    if (document.scripts.namedItem('addTaskOnBoard') === null) {
+        loadExternalScript('./js/edit-task.js', () => {
+            initTask();
+            editBtn.addEventListener('click', () => {
+                setTimeout(openOrCloseEditTask, 1000);
+            });
+            fillEditTask(openTask);
+        })
+    } else {
+        fillEditTask(openTask);
+    }
+    if (etOverlay.classList.contains('et-overlay-hidden')) {
+        closeViewList();
+    }
+}
+
 function closeViewList() {
     document.getElementById('bigViewList').innerHTML = '';
     loadAllTasks();
+}
+
+function fillEditTask(taskData) {
+    editTaskTitle.value = taskData.title;
+    editTaskDescription.value = taskData.description;
+    editTaskDate.value = taskData.date;
+    prioChooser(taskData.prio);
 }
 
 function initializeImageHover() {
