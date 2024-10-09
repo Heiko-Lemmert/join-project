@@ -506,6 +506,10 @@ function fillEditTask(taskData) {
     prioChooser(taskData.prio);
 }
 
+
+/**
+ * This function is used to change the image if the User click on it
+ */
 function initializeImageHover() {
     // Finde alle Bild-Elemente mit der Klasse 'hover-image'
     const hoverImages = document.querySelectorAll('.hover-image');
