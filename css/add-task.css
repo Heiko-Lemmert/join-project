@@ -567,7 +567,7 @@ button img {
 
 }
 
-@media (max-width: 470px) {
+@media (max-width: 610px) {
 
     .task-form {
         display: block;
