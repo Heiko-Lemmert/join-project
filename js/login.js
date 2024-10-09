@@ -34,7 +34,7 @@ async function login() {
 
     try {
         let data = await getData("users");
-        let usersArray = Object.values(data)[0];
+        let usersArray = Object.values(data);
         let userFound = false;
 
         for (const user of usersArray) {
