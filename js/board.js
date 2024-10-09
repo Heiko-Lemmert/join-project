@@ -166,17 +166,14 @@ function sectionChooser(section) {
             break;
     }
 }
-
+/**
+ * it is filtering the searched input
+ */
 function filterAndShowTask() {
     // Wandelt das allTasks-Objekt in ein Array von Aufgaben um
     let tasksArray = Object.values(allTasks);
 
     let filterInputElement = document.getElementById('filterTaskInput');
-
-    if (!filterInputElement) {
-        console.error("Filter input element not found!");
-        return;
-    }
 
     let filterWord = filterInputElement.value.toLowerCase();
     console.log("Filter word: ", filterWord);
@@ -242,13 +239,6 @@ function renderTasks() {
         }
     });
 }
-
-
-
-
-
-
-
 
 // Funktion zur Überprüfung der Listen auf leere Inhalte
 function checkForEmptyLists() {         //Diese Funktion dient dazu, die Anzeige der Meldung "No tasks" zu steuern, je nachdem, ob in den jeweiligen Containern (div-Elementen) Aufgaben (list-Elemente) vorhanden sind oder nicht.
