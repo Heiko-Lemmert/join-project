@@ -206,7 +206,7 @@ h1 {
     flex-direction: column;
     border-radius: 40px;
     min-height: 400px;
-    width: 400px;
+    width: 500px;
     background-color: whitesmoke;
     scrollbar-width: none;
     overflow-y: scroll;

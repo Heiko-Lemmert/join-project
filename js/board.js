@@ -489,13 +489,6 @@ function closeViewList() {
     loadAllTasks();
 }
 
-function fillEditTask(taskData) {
-    editTaskTitle.value = taskData.title;
-    editTaskDescription.value = taskData.description;
-    editTaskDate.value = taskData.date;
-    prioChooser(taskData.prio);
-}
-
 
 /**
  * This function is used to change the image if the User click on it
