@@ -11,77 +11,28 @@
     <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="./css/summary.css">
 
+    <!-- Verweise zu nicht benötigten Skripten entfernt -->
     <script src="./js/main.js"></script>
     <script src="./js/summary.js"></script>
-    <script src="./assets/templates/js/header.js"></script>
-    <script src="./assets/templates/js/sideBar.js"></script>
     <title>Summary</title>
 </head>
 
-<body onload="init()">
+<body>
     <div w3-include-html="./assets/templates/header.html"></div>
     <div w3-include-html="./assets/templates/side-bar.html"></div>
 
-    <section class="summary-section">
-        <header class="summary-header">
-            <h1>Join 360</h1>
-            <hr>
-            <h2>Key Metrics at a Glance</h2>
-        </header>
-        <div class="summary-container">
-            <div class="summary-container-left">
-                <div class="summary-task-top">
-                    <a href="./board.html" class="summary-task-btn st-todo">
-                        <div>
-                            <p class="st-number">1</p>
-                            <p>To-Do</p>
-                        </div>
-                    </a>
-                    <a href="./board.html" class="summary-task-btn st-done">
-                        <div>
-                            <p class="st-number">1</p>
-                            <p>Done</p>
-                        </div>
-                    </a>
-                </div>
-                <div class="summary-task-middle">
-                    <a href="./board.html" class="summary-task-btn st-info">
-                        <div class="st-info-left">
-                            <div>
-                                <p class="st-number">1</p>
-                                <p>Ugrent</p>
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="st-info-right">
-                            <div class="st-info-right-inner-content">
-                                <p>October 16, 2022</p>
-                                <p>Upcoming Deadline</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="summary-task-bottom">
-                    <a href="./board.html" class="summary-task-btn st-in-board">
-                        <p class="st-number">5</p>
-                        <p>Task in Board</p>
-                    </a>
-                    <a href="./board.html" class="summary-task-btn st-in-progress">
-                        <p class="st-number">2</p>
-                        <p>Task in Progress</p>
-                    </a>
-                    <a href="./board.html" class="summary-task-btn st-feedback">
-                        <p class="st-number">2</p>
-                        <p>Awaiting Feedback</p>
-                    </a>
-                </div>
-            </div>
-            <div class="summary-container-right">
-                <h2 id="welcomeText">Good Morning,</h2>
-                <h1>Sofia Müller</h1>
-            </div>
-        </div>
-    </section>
+    <div class="summary-container-right" id="sum-sct">
+        <h2 id="welcomeText">Good Morning,</h2>
+        <h1>Sofia Müller</h1>
+    </div>
+
+
+    <script src="https://www.w3schools.com/lib/w3.js"></script>
+    <script>
+        w3.includeHTML(function () {
+            init();
+        });
+    </script>
 </body>
 
 </html>
