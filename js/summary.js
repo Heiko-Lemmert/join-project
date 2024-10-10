@@ -42,12 +42,28 @@ function renderTask() {
     let taskSection = document.getElementById('sum-sct');
     taskSection.innerHTML = '';
     let totalTaskCount = 0;
+    let doneCount = 0;
+    let toDoCount = 0;
+    let progressCount = 0;
+    let feedBackCount = 0;
+
 
     for (let i = 0; i < taskArray.length; i++) {
         const taskCount = Array.isArray(taskArray[i].tasks) ? taskArray[i].tasks.length : 1;
         totalTaskCount += taskCount;
 
-        //das gleiche für die anderen bereiche ,vielleicht noch eine for schleife
+        if (taskArray[i].progress == "in-progress") {
+            progressCount++;
+        }
+        if (taskArray[i].progress == "to-do") {
+            toDoCount++;
+        }
+        if (taskArray[i].progress == "await-feedback") {
+            feedBackCount++;
+        }
+        if (taskArray[i].progress == "done") {
+            doneCount++;
+        }
     }
 
     taskSection.innerHTML += `
@@ -62,13 +78,13 @@ function renderTask() {
                 <div class="summary-task-top">
                     <a href="./board.html" class="summary-task-btn st-todo">
                         <div>
-                            <p class="st-number">1</p>
+                            <p class="st-number">${toDoCount}</p>
                             <p>To-Do</p>
                         </div>
                     </a>
                     <a href="./board.html" class="summary-task-btn st-done">
                         <div>
-                            <p class="st-number">1</p>
+                            <p class="st-number">${doneCount}</p>
                             <p>Done</p>
                         </div>
                     </a>
@@ -96,11 +112,11 @@ function renderTask() {
                         <p>Task in Board</p>
                     </a>
                     <a href="./board.html" class="summary-task-btn st-in-progress">
-                        <p class="st-number">2</p>
+                        <p class="st-number">${progressCount}</p>
                         <p>Task in Progress</p>
                     </a>
                     <a href="./board.html" class="summary-task-btn st-feedback">
-                        <p class="st-number">2</p>
+                        <p class="st-number">${feedBackCount}</p>
                         <p>Awaiting Feedback</p>
                     </a>
                 </div>
