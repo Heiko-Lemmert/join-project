@@ -351,27 +351,34 @@ function checkDropArea(column) {
 
 function showOrHideOverlay() {
     const atOverlay = document.getElementById('atOverlay');
+    const script = document.scripts.namedItem('taskOnBoard');
+    atOverlay.classList.toggle('at-overlay-hidden');
+    if (!script || script.getAttribute('src') !== './js/add-task.js') {
+        if (script) script.remove(); // Entfernt das alte Script vollständig
+        loadExternalScript('./js/add-task.js', loadInitAddTask);
+    } else {
+        console.log('Das Add Task Script ist bereits geladen.');
+    }
+}
+
+function loadInitAddTask() {
     const cancelBtn = document.getElementById('cancelBtn');
     const createBtn = document.getElementById('createBtn');
-    atOverlay.classList.toggle('at-overlay-hidden');
-    if (document.scripts.namedItem('addTaskOnBoard') === null) {
-        loadExternalScript('./js/add-task.js', () => {
-            initTask();
-            cancelBtn.addEventListener('click', () => {
-                showOrHideOverlay()
-            });
-            createBtn.addEventListener('click', () => {
-                setTimeout(showOrHideOverlay, 1000);
-            });
-        })
-    }
+    initTask();
+    cancelBtn.addEventListener('click', () => {
+        showOrHideOverlay()
+    });
+    createBtn.addEventListener('click', () => {
+        setTimeout(showOrHideOverlay, 1000);
+    });
+
 }
 
 function loadExternalScript(src, callback) {
     const script = document.createElement('script');
     script.src = src;
     script.type = 'text/javascript';
-    script.id = 'addTaskOnBoard'
+    script.id = 'taskOnBoard'
     script.onload = callback; // Optional: eine Funktion, die nach dem Laden ausgeführt wird
     document.head.appendChild(script);
 }
@@ -466,22 +473,30 @@ function deleteTask(dbObjectKey) {
 
 function openOrCloseEditTask() {
     const etOverlay = document.getElementById('etOverlay');
-    const editBtn = document.getElementById('editBtn');
-    etOverlay.classList.toggle('et-overlay-hidden');
-    if (document.scripts.namedItem('addTaskOnBoard') === null) {
-        loadExternalScript('./js/edit-task.js', () => {
-            initTask();
-            editBtn.addEventListener('click', () => {
-                setTimeout(openOrCloseEditTask, 1000);
-            });
-            fillEditTask(openTask);
-        })
-    } else {
-        fillEditTask(openTask);
-    }
-    if (etOverlay.classList.contains('et-overlay-hidden')) {
+    const isHidden = etOverlay.classList.toggle('et-overlay-hidden');
+    
+    if (isHidden) {
         closeViewList();
+        return;
     }
+
+    const script = document.scripts.namedItem('taskOnBoard');
+    etOverlay.classList.toggle('et-overlay-hidden');
+    if (!script || script.getAttribute('src') !== './js/edit-task.js') {
+        if (script) script.remove();
+        loadExternalScript('./js/edit-task.js', loadInitEditTask);
+    } else {
+        fillEditTask(openTask); 
+    }
+}
+
+function loadInitEditTask() {
+    const editBtn = document.getElementById('editBtn');
+    initTask();
+    editBtn.addEventListener('click', () => {
+        setTimeout(openOrCloseEditTask, 1000);
+    })
+    fillEditTask(openTask);
 }
 
 function closeViewList() {

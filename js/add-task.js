@@ -1,14 +1,5 @@
-// Beispiel Kontakte für Dummy -> später kommen Daten von Firebase
-const contacts = [
-    { name: 'Max Mustermann', initials: 'MM' },
-    { name: 'Erika Musterfrau', initials: 'EM' },
-    { name: 'John Doe', initials: 'JD' },
-    { name: 'Jane Smith', initials: 'JS' },
-];
-
-let contact = [];
-
-const taskTitle = document.getElementById('taskTitle');
+(function() {
+    const taskTitle = document.getElementById('taskTitle');
 const taskDescription = document.getElementById('taskDescription');
 const taskDate = document.getElementById('taskDate');
 const contactSelector = document.getElementById('contactSelector');
@@ -25,12 +16,20 @@ let selected = [];
 let selectedContactName = [];
 let currentPrio = 'medium';
 let category = '';
+let contacts = [];
+let testVari = 'Add Task'
 
 function initTask() {
     includeHTML();
+    loadContacts();
+    console.log('Loaded Add Task Init')
+}
+
+async function loadContacts() {
+    const loadedContacts = await getData("contacts");
+    contacts = Object.values(loadedContacts)[0];
     renderTaskContact();
     attachEventListeners(); // Event-Listener erst nach dem Rendern der Kontakte hinzufügen
-    contact = getData('contacts');
 }
 
 function renderTaskContact() {
@@ -123,6 +122,27 @@ function updateSelectedContacts() {
         selectedContacts.textContent = '';
     }
 }
+
+function filterContacts() {
+    const searchInput = document.querySelector('#contactSearch input'); // Greift auf das Suchfeld zu
+    const filterValue = searchInput.value.toLowerCase(); // Holt den Wert des Suchfeldes und wandelt es in Kleinbuchstaben um
+    const contactOptions = document.getElementById('contactOptions');
+    const contactOptionsDivs = contactOptions.querySelectorAll('.contact-option'); // Alle Kontaktoptionen
+    
+    // Schleife durch alle Kontaktoptionen und überprüft, ob der Name mit dem Filter übereinstimmt
+    contactOptionsDivs.forEach(optionDiv => {
+        const contactName = optionDiv.querySelector('label').textContent.toLowerCase(); // Name des Kontakts in Kleinbuchstaben
+        if (contactName.includes(filterValue)) {
+            optionDiv.style.display = 'flex'; // Zeigt den Kontakt an, wenn der Name mit dem Filter übereinstimmt
+        } else {
+            optionDiv.style.display = 'none'; // Versteckt den Kontakt, wenn er nicht übereinstimmt
+        }
+    });
+}
+
+// Event Listener, um die Funktion bei Eingabe im Suchfeld auszuführen
+document.querySelector('#contactSearch input').addEventListener('input', filterContacts);
+
 
 // Funktionen für die Priorität Button`s
 function prioChooser(prio) {
@@ -344,3 +364,6 @@ document.addEventListener('click', (event) => {
         }
     }
 });
+
+window.initTask = initTask;
+}());
