@@ -37,7 +37,6 @@ async function loadTasks() {
     taskArray = Object.values(tasks); // Verarbeite die geladene Aufgabenliste
     renderTask(); // Aufgabe rendern
 }
-
 function renderTask() {
     let taskSection = document.getElementById('sum-sct');
     taskSection.innerHTML = '';
@@ -48,18 +47,12 @@ function renderTask() {
     let feedBackCount = 0;
     let urgentPrio = 0;
     let deadLineField = [];
-
+    let minField = null; // minField außerhalb des Blocks initialisieren
 
     for (let i = 0; i < taskArray.length; i++) {
         const taskCount = Array.isArray(taskArray[i].tasks) ? taskArray[i].tasks.length : 1;
         totalTaskCount += taskCount;
         let dateField = taskArray[i].date;
-      
-
-        let minField = new Date(Math.min(...deadLineField));  // Den frühesten Termin finden und zurück in ein Datum konvertieren
-        console.log(min);
-
-
 
         if (taskArray[i].progress == "in-progress") {
             progressCount++;
@@ -76,11 +69,12 @@ function renderTask() {
         if (taskArray[i].prio == "high") {
             urgentPrio++;
             deadLineField.push(Date.parse(dateField));  // Datum in Millisekunden umwandeln
-
+            minField = new Date(Math.min(...deadLineField));  // Den frühesten Termin finden und zurück in ein Datum konvertieren
         }
-
-
     }
+
+    // MinField überprüfen, bevor es im HTML verwendet wird
+    const upcomingDeadline = minField ? minField.toLocaleDateString() : "No deadlines";
 
     taskSection.innerHTML += `
     <section class="summary-section">
@@ -116,7 +110,7 @@ function renderTask() {
                         <hr>
                         <div class="st-info-right">
                             <div class="st-info-right-inner-content">
-                                <p>99999999999999999999999999</p>
+                                <p>${upcomingDeadline}</p>
                                 <p>Upcoming Deadline</p>
                             </div>
                         </div>
@@ -137,7 +131,6 @@ function renderTask() {
                     </a>
                 </div>
             </div>
-          
         </div>
     </section>`;
 }
