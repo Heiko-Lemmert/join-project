@@ -46,11 +46,20 @@ function renderTask() {
     let toDoCount = 0;
     let progressCount = 0;
     let feedBackCount = 0;
+    let urgentPrio = 0;
+    let deadLineField = [];
 
 
     for (let i = 0; i < taskArray.length; i++) {
         const taskCount = Array.isArray(taskArray[i].tasks) ? taskArray[i].tasks.length : 1;
         totalTaskCount += taskCount;
+        let dateField = taskArray[i].date;
+      
+
+        let minField = new Date(Math.min(...deadLineField));  // Den frühesten Termin finden und zurück in ein Datum konvertieren
+        console.log(min);
+
+
 
         if (taskArray[i].progress == "in-progress") {
             progressCount++;
@@ -64,6 +73,13 @@ function renderTask() {
         if (taskArray[i].progress == "done") {
             doneCount++;
         }
+        if (taskArray[i].prio == "high") {
+            urgentPrio++;
+            deadLineField.push(Date.parse(dateField));  // Datum in Millisekunden umwandeln
+
+        }
+
+
     }
 
     taskSection.innerHTML += `
@@ -93,14 +109,14 @@ function renderTask() {
                     <a href="./board.html" class="summary-task-btn st-info">
                         <div class="st-info-left">
                             <div>
-                                <p class="st-number">1</p>
+                                <p class="st-number">${urgentPrio}</p>
                                 <p>Urgent</p>
                             </div>
                         </div>
                         <hr>
                         <div class="st-info-right">
                             <div class="st-info-right-inner-content">
-                                <p>October 16, 2022</p>
+                                <p>99999999999999999999999999</p>
                                 <p>Upcoming Deadline</p>
                             </div>
                         </div>
