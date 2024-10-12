@@ -155,9 +155,7 @@
 }
 
 @media (max-width: 870px) {
-    .summary-container-right {
-        visibility: hidden;
-    }
+  
 
     .summary-header hr {
         height: 4px;

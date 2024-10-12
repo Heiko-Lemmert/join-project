@@ -47,7 +47,7 @@ function renderTask() {
     let feedBackCount = 0;
     let urgentPrio = 0;
     let deadLineField = [];
-    let minField = null; // minField außerhalb des Blocks initialisieren
+    let minField = null; 
 
     for (let i = 0; i < taskArray.length; i++) {
         const taskCount = Array.isArray(taskArray[i].tasks) ? taskArray[i].tasks.length : 1;
@@ -130,7 +130,12 @@ function renderTask() {
                         <p>Awaiting Feedback</p>
                     </a>
                 </div>
+                
             </div>
+              <div class="summary-container-right" id="sum-sct">
+        <h2 id="welcomeText">Good Morning,</h2>
+        <h1>Sofia Müller</h1>
+    </div>
         </div>
     </section>`;
 }
