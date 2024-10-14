@@ -147,6 +147,10 @@
     background-image: url('../assets/img/round-prio-high.png');
 }
 
+.summary-task-bottom {
+    margin-bottom: 90px;
+}
+
 @media (max-width: 1200px) {
     .summary-section {
         left: auto;
@@ -155,7 +159,7 @@
 }
 
 @media (max-width: 870px) {
-  
+
 
     .summary-header hr {
         height: 4px;
@@ -198,7 +202,7 @@
         padding: unset;
     }
 
-    
+
     .summary-container {
         display: initial;
     }
@@ -212,7 +216,10 @@
         padding: 8px;
     }
 
-  
+    .welcm-Section {
+        display: none;
+    }
+
 
 
 }

@@ -1,5 +1,5 @@
 
-const currentDate = new Date();
+let currentDate = new Date();
 let currentHour = currentDate.getHours();
 let taskArray = [];
 
@@ -9,17 +9,38 @@ function init() {
 }
 
 function setWelcomeText() {
-    const welcomeText = document.getElementById('welcomeText');
-    if (currentHour >= 6 && currentHour <= 11) {
-        welcomeText.innerText = 'Good Morning,';
-    } else if (currentHour >= 12 && currentHour <= 17) {
-        welcomeText.innerText = 'Good Afternoon,';
-    } else if (currentHour >= 18 && currentHour <= 22) {
-        welcomeText.innerText = 'Good Evening,';
+    let welcomeText = document.getElementById('welcomeText');
+    console.log('Setting welcome text...');
+    if (welcomeText) {
+        console.log('Element found:', welcomeText);
+        if (currentHour >= 6 && currentHour <= 11) {
+            welcomeText.innerText = 'Good Morning,';
+        } else if (currentHour >= 12 && currentHour <= 17) {
+            welcomeText.innerText = 'Good Afternoon,';
+        } else if (currentHour >= 18 && currentHour <= 22) {
+            welcomeText.innerText = 'Good Evening,';
+        } else {
+            welcomeText.innerText = 'Good Night,';
+        }
+        console.log('Text set to:', welcomeText.innerText);
     } else {
-        welcomeText.innerText = 'Good Night,';
+        console.error("Element with ID 'welcomeText' not found.");
     }
 }
+
+// Ein weiteres Logging direkt vor dem Laden des Templates
+document.addEventListener('DOMContentLoaded', function () {
+    console.log('DOMContentLoaded event fired');
+    w3.includeHTML(function () {
+        console.log('HTML templates included');
+        setTimeout(function () {
+            init();
+            console.log('init function called after timeout');
+        }, 100);
+    });
+});
+
+
 async function getData(key) {
     const url = `https://join-89-default-rtdb.europe-west1.firebasedatabase.app/${key}.json`; // Firebase-URL
     try {
@@ -39,7 +60,8 @@ async function loadTasks() {
 }
 function renderTask() {
     let taskSection = document.getElementById('sum-sct');
-    taskSection.innerHTML = '';
+
+    taskSection.innerHTML = ''; // Leert den vorhandenen Inhalt
     let totalTaskCount = 0;
     let doneCount = 0;
     let toDoCount = 0;
@@ -47,7 +69,7 @@ function renderTask() {
     let feedBackCount = 0;
     let urgentPrio = 0;
     let deadLineField = [];
-    let minField = null; 
+    let minField = null;
 
     for (let i = 0; i < taskArray.length; i++) {
         const taskCount = Array.isArray(taskArray[i].tasks) ? taskArray[i].tasks.length : 1;
@@ -76,6 +98,7 @@ function renderTask() {
     // MinField überprüfen, bevor es im HTML verwendet wird
     const upcomingDeadline = minField ? minField.toLocaleDateString() : "No deadlines";
 
+    // Dynamisches Einfügen des HTMLs
     taskSection.innerHTML += `
     <section class="summary-section">
         <header class="summary-header">
@@ -130,12 +153,14 @@ function renderTask() {
                         <p>Awaiting Feedback</p>
                     </a>
                 </div>
-                
             </div>
-              <div class="summary-container-right" id="sum-sct">
-        <h2 id="welcomeText">Good Morning,</h2>
-        <h1>Sofia Müller</h1>
-    </div>
+          <div class="welcm-Section" >
+            <h2 class="wlcText" id="welcomeText">Moin</h2>
+            <h1 class="wlcName">Guest</h1>
+           </div>
         </div>
     </section>`;
+
+    // **setWelcomeText() aufrufen, nachdem das HTML eingefügt wurde**
+    setWelcomeText();
 }
