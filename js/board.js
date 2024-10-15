@@ -352,12 +352,14 @@ function checkDropArea(column) {
 function showOrHideOverlay() {
     const atOverlay = document.getElementById('atOverlay');
     const script = document.scripts.namedItem('taskOnBoard');
-    atOverlay.classList.toggle('at-overlay-hidden');
-    if (!script || script.getAttribute('src') !== './js/add-task.js') {
-        if (script) script.remove(); // Entfernt das alte Script vollständig
-        loadExternalScript('./js/add-task.js', loadInitAddTask);
+    if (atOverlay.classList.contains('at-overlay-hidden')) {
+        atOverlay.classList.toggle('at-overlay-hidden')
+        if (!script || script.getAttribute('src') !== './js/add-task.js') {
+            if (script) script.remove(); // Entfernt das alte Script vollständig
+            loadExternalScript('./js/add-task.js', loadInitAddTask);
+        }
     } else {
-        console.log('Das Add Task Script ist bereits geladen.');
+        atOverlay.classList.toggle('at-overlay-hidden');
     }
 }
 
@@ -370,6 +372,7 @@ function loadInitAddTask() {
     });
     createBtn.addEventListener('click', () => {
         setTimeout(showOrHideOverlay, 1000);
+        setTimeout(loadAllTasks, 1000)
     });
 
 }
@@ -413,7 +416,8 @@ function openList(element) {
                         </div>
                     </div>
                </div>
-            </div>    
+            </div>
+            <div id="deleteToast" class="toast-message">Task delete</div>    
     `;
     if (openTask.subtask) {
         renderOverlaySubtask(openTask.subtask);
@@ -469,24 +473,23 @@ function renderOverlayTaskContacts(taskContacts) {
 
 function deleteTask(dbObjectKey) {
     deleteData('tasks/' + dbObjectKey);
+    showToast('deleteToast');
+    setTimeout(closeViewList, 1000);
 }
 
 function openOrCloseEditTask() {
     const etOverlay = document.getElementById('etOverlay');
-    const isHidden = etOverlay.classList.toggle('et-overlay-hidden');
-    
-    if (isHidden) {
-        closeViewList();
-        return;
-    }
-
     const script = document.scripts.namedItem('taskOnBoard');
-    etOverlay.classList.toggle('et-overlay-hidden');
-    if (!script || script.getAttribute('src') !== './js/edit-task.js') {
-        if (script) script.remove();
-        loadExternalScript('./js/edit-task.js', loadInitEditTask);
+    if (etOverlay.classList.contains('et-overlay-hidden')) {
+        etOverlay.classList.toggle('et-overlay-hidden');
+        if (!script || script.getAttribute('src') !== './js/edit-task.js') {
+            if (script) script.remove();
+            loadExternalScript('./js/edit-task.js', loadInitEditTask);
+        } else {
+            fillEditTask(openTask);
+        } 
     } else {
-        fillEditTask(openTask); 
+        etOverlay.classList.toggle('et-overlay-hidden');
     }
 }
 

@@ -1,4 +1,4 @@
-(function() {
+(function () {
     const editTaskTitle = document.getElementById('editTaskTitle');
     const editTaskDescription = document.getElementById('editTaskDescription');
     const editTaskDate = document.getElementById('editTaskDate');
@@ -18,21 +18,21 @@
     let category = '';
     let contacts = [];
     let testVari = 'Edit Task'
-    
+
     function initTask() {
         includeHTML();
         loadAllTasks();
         loadContacts();
         console.log('Loaded Edit Task Init')
     }
-    
+
     async function loadContacts() {
         const loadedContacts = await getData("contacts");
         contacts = Object.values(loadedContacts)[0];
         renderTaskContact();
         attachEventListeners(); // Event-Listener erst nach dem Rendern der Kontakte hinzufügen
     }
-    
+
     function renderTaskContact() {
         const editContactOptions = document.getElementById('editContactOptions');
         contacts.forEach(contact => {
@@ -45,25 +45,25 @@
             </div>`;
         });
     }
-    
+
     // Erstellt Click-Events nach dem Rendern.
     function attachEventListeners() {
         contactEventLister();
         taskEventlister();
         subtaskEventlister();
     }
-    
+
     function contactEventLister() {
         const editContactOptions = document.getElementById('editContactOptions');
         const contactOptionsDivs = editContactOptions.querySelectorAll('.contact-option');
-    
+
         contactOptionsDivs.forEach(optionDiv => {
             optionDiv.addEventListener('click', () => {
                 checkOptionDiv(optionDiv);
                 updateSelectedContacts(); // Update selected contacts
             });
         });
-    
+
         editContactSelector.addEventListener('click', () => {
             editContactSelector.classList.toggle('field-activ');
             editContactSelector.querySelector('img').classList.toggle('arrow-rotate');
@@ -71,25 +71,25 @@
             editContactSearch.style.display = editContactSearch.style.display === 'block' ? 'none' : 'block';
         });
     };
-    
+
     function checkOptionDiv(optionDiv) {
         const checkIcon = optionDiv.querySelector('.check-icon');
         const isSelected = checkIcon.getAttribute('src') === './assets/img/check-btn.png';
         checkIcon.setAttribute('src', isSelected ? './assets/img/no-check-btn.png' : './assets/img/check-btn.png');
         optionDiv.classList.toggle('sc-check');
     }
-    
+
     function taskEventlister() {
         const editTaskOptions = document.getElementById('editTaskOptions');
         const taskOptionsDivs = editTaskOptions.querySelectorAll('.task-option');
-    
+
         editTaskSelector.addEventListener('click', () => {
             editTaskOptions.style.display = editTaskOptions.style.display === 'block' ? 'none' : 'block';
             if (editTaskSelector.innerText === 'Select task category') {
                 editTaskSelector.querySelector('img').classList.toggle('arrow-rotate');
             }
         })
-    
+
         taskOptionsDivs.forEach(taskDiv => {
             taskDiv.addEventListener('click', event => {
                 console.log(event.target.innerText);
@@ -99,13 +99,13 @@
             })
         })
     }
-    
-    
+
+
     function updateSelectedContacts() {
         const editContactOptions = document.getElementById('editContactOptions');
         selected = [];
         selectedContactName = [];
-    
+
         editContactOptions.querySelectorAll('.contact-option').forEach(optionDiv => {
             const checkIcon = optionDiv.querySelector('.check-icon');
             if (checkIcon.getAttribute('src') === './assets/img/check-btn.png') {
@@ -116,20 +116,20 @@
                 selectedContactName.push(textLabel)
             }
         });
-    
+
         if (selected.length > 0) {
             editSelectedContacts.innerHTML = selected.join('');
         } else {
             editSelectedContacts.textContent = '';
         }
     }
-    
+
     function filterContacts() {
         const searchInput = document.querySelector('#editContactSearch input'); // Greift auf das Suchfeld zu
         const filterValue = searchInput.value.toLowerCase(); // Holt den Wert des Suchfeldes und wandelt es in Kleinbuchstaben um
         const editContactOptions = document.getElementById('editContactOptions');
         const contactOptionsDivs = editContactOptions.querySelectorAll('.contact-option'); // Alle Kontaktoptionen
-        
+
         // Schleife durch alle Kontaktoptionen und überprüft, ob der Name mit dem Filter übereinstimmt
         contactOptionsDivs.forEach(optionDiv => {
             const contactName = optionDiv.querySelector('label').textContent.toLowerCase(); // Name des Kontakts in Kleinbuchstaben
@@ -140,11 +140,11 @@
             }
         });
     }
-    
+
     // Event Listener, um die Funktion bei Eingabe im Suchfeld auszuführen
     document.querySelector('#editContactSearch input').addEventListener('input', filterContacts);
-    
-    
+
+
     // Funktionen für die Priorität Button`s
     function prioChooser(prio) {
         switch (prio) {
@@ -161,25 +161,25 @@
                 break;
         }
     }
-    
+
     function setPrioBtn(id, prio) {
         removeClassPrio();
         document.getElementById(id).classList.add('checked-' + prio);
         currentPrio = prio
     }
-    
+
     function resetPrioBtn() {
         removeClassPrio();
         document.getElementById('prioMedium').classList.add('checked-medium');
         currentPrio = 'medium'
     }
-    
+
     function removeClassPrio() {
         document.getElementById('editPrioHigh').classList.remove('checked-high');
         document.getElementById('editPrioMedium').classList.remove('checked-medium');
         document.getElementById('editPrioLow').classList.remove('checked-low');
     }
-    
+
     function subtaskEventlister() {
         const addSubtaskQuery = editAddSubtask.querySelectorAll('img');
         addSubtaskQuery.forEach(subElement => {
@@ -207,32 +207,32 @@
             editAddSubtask.classList.toggle('field-activ');
         })
     }
-    
+
     function createSubtask(newSubtask) {
-        writtenSubtask.push({title: newSubtask, done: false});
+        writtenSubtask.push({ title: newSubtask, done: false });
         editSubtaskInput.value = '';
         renderSubtask();
     }
-    
+
     function deleteSubtask(id) {
         writtenSubtask.splice(id, 1);
         renderSubtask();
     }
-    
+
     function editSubtask(id) {
         const editTask = document.getElementById('edit-' + id);
         const editTaskField = document.getElementById('editTaskField-' + id);
         editTask.style.display = 'flex';
         editTaskField.focus();
     }
-    
+
     function editSubtaskArry(id) {
         const editSubtaskField = document.getElementById('editTaskField-' + id);
         const newSubtask = editSubtaskField.value;
         writtenSubtask[id].title = newSubtask
         renderSubtask();
     }
-    
+
     function renderSubtask() {
         const editShowSubtask = document.getElementById('editShowSubtask');
         editShowSubtask.innerHTML = '';
@@ -256,7 +256,7 @@
                 </div>`;
         }
     }
-    
+
     function fillEditTask(taskData) {
         editTaskTitle.value = taskData.title;
         editTaskDescription.value = taskData.description;
@@ -264,30 +264,30 @@
         prioChooser(taskData.prio);
         editTaskSelector.innerHTML = taskData.category;
         category = openTask.category
-        if (taskData.subtask) { 
-            writtenSubtask = taskData.subtask; 
+        if (taskData.subtask) {
+            writtenSubtask = taskData.subtask;
             renderSubtask();
         }
-        if (taskData.contacts) {readContactFromDB(taskData.contacts);}
-    
+        if (taskData.contacts) { readContactFromDB(taskData.contacts); }
+
     }
-    
+
     function readContactFromDB(contacts) {
         // Kontakte auslesen und im Dropdown anzeigen
         const selectedContactsFromDB = contacts; // Array der Kontakte aus der DB
         const editContactOptions = document.getElementById('editContactOptions');
-        
+
         // Setzt alle Kontakte zurück (ohne Auswahl)
         editContactOptions.querySelectorAll('.contact-option').forEach(optionDiv => {
             const checkIcon = optionDiv.querySelector('.check-icon');
             checkIcon.setAttribute('src', './assets/img/no-check-btn.png'); // Entfernt Häkchen
             optionDiv.classList.remove('sc-check'); // Entfernt Auswahlklasse
         });
-    
+
         // Wähle die Kontakte aus, die in der Datenbank gespeichert sind
         editContactOptions.querySelectorAll('.contact-option').forEach(optionDiv => {
             const contactName = optionDiv.querySelector('label').textContent;
-    
+
             if (selectedContactsFromDB.includes(contactName)) {
                 const checkIcon = optionDiv.querySelector('.check-icon');
                 checkIcon.setAttribute('src', './assets/img/check-btn.png'); // Setzt Häkchen
@@ -297,12 +297,12 @@
         // Kontakte anzeigen
         updateSelectedContacts();
     }
-    
+
     function editTask(event) {
         event.preventDefault();
         const isValid = validateForm();
         const databaseKey = openTask.databaseKey;
-    
+
         if (isValid) {
             console.log('Formular ist gültig.');
             const taskAsObject = getValues();
@@ -310,27 +310,27 @@
                 .catch(error => {
                     console.error("Error updating data:", error);
                 });
-            showToast();
+            showToast('editToast');
         } else {
             console.log('Formular ist ungültig.');
             whichValueIsFalse();
         }
     }
-    
+
     function validateForm() {
         if (editTaskTitle.value && editTaskDate.value && editTaskSelector.innerText !== 'Select task category') {
             return true
         }
     }
-    
+
     function getValues() {
         const title = editTaskTitle.value;
         const description = editTaskDescription.value;
         const date = editTaskDate.value;
-    
-        return { 'title': title, 'description': description, 'date': date, 'contacts': selectedContactName, 'prio': currentPrio, 'category': category, 'subtask': writtenSubtask,  'progress': openTask.progress }
+
+        return { 'title': title, 'description': description, 'date': date, 'contacts': selectedContactName, 'prio': currentPrio, 'category': category, 'subtask': writtenSubtask, 'progress': openTask.progress }
     }
-    
+
     function whichValueIsFalse() {
         if (!editTaskTitle.value) {
             editTaskTitle.classList.add('required-border');
@@ -346,21 +346,9 @@
             editTaskDate.classList.remove('required-border');
             editTaskSelector.classList.remove('required-border');
         }, 1000)
-    
+
     }
-    
-    function showToast() {
-        const editToast = document.getElementById('editToast');
-        
-        // Zeige die Toast-Nachricht an
-        editToast.classList.add('toast-visible');
-    
-        // Nach 3 Sekunden die Toast-Nachricht verschwinden lassen
-        setTimeout(() => {
-            editToast.classList.remove('toast-visible');
-        }, 3000);
-    }
-    
+
     document.addEventListener('click', (event) => {
         const editContactOptions = document.getElementById('editContactOptions');
         const editTaskOptions = document.getElementById('editTaskOptions');
@@ -378,15 +366,20 @@
                 editTaskSelector.querySelector('img').classList.toggle('arrow-rotate');
             }
         }
-    
+
         if (!editAddSubtask.contains(event.target)) {
             if (editAddSubtask.classList.contains('field-activ')) {
                 editAddSubtask.classList.remove('field-activ');
                 editEnhanceBtn.style.display = 'none';
             }
         }
-    }); 
+    });
 
     window.initTask = initTask;
+    window.prioChooser = prioChooser;
+    window.editSubtask = editSubtask;
+    window.deleteSubtask = deleteSubtask;
+    window.editSubtaskArry =  editSubtaskArry;
     window.fillEditTask = fillEditTask;
+    window.editTask = editTask;
 }());

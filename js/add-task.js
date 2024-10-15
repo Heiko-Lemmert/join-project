@@ -288,7 +288,7 @@ function createTask(event) {
                 console.error("Error posting data:", error);
             });
         clearTask(event);
-        showToast();
+        showToast('toast');
     } else {
         console.log('Formular ist ungültig.');
         whichValueIsFalse();
@@ -327,18 +327,6 @@ function whichValueIsFalse() {
 
 }
 
-function showToast() {
-    const toast = document.getElementById('toast');
-    
-    // Zeige die Toast-Nachricht an
-    toast.classList.add('toast-visible');
-
-    // Nach 3 Sekunden die Toast-Nachricht verschwinden lassen
-    setTimeout(() => {
-        toast.classList.remove('toast-visible');
-    }, 3000);
-}
-
 document.addEventListener('click', (event) => {
     const contactOptions = document.getElementById('contactOptions');
     const taskOptions = document.getElementById('taskOptions');
@@ -366,4 +354,10 @@ document.addEventListener('click', (event) => {
 });
 
 window.initTask = initTask;
+window.prioChooser = prioChooser;
+window.editSubtask = editSubtask;
+window.deleteSubtask = deleteSubtask;
+window.createTask = createTask;
+window.clearTask = clearTask;
+
 }());

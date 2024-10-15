@@ -119,3 +119,15 @@ function closeViewList() {
     content.style.display = 'none';
     content.innerHTML = ''; // Entferne den Inhalt der Info-Box
 }
+
+function showToast(id) {
+    const toast = document.getElementById(id);
+
+    // Zeige die Toast-Nachricht an
+    toast.classList.add('toast-visible');
+
+    // Nach 3 Sekunden die Toast-Nachricht verschwinden lassen
+    setTimeout(() => {
+        toast.classList.remove('toast-visible');
+    }, 3000);
+}
