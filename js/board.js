@@ -372,7 +372,7 @@ function loadInitAddTask() {
     });
     createBtn.addEventListener('click', () => {
         setTimeout(showOrHideOverlay, 1000);
-        setTimeout(loadAllTasks, 1000)
+        setTimeout(loadAllTasks, 1000);
     });
 
 }
