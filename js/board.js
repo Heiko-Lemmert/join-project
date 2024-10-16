@@ -77,18 +77,7 @@ function renderSection(section, id) {
         section.forEach((currentTask, i) => {
             const prioImg = prioImgChooser(currentTask.prio);
             const categoryBanner = bannerChooser(currentTask.category);
-            sectionArray.innerHTML += `
-                <div class="list" draggable="true" data-task='${JSON.stringify(currentTask)}' onclick="openList(this)">
-                    <div class="task-card-category">${categoryBanner}</div>
-                    <h3 class="task-card-title">${currentTask.title}</h3>
-                    <p class="task-card-description">${currentTask.description}</p>
-                    <div class="task-card-subtask" id="boardSubtask-${whichSection}-${i}">
-                    </div>
-                    <div class="task-card-bottom">
-                        <div class="task-card-contacts" id="boardTaskContacts-${whichSection}-${i}"></div>
-                        ${prioImg}
-                    </div>
-                </div>`;
+            sectionArray.innerHTML += generateBoardTasksHTML(currentTask, categoryBanner, whichSection, i, prioImg);
             if (currentTask.subtask) {
                 renderBoardSubtaskCounter(currentTask.subtask, whichSection, i);
             };
@@ -109,18 +98,14 @@ function renderBoardSubtaskCounter(subtasks, section, i) {
         }
     })
     const subtaskValue = (100 / subtaskLength) * subtaskCounter;
-    boardSubtask.innerHTML = `
-        <div class="subtask-container">
-            <div class="subtask-value" style="width: ${subtaskValue}%"></div>
-        </div>
-        <div class="subtask-info">${subtaskCounter}/${subtaskLength} Subtasks</div>`
+    boardSubtask.innerHTML = generateBoardSubtaskHTML(subtaskValue, subtaskCounter, subtaskLength);
 }
 
 function renderBoardTaskContacts(taskContacts, section, i) {
     const boardTaskContacts = document.getElementById('boardTaskContacts-' + section + '-' + i);
     taskContacts.forEach(contact => {
         let contactsInitials = generateInitials(contact);
-        boardTaskContacts.innerHTML += `<p class="contact-initials" style="background-color: ${getRandomColor()}">${contactsInitials}</p>`
+        boardTaskContacts.innerHTML += generateBoardTaskContactsHTML(contactsInitials);
     })
 }
 
@@ -210,17 +195,7 @@ function renderTasks() {
         let categoryBanner = bannerChooser(task.category);
         let whichSection = task.progress;  // Nutze den "progress"-Wert direkt, da `sectionChooser` eine Funktion benötigt
 
-        let taskHTML = `
-            <div class="list" draggable="true" data-task='${JSON.stringify(task)}' onclick="openList(this)">
-                <div class="task-card-category">${categoryBanner}</div>
-                <h3 class="task-card-title">${task.title}</h3>
-                <p class="task-card-description">${task.description}</p>
-                <div class="task-card-subtask" id="boardSubtask-${whichSection}-${i}"></div>
-                <div class="task-card-bottom">
-                    <div class="task-card-contacts" id="boardTaskContacts-${whichSection}-${i}"></div>
-                    ${prioImg}
-                </div>
-            </div>`;
+        let taskHTML = generateBoardTasksHTML(task, categoryBanner, whichSection, i, prioImg);
 
         // Aufgabe in die entsprechende Section einfügen
         switch (task.progress) {
@@ -393,32 +368,7 @@ function openList(element) {
     const categoryBanner = bannerChooser(openTask.category);
     const prioTextUpperCase = prioText(openTask.prio);
     const prioImg = prioImgChooser(openTask.prio);
-    content.innerHTML = `
-     <div class="background-bigListView">
-               <div class="inner-bigListView">
-                    <div class="content-bigListView">
-                        <div class="top-content-bigListView">
-                            <div class="task-card-overlay-top">
-                                <div class="task-card-overlay-category">${categoryBanner}</div>
-                                <img src="./assets/img/close.png" alt="close" onclick="closeViewList()">
-                            </div>
-                            <h3 class="task-card-overlay-title">${openTask.title}</h3>
-                            <p class="task-card-overlay-description">${openTask.description}</p>
-                            <p class="task-card-overlay-date">Due date: ${openTask.date}</p>
-                            <p class="task-card-overlay-prio">Priority: ${prioTextUpperCase} ${prioImg}</p>
-                            <div class="task-card-contacts tc-column" id="overlayTaskContacts"></div>
-                            <div class="task-card-subtask-overlay" id="overlaySubtask"></div>
-                            <div class="task-card-overlay-bottom">
-                                <img class="overlay-action-btn btn-delete" src="./assets/img/board-delete.png" alt="" onclick="deleteTask('${openTask.databaseKey}')"></img>
-                                <hr>
-                                <img class="overlay-action-btn btn-edit" src="./assets/img/board-edit.png" alt="" onclick="openOrCloseEditTask()"></img>
-                            </div>
-                        </div>
-                    </div>
-               </div>
-            </div>
-            <div id="deleteToast" class="toast-message">Task delete</div>    
-    `;
+    content.innerHTML = generateTaskCardHTML(categoryBanner, openTask,prioTextUpperCase, prioImg);
     if (openTask.subtask) {
         renderOverlaySubtask(openTask.subtask);
     };
@@ -433,11 +383,7 @@ function renderOverlaySubtask(subtasks) {
     boardSubtask.innerHTML = '<p>Subtasks</p>'
     subtasks.forEach((subtask, i) => {
         const checkImg = subtask.done ? 'check-btn-dark' : 'no-check-btn';
-        boardSubtask.innerHTML += `
-        <div class="st-overlay">
-            <img src="./assets/img/${checkImg}.png" alt="${checkImg}" id="${i}">
-            <p>${subtask.title}
-        </div>`
+        boardSubtask.innerHTML += generateOverlaySubtaskHTML(checkImg, i, subtask);
     })
     overlaySubtaskEventlister(boardSubtask);
 }
@@ -463,11 +409,7 @@ function renderOverlayTaskContacts(taskContacts) {
     boardTaskContacts.innerHTML = '<p>Assigned To:</p>'
     taskContacts.forEach(contact => {
         let contactsInitials = generateInitials(contact);
-        boardTaskContacts.innerHTML += `
-        <div class="tc-overlay">
-            <p class="contact-initials" style="background-color: ${getRandomColor()}">${contactsInitials}</p>
-            <p>${contact}</p>
-        </div>`
+        boardTaskContacts.innerHTML += generateOverlayTaskContactsHTML(contactsInitials, contact);
     })
 }
 

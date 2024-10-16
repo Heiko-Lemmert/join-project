@@ -99,67 +99,7 @@ function renderTask() {
     const upcomingDeadline = minField ? minField.toLocaleDateString() : "No deadlines";
 
     // Dynamisches Einfügen des HTMLs
-    taskSection.innerHTML += `
-    <section class="summary-section">
-        <header class="summary-header">
-            <h1>Join 360</h1>
-            <hr>
-            <h2>Key Metrics at a Glance</h2>
-        </header>
-        <div class="summary-container">
-            <div class="summary-container-left">
-                <div class="summary-task-top">
-                    <a href="./board.html" class="summary-task-btn st-todo">
-                        <div>
-                            <p class="st-number">${toDoCount}</p>
-                            <p>To-Do</p>
-                        </div>
-                    </a>
-                    <a href="./board.html" class="summary-task-btn st-done">
-                        <div>
-                            <p class="st-number">${doneCount}</p>
-                            <p>Done</p>
-                        </div>
-                    </a>
-                </div>
-                <div class="summary-task-middle">
-                    <a href="./board.html" class="summary-task-btn st-info">
-                        <div class="st-info-left">
-                            <div>
-                                <p class="st-number">${urgentPrio}</p>
-                                <p>Urgent</p>
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="st-info-right">
-                            <div class="st-info-right-inner-content">
-                                <p>${upcomingDeadline}</p>
-                                <p>Upcoming Deadline</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="summary-task-bottom">
-                    <a href="./board.html" class="summary-task-btn st-in-board">
-                        <p class="st-number">${totalTaskCount}</p>
-                        <p>Task in Board</p>
-                    </a>
-                    <a href="./board.html" class="summary-task-btn st-in-progress">
-                        <p class="st-number">${progressCount}</p>
-                        <p>Task in Progress</p>
-                    </a>
-                    <a href="./board.html" class="summary-task-btn st-feedback">
-                        <p class="st-number">${feedBackCount}</p>
-                        <p>Awaiting Feedback</p>
-                    </a>
-                </div>
-            </div>
-          <div class="welcm-Section" >
-            <h2 class="wlcText" id="welcomeText">Moin</h2>
-            <h1 class="wlcName">Guest</h1>
-           </div>
-        </div>
-    </section>`;
+    taskSection.innerHTML += generateSummaryHTML(toDoCount, doneCount, urgentPrio, upcomingDeadline, totalTaskCount, progressCount, feedBackCount);
 
     // **setWelcomeText() aufrufen, nachdem das HTML eingefügt wurde**
     setWelcomeText();
