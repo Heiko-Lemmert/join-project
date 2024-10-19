@@ -18,7 +18,7 @@
     <title>Contacts</title>
 </head>
 
-<body onload="loadContacts(); init();">
+<body onload="checkUserLoggedIn(); loadContacts(); init();">
     <div w3-include-html="./assets/templates/header.html"></div>
     <div w3-include-html="./assets/templates/side-bar.html"></div> 
     <div id="overlay" class="d-none" onclick="toggleOverlay()"></div>
