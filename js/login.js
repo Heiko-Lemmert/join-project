@@ -33,15 +33,25 @@ async function login() {
     const password = document.getElementById("password-input").value;
 
     try {
+       
         let data = await getData("users");
+        console.log("Fetched users data:", data);
+
         let usersArray = Object.values(data);
+        console.log("Users array:", usersArray); 
+
         let userFound = false;
 
         for (const user of usersArray) {
+            console.log("Checking user:", user); 
             if (user.email === email && user.password.toString() === password) {
                 userFound = true;
-                window.location.href = "summary.html"; 
-                break; 
+
+                localStorage.setItem("currentUser", JSON.stringify(user));
+                console.log("User saved to localStorage:", user);
+
+                window.location.href = "summary.html";
+                break;
             }
         }
 
@@ -50,14 +60,15 @@ async function login() {
         }
 
     } catch (error) {
-        console.error("Fehler beim Login:", error);
+        console.error("Error during login:", error);
     }
 }
 
-async function showUsers() {
-    let users = await getData('users');
-    console.log(users);
-}
+
+// async function showUsers() {
+//     let users = await getData('users');
+//     console.log(users);
+// }
 
 showUsers();
 
