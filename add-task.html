@@ -10,6 +10,7 @@
     <link rel="manifest" href="./assets/img/favicon/site.webmanifest">
     <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="./css/add-task.css">
+    <script src="./js/auth.js"></script>
     <script src="./js/main.js"></script>
     <script src="./js/add-task.js" defer></script>
     <script src="./js/firebase.js"></script>
@@ -17,7 +18,7 @@
     <title>Add Task</title>
 </head>
 
-<body onload="initTask()">
+<body onload="checkUserLoggedIn(); initTask();">
     <div w3-include-html="./assets/templates/header.html"></div>
     <div w3-include-html="./assets/templates/side-bar.html"></div>
     <section class="task-section">

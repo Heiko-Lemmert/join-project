@@ -9,11 +9,12 @@
     <link rel="icon" type="image/png" sizes="16x16" href="./assets/img/favicon/favicon-16x16.png">
     <link rel="manifest" href="./assets/img/favicon/site.webmanifest">
     <link rel="stylesheet" href="./css/style.css">
+    <script src="./js/auth.js"></script>
     <script src="./js/main.js"></script>
     <title>FAQ</title>
 </head>
 
-<body onload="init()">
+<body onload="checkUserLoggedIn(); init();">
     <div w3-include-html="./assets/templates/header.html"></div>
     <div w3-include-html="./assets/templates/side-bar.html"></div>
 

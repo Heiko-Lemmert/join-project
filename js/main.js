@@ -85,17 +85,15 @@ function generateInitials(contact) {
 
 function openInfBox() {
     let content = document.getElementById('infoBox');
-    content.innerHTML = `
-      <div class="infoBox">
-        <a href="./legal-notice.html" id="legalNotice"     
-           <span class="infoBox-Header-text" >Legal Notice</span>
-        </a>
-            <a href="./privacy-policy.html" id="privacyPolicy"
-                  <span class="infoBox-Header-text" >Privacy Policy</span>
-             </a>
-        <span class="infoBox-Header-text">Log Out</span>
-      </div>
-    `;
+    content.innerHTML = `<div class="infoBox">
+    <a href="./legal-notice.html" id="legalNotice">
+        <span class="infoBox-Header-text">Legal Notice</span>
+    </a>
+    <a href="./privacy-policy.html" id="privacyPolicy">
+        <span class="infoBox-Header-text">Privacy Policy</span>
+    </a>
+    <span class="infoBox-Header-text" onclick="logout()">Log Out</span>
+</div>`;
     content.style.display = 'block';
 
     // Füge den Event-Listener zum Dokument hinzu

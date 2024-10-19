@@ -1,6 +1,7 @@
 body {
     display: flex;
     margin: 0;
+    visibility: hidden;
 }
 
 .contact-list-sidebar {
