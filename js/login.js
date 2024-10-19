@@ -47,7 +47,7 @@ async function login() {
             if (user.email === email && user.password.toString() === password) {
                 userFound = true;
 
-                localStorage.setItem("currentUser", JSON.stringify(user));
+                localStorage.setItem("currentUser", JSON.stringify(user.name));
                 console.log("User saved to localStorage:", user);
 
                 window.location.href = "summary.html";
@@ -65,10 +65,10 @@ async function login() {
 }
 
 
-// async function showUsers() {
-//     let users = await getData('users');
-//     console.log(users);
-// }
+async function showUsers() {
+    let users = await getData('users');
+    console.log(users);
+}
 
 showUsers();
 
@@ -89,6 +89,11 @@ function validate(email, name, password, confirmPassword) {
         alert('Bitte akzeptiere die Datenschutzrichtlinie.');
         return false;
     }
+}
+
+async function guestLogin() {
+    const user = 'Guest';
+    localStorage.setItem("currentUser", JSON.stringify(user));
 }
 
 async function signUpUser() {
