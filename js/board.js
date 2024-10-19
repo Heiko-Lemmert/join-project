@@ -259,7 +259,7 @@ function checkForList() {
             } else {
                 scrollDiv.style.overflowX = "scroll"; // Horizontale Scrollleiste hinzufügen
             }
-        } else {
+        } else if((window.innerWidth > 970)) {
             // Wenn die Bildschirmbreite größer als 970px ist
             if (lists.length === 0) {
                 scrollDiv.style.overflowY = "hidden"; // Vertikale Scrollleiste entfernen
@@ -448,10 +448,7 @@ function loadInitEditTask() {
 
 function closeViewList() {
     document.getElementById('bigViewList').innerHTML = '';
-    //loadAllTasks();
 }
-
-
 /**
  * This function is used to change the image if the User click on it
  */
