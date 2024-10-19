@@ -14,6 +14,7 @@ function renderCode() {
     checkForList();
     initializeImageHover();
     loadAllTasks();
+    
 }
 async function loadAllTasks() {
     allTasks = await getData('tasks').catch(error => {
@@ -71,8 +72,8 @@ function renderBoard() {
 function renderSection(section, id) {
     const sectionArray = document.getElementById(id);
     const whichSection = sectionChooser(section);
-    sectionArray.innerHTML = '';
-    sectionArray.innerHTML += '<span class="noTaskSpan">No tasks </span>';
+    //sectionArray.innerHTML = '';
+
     if (section) {
         section.forEach((currentTask, i) => {
             const prioImg = prioImgChooser(currentTask.prio);
@@ -375,6 +376,7 @@ function openList(element) {
     if (openTask.contacts) {
         renderOverlayTaskContacts(openTask.contacts);
     };
+
 }
 
 function renderOverlaySubtask(subtasks) {
@@ -446,7 +448,7 @@ function loadInitEditTask() {
 
 function closeViewList() {
     document.getElementById('bigViewList').innerHTML = '';
-    loadAllTasks();
+    //loadAllTasks();
 }
 
 
