@@ -645,3 +645,50 @@ button img {
     }
 
 }
+
+@media (max-width: 730px) {
+
+
+    .at-overlay-container, .et-overlay-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        overflow: hidden;
+        background-color: rgba(151, 149, 149, 0.37);
+        z-index: 2000;
+    }
+
+    .at-overlay {
+        background-color: white;
+        position: absolute;
+        height: 100vh;
+        top: auto;
+        left: auto;
+        transform: unset;
+        width: auto;
+        height: auto;
+        border-radius: 25px;
+        padding: 50px;
+        z-index: 2000;
+    }
+
+    .at-overlay-container {
+        position: fixed;
+        height: 100vh;
+        height: auto;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        background-color: rgba(151, 149, 149, 0.37);
+        z-index: 2000;
+        overflow: visible;
+        overflow-y: scroll;
+    }
+
+
+
+
+}
