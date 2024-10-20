@@ -9,9 +9,9 @@ let openTask = [];
 
 function renderCode() {
     includeHTML();
+    checkForList();
     dagAndDrop();
     checkForEmptyLists();
-    checkForList();
     initializeImageHover();
     loadAllTasks();
     
@@ -25,6 +25,7 @@ async function loadAllTasks() {
 
     if (allTasks && Object.keys(allTasks).length > 0) {
         moveTask();
+        checkForList();//sichergestellt, dass die Funktion erst dann ausgeführt wird, wenn die Aufgaben tatsächlich im DOM vorhanden sind. Dadurch konnte die Scrollleiste korrekt aktiviert werden, da nun Inhalt vorhanden war, den sie scrollen musste.
     } else {
         console.error("No tasks found or allTasks is not an object");
     }
@@ -65,8 +66,9 @@ function renderBoard() {
     renderSection(awaitFeedbackSection, 'right');
     renderSection(doneSection, 'rightNum2');
 
-    dagAndDrop();
     checkForEmptyLists(); // Überprüfe, ob Listen leer sind
+    dagAndDrop();
+  
 }
 
 function renderSection(section, id) {
@@ -248,8 +250,8 @@ function checkForList() {
         let lists = scrollDiv.querySelectorAll(".list"); // Suchen Sie nach '.list'-Elementen innerhalb dieses 'div'
 
         // Setze overflowX und overflowY zurück
-        scrollDiv.style.overflowX = "hidden";
-        scrollDiv.style.overflowY = "hidden";
+        scrollDiv.style.overflowX = "auto";
+        scrollDiv.style.overflowY = "auto";
 
         // Überprüft, ob keine '.list'-Elemente vorhanden sind
         if (window.innerWidth <= 970) {
@@ -269,9 +271,10 @@ function checkForList() {
         }
     }
 }
+document.addEventListener('DOMContentLoaded', checkForList);
 
 // Fügen Sie ein Event-Listener für die Größenänderung des Fensters hinzu
-window.addEventListener('resize', checkForList);//Nutze Events wie resize und DOMContentLoaded: Stelle sicher, dass deine Funktionen, die auf Fenstergröße oder andere dynamische Änderungen reagieren sollen, immer an die entsprechenden Events gebunden sind
+//window.addEventListener('resize', checkForList);//Nutze Events wie resize und DOMContentLoaded: Stelle sicher, dass deine Funktionen, die auf Fenstergröße oder andere dynamische Änderungen reagieren sollen, immer an die entsprechenden Events gebunden sind
 
 
 function dagAndDrop() {
