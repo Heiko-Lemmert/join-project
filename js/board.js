@@ -14,7 +14,7 @@ function renderCode() {
     checkForEmptyLists();
     initializeImageHover();
     loadAllTasks();
-    
+
 }
 async function loadAllTasks() {
     allTasks = await getData('tasks').catch(error => {
@@ -68,7 +68,7 @@ function renderBoard() {
 
     checkForEmptyLists(); // Überprüfe, ob Listen leer sind
     dagAndDrop();
-  
+
 }
 
 function renderSection(section, id) {
@@ -250,20 +250,20 @@ function checkForList() {
         let lists = scrollDiv.querySelectorAll(".list"); // Suchen Sie nach '.list'-Elementen innerhalb dieses 'div'
 
         // Setze overflowX und overflowY zurück
-        scrollDiv.style.overflowX = "auto";
-        scrollDiv.style.overflowY = "auto";
+        scrollDiv.style.overflowX = "hidden";
+        scrollDiv.style.overflowY = "hidden";
 
         // Überprüft, ob keine '.list'-Elemente vorhanden sind
         if (window.innerWidth <= 970) {
             // Wenn die Bildschirmbreite kleiner oder gleich 970px ist
-            if (lists.length === 0) {
+            if (lists.length <= 1) {
                 scrollDiv.style.overflowX = "hidden"; // Horizontale Scrollleiste entfernen
             } else {
                 scrollDiv.style.overflowX = "scroll"; // Horizontale Scrollleiste hinzufügen
             }
-        } else if((window.innerWidth > 970)) {
+        } else if ((window.innerWidth > 970)) {
             // Wenn die Bildschirmbreite größer als 970px ist
-            if (lists.length === 0) {
+            if (lists.length <= 1) {
                 scrollDiv.style.overflowY = "hidden"; // Vertikale Scrollleiste entfernen
             } else {
                 scrollDiv.style.overflowY = "scroll"; // Vertikale Scrollleiste hinzufügen
@@ -274,7 +274,7 @@ function checkForList() {
 document.addEventListener('DOMContentLoaded', checkForList);
 
 // Fügen Sie ein Event-Listener für die Größenänderung des Fensters hinzu
-//window.addEventListener('resize', checkForList);//Nutze Events wie resize und DOMContentLoaded: Stelle sicher, dass deine Funktionen, die auf Fenstergröße oder andere dynamische Änderungen reagieren sollen, immer an die entsprechenden Events gebunden sind
+window.addEventListener('resize', checkForList);//Nutze Events wie resize und DOMContentLoaded: Stelle sicher, dass deine Funktionen, die auf Fenstergröße oder andere dynamische Änderungen reagieren sollen, immer an die entsprechenden Events gebunden sind
 
 
 function dagAndDrop() {
@@ -372,7 +372,7 @@ function openList(element) {
     const categoryBanner = bannerChooser(openTask.category);
     const prioTextUpperCase = prioText(openTask.prio);
     const prioImg = prioImgChooser(openTask.prio);
-    content.innerHTML = generateTaskCardHTML(categoryBanner, openTask,prioTextUpperCase, prioImg);
+    content.innerHTML = generateTaskCardHTML(categoryBanner, openTask, prioTextUpperCase, prioImg);
     if (openTask.subtask) {
         renderOverlaySubtask(openTask.subtask);
     };
@@ -434,7 +434,7 @@ function openOrCloseEditTask() {
             loadExternalScript('./js/edit-task.js', loadInitEditTask);
         } else {
             fillEditTask(openTask);
-        } 
+        }
     } else {
         etOverlay.classList.toggle('et-overlay-hidden');
     }
