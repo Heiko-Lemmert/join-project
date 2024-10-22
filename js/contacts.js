@@ -24,17 +24,14 @@ function renderContacts() {
     let contactSection = document.getElementById('contact-section');
     contactSection.innerHTML = '';
 
-    // Kontakte alphabetisch nach Name sortieren
     let sortedContacts = contactArray.sort((a, b) => a.name.localeCompare(b.name));
 
     let currentLetter = '';
 
-    // Kontaktliste durchgehen
     for (let index = 0; index < sortedContacts.length; index++) {
         let contact = sortedContacts[index];
-        let firstLetter = contact.name.charAt(0).toUpperCase();  // Anfangsbuchstabe
+        let firstLetter = contact.name.charAt(0).toUpperCase();  
 
-        // Wenn ein neuer Anfangsbuchstabe kommt, erstelle eine neue Sektion
         if (firstLetter !== currentLetter) {
             currentLetter = firstLetter;
             contactSection.innerHTML += `
@@ -44,7 +41,6 @@ function renderContacts() {
                 </div>`;
         }
 
-        // Kontakt hinzufügen
         contactSection.innerHTML += contactItemTemplate(index);
     }
 }
@@ -137,14 +133,14 @@ function getDialogTemplate(index) {
     <div class="contact-form">
         <img src="./assets/img/Frame 79.png" class="profile-image">
         <div class="contact-form-text">
-            <input type="text" placeholder="Name" class="name-input">
+            <input type="text" placeholder="Name" class="name-input" id="name-input">
             <img src="" alt="" class="email-icon"> 
-            <input type="email" placeholder="Email" class="email-input">
+            <input type="email" placeholder="Email" class="email-input" id="email-input">
             <img src="" alt="" class="phone-icon">
-            <input type="tel" placeholder="Phone" class="phone-input">
+            <input type="tel" placeholder="Phone" class="phone-input" id="phone-input">
             <div class="button-container">
                 <button class="cancel-button" onclick="toggleOverlay();">Cancel</button>
-                <button class="create-contact-button" onclick="createContact();">Create contact</button>
+                <button class="create-contact-button" onclick="addContact();">Create contact</button>
             </div>
         </div>
       </div>
@@ -153,4 +149,39 @@ function getDialogTemplate(index) {
 
 function preventEventBubbling(event) {
     event.stopPropagation();
+}
+
+async function addContact() { 
+    const name = document.getElementById('name-input').value;
+    const email = document.getElementById('email-input').value;
+    const number = document.getElementById('phone-input').value;
+
+    const newContact = {
+        name: name,
+        email: email,
+        number: number
+    };
+
+    try {
+        const contactsData = await getData("contacts/-O8W_xHifJ5jIH4moSJq");
+
+        if (Array.isArray(contactsData)) {
+            contactsData.push(newContact);
+        } else {
+            contactsData = [newContact];
+        }
+
+        const response = await updateData("contacts/-O8W_xHifJ5jIH4moSJq", contactsData);
+        console.log('Kontakt hinzugefügt:', response);
+
+        loadContacts();
+
+        document.getElementById('name-input').value = '';
+        document.getElementById('email-input').value = '';
+        document.getElementById('phone-input').value = '';
+    } catch (error) {
+        console.error('Fehler beim Hinzufügen des Kontakts:', error);
+    }
+
+    toggleOverlay();
 }
