@@ -154,3 +154,114 @@ function generateTaskContacts(contactName, contactsInitials) {
             <img src="./assets/img/no-check-btn.png" alt="Check" class="check-icon" id="checkIcon">
         </div>`
 }
+
+function generateSubtaksHTML(dotMarker, subtask, i) {
+    return `
+        <div class="new-subtask" contenteditable="true">
+            <p>${dotMarker} ${subtask.title}</p>
+            <div class="new-subtask-btn">
+                <img src="./assets/img/edit-subtask.png" onclick="editSubtask(${i})" alt="Edit">
+                <img src="./assets/img/delete-subtask.png" onclick="deleteSubtask(${i})" alt="Delete">
+            </div>
+            <div class="edit-field" id="edit-${i}">
+                <input name="" value="${subtask.title}" id="editTaskField-${i}">
+                <div class="edit-field-btn">
+                    <img src="./assets/img/delete-subtask.png" onclick="deleteSubtask(${i})" alt="Delete">
+                    <hr>
+                    <img src="./assets/img/check-addtask.png" alt="Enter" onclick="editSubtaskArry(${i})">
+                </div>
+            </div>
+        </div>`
+}
+
+/* Main HTML */
+
+function generateHeaderHTML() {
+    return `
+        <div class="infoBox">
+            <span class="infoBox-Header-text"> <a href="./legal-notice.html" id="legalNotice"></a>Legal Notice</span>
+            <span class="infoBox-Header-text"><a href="./privacy-policy.html" id="privacyPolicy"></a>Privacy Policy</span>
+            <span class="infoBox-Header-text" onclick="logout()">Log Out</span>
+        </div>
+    `
+}
+
+/* Contact HTML */
+
+function generateFirstLetterHTML(currentLetter) {
+    return `
+        <div class="contact-letter-section">
+            <span class="contact-section-letter">${currentLetter}</span>
+            <span><hr class="contact-divider"></span>
+        </div>
+    `
+}
+
+function generateContactHTML(index, bgColor, initials, contact) {
+    return `
+        <div class="contact-item" onclick="showContactDetails(${index})">
+            <div class="contact-avatar" style="background-color: ${bgColor}; color: white;">
+                ${initials}
+            </div>
+            <div class="contact-info">
+                <span class="contact-name">${contact.name}</span>
+                <span class="contact-email">${contact.email}</span>
+            </div>
+        </div>`;
+}
+
+function generateContactDetailsHTML(bgColor, initials,contact) {
+    return `
+        <div class="card-mainDivv">
+            <div class="profile-section">
+               <div class="profile-higher-section">
+                  <!-- Initialen anstelle eines Bildes, mit zufälliger Hintergrundfarbe -->
+                  <div class="profile-img" style="background-color: ${bgColor}; color: white; border-radius: 50%; 
+                      width: 100px; height: 100px; display: flex; justify-content: center; align-items: center; font-size: 36px;">
+                      ${initials}
+                  </div>
+                  <img src="./assets/img/back-arrow.svg" alt="" class="back-contact-arrow" onclick="arrowDeleteContact()">
+               </div>
+               <div class="contact-name">
+                    <h1 class="profile-name">${contact.name}</h1>
+                    <div class="profile-actions">
+                        <a href="#" class="profile-edit" onclick="toggleOverlay(); renderDialog();">Edit</a>
+                        <a href="#" class="profile-delete">Delete</a>
+                    </div>
+                </div>
+            </div>
+            <div class="contact-details">
+                <h2 class="details-heading">Contact Information</h2>
+                <p class="contact-label"><strong>Email</strong></p>
+                <a href="#" class="contact-email">${contact.email}</a>
+                <p class="contact-label"><strong>Phone</strong></p>
+                <a href="#" class="contact-phone">${contact.number}</a>
+            </div>
+        </div>
+    `
+}
+
+function generateContactDialogHTML() {
+    return `
+        <div id="dialog" onclick="preventEventBubbling(event)">
+            <div class="contact-form-description">
+                <img src="./assets/img/Capa 2 (1).png">
+                <h2>Add contact</h2>
+                <p>Tasks are better with a team!</p>
+            </div>
+            <div class="contact-form">
+                <img src="./assets/img/Frame 79.png" class="profile-image">
+                <div class="contact-form-text">
+                    <input type="text" placeholder="Name" class="name-input" id="name-input">
+                    <img src="" alt="" class="email-icon">
+                    <input type="email" placeholder="Email" class="email-input" id="email-input">
+                    <img src="" alt="" class="phone-icon">
+                    <input type="tel" placeholder="Phone" class="phone-input" id="phone-input">
+                    <div class="button-container">
+                        <button class="cancel-button" onclick="toggleOverlay();">Cancel</button>
+                        <button class="create-contact-button" onclick="addContact();">Create contact</button>
+                    </div>
+                </div>
+            </div>
+        </div>`
+}

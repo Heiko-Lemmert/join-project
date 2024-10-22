@@ -472,4 +472,3 @@ function initializeImageHover() {
 }
 
 // Stelle sicher, dass die Funktion beim Laden der Seite aufgerufen wird
-

@@ -209,7 +209,13 @@
     }
 
     function createSubtask(newSubtask) {
-        h
+        if (writtenSubtask.length < 5) {
+            writtenSubtask.push({ title: newSubtask, done: false });
+            subtask.value = '';
+            renderSubtask();
+        } else {
+            alert('Too many Subtask. Please only enter 5 Subtask');
+        }
     }
 
     function deleteSubtask(id) {
@@ -236,22 +242,7 @@
         showSubtask.innerHTML = '';
         for (let i = 0; i < writtenSubtask.length; i++) {
             const subtask = writtenSubtask[i];
-            showSubtask.innerHTML += `
-          <div class="new-subtask" contenteditable="true">   
-                <p>${dotMarker} ${subtask.title}</p>
-                <div class="new-subtask-btn">
-                    <img src="./assets/img/edit-subtask.png" onclick="editSubtask(${i})" alt="Edit">
-                    <img src="./assets/img/delete-subtask.png" onclick="deleteSubtask(${i})" alt="Delete">
-                </div>
-                <div class="edit-field" id="edit-${i}">
-                    <input name="" value="${subtask.title}" id="editTaskField-${i}">
-                    <div class="edit-field-btn">
-                        <img src="./assets/img/delete-subtask.png" onclick="deleteSubtask(${i})" alt="Delete">
-                        <hr>
-                        <img src="./assets/img/check-addtask.png" alt="Enter" onclick="editSubtaskArry(${i})">
-                    </div>
-                </div>
-            </div>`;
+            showSubtask.innerHTML += generateSubtaksHTML(dotMarker, subtask, i);
         }
     }
 

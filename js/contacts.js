@@ -34,11 +34,7 @@ function renderContacts() {
 
         if (firstLetter !== currentLetter) {
             currentLetter = firstLetter;
-            contactSection.innerHTML += `
-                <div class="contact-letter-section">
-                    <span class="contact-section-letter">${currentLetter}</span>
-                    <span><hr class="contact-divider"></span>
-                </div>`;
+            contactSection.innerHTML += generateFirstLetterHTML(currentLetter);
         }
 
         contactSection.innerHTML += contactItemTemplate(contact.originalIndex); // Use original index for deletion
@@ -49,17 +45,7 @@ function contactItemTemplate(originalIndex) {
     let contact = contactArray[originalIndex];
     let initials = generateInitials(contact.name);
     let bgColor = getRandomColor();
-
-    return `
-    <div class="contact-item" onclick="showContactDetails(${originalIndex})">
-        <div class="contact-avatar" style="background-color: ${bgColor}; color: white;">
-            ${initials}
-        </div>
-        <div class="contact-info">
-            <span class="contact-name">${contact.name}</span>
-            <span class="contact-email">${contact.email}</span>
-        </div>
-    </div>`;
+    return generateContactHTML(index, bgColor, initials, contact);
 }
 
 function showContactDetails(index) {
@@ -72,33 +58,7 @@ function contactDetailsTemplate(index) {
     let contact = contactArray[index];
     let initials = generateInitials(contact.name);  
     let bgColor = getRandomColor();  
-
-    return `          
-        <div class="card-mainDivv">
-            <div class="profile-section">
-               <div class="profile-higher-section">
-                  <div class="profile-img" style="background-color: ${bgColor}; color: white; border-radius: 50%; 
-                      width: 100px; height: 100px; display: flex; justify-content: center; align-items: center; font-size: 36px;">
-                      ${initials}
-                  </div>
-                  <img src="./assets/img/back-arrow.svg" alt="" class="back-contact-arrow" onclick="arrowDeleteContact()">
-               </div>
-               <div class="contact-name">
-                    <h1 class="profile-name">${contact.name}</h1>
-                    <div class="profile-actions">
-                        <a href="#" class="profile-edit" onclick="toggleOverlay(); renderDialog();">Edit</a>
-                        <a href="#" class="profile-delete" onclick="deleteContact(${index});">Delete</a>
-                    </div>
-                </div>
-            </div>
-            <div class="contact-details">
-                <h2 class="details-heading">Contact Information</h2>
-                <p class="contact-label"><strong>Email</strong></p>
-                <a href="#" class="contact-email">${contact.email}</a>
-                <p class="contact-label"><strong>Phone</strong></p>
-                <a href="#" class="contact-phone">${contact.number}</a>
-            </div>
-        </div>`;
+    return generateContactDetailsHTML(bgColor, initials, contact);
 }
 
 function arrowDeleteContact() {
@@ -121,27 +81,7 @@ async function createContact() {
 }
 
 function getDialogTemplate(index) {
-    return `<div id="dialog" onclick="preventEventBubbling(event)">
-    <div class="contact-form-description">
-        <img src="./assets/img/Capa 2 (1).png">
-        <h2>Add contact</h2>
-        <p>Tasks are better with a team!</p>
-    </div>
-    <div class="contact-form">
-        <img src="./assets/img/Frame 79.png" class="profile-image">
-        <div class="contact-form-text">
-        <input type="text" placeholder="Name" required class="name-input" id="name-input">
-        <img src="" alt="" class="email-icon"> 
-        <input type="email" placeholder="Email" required class="email-input" id="email-input">
-        <img src="" alt="" class="phone-icon">
-        <input type="tel" placeholder="Phone" required class="phone-input" id="phone-input">
-            <div class="button-container">
-                <button class="cancel-button" onclick="toggleOverlay();">Cancel</button>
-                <button class="create-contact-button" onclick="addContact();">Create contact</button>
-            </div>
-        </div>
-      </div>
-    </div>`;
+    return generateContactDialogHTML();
 }
 
 function preventEventBubbling(event) {
