@@ -449,9 +449,7 @@ h1 {
         margin-top: 64px;
     }
 
-
 }
-
 
 @media(max-width: 690px) {
 
@@ -488,5 +486,10 @@ h1 {
         margin-right: 10px;
     }
 
-   
+
+    .overDiv-bottom-f {
+        margin-bottom: 100px;
+    }
+
+
 }

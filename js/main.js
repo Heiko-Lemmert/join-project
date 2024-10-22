@@ -104,7 +104,7 @@ function openInfBox() {
         if (!event.target.closest('.infoBox') && !event.target.closest('.header-user')) {
             console.log('Klick war außerhalb der InfoBox und header-user');  // Verfolge, ob diese Bedingung erfüllt ist
   
-            closeViewList();
+            closeBox();
             console.log('Klick close');  // Verfolge, ob diese Bedingung erfüllt ist
   
             document.removeEventListener('click', closeOnClickOutside); // Entferne den Event-Listener, wenn geschlossen wird
@@ -112,11 +112,13 @@ function openInfBox() {
     });
 }
 
-function closeViewList() {
+function closeBox() {
     let content = document.getElementById('infoBox');
     content.style.display = 'none';
     content.innerHTML = ''; // Entferne den Inhalt der Info-Box
 }
+
+
 
 function showToast(id) {
     const toast = document.getElementById(id);

@@ -14,8 +14,8 @@ function renderCode() {
     checkForEmptyLists();
     initializeImageHover();
     loadAllTasks();
-
 }
+
 async function loadAllTasks() {
     allTasks = await getData('tasks').catch(error => {
         console.error("Error loading data:", error);
@@ -65,10 +65,8 @@ function renderBoard() {
     renderSection(inProgressSection, 'leftNum2');
     renderSection(awaitFeedbackSection, 'right');
     renderSection(doneSection, 'rightNum2');
-
     checkForEmptyLists(); // Überprüfe, ob Listen leer sind
     dagAndDrop();
-
 }
 
 function renderSection(section, id) {

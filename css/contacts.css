@@ -16,9 +16,8 @@ body {
     top: var(--header-height);
 }
 
-
 .contact-content {
-    position: absolute;
+    position: fixed;
     left: 550px;
     height: 100%;
     top: var(--header-height);
@@ -332,7 +331,6 @@ body {
     visibility: hidden;
 }
 
-
 @media (max-width: 1200px) {
 
     .contact-list-sidebar {
@@ -400,7 +398,7 @@ body {
         top: 0;
 
     }
-    
+
 }
 
 @media (max-width: 980px) {
@@ -480,5 +478,5 @@ body {
         margin-top: 64px;
     }
 
-    
+
 }
