@@ -29,7 +29,11 @@ function renderContacts() {
 
         if (firstLetter !== currentLetter) {
             currentLetter = firstLetter;
-            contactSection.innerHTML += generateFirstLetterHTML(currentLetter);
+            contactSection.innerHTML += `
+                <div class="contact-letter-section">
+                    <span class="contact-section-letter">${currentLetter}</span>
+                    <span><hr class="contact-divider"></span>
+                </div>`;
         }
 
         contactSection.innerHTML += contactItemTemplate(contact.originalIndex);
@@ -40,7 +44,17 @@ function contactItemTemplate(originalIndex) {
     let contact = contactArray[originalIndex];
     let initials = generateInitials(contact.name);
     let bgColor = getRandomColor();
-    return generateContactHTML(index, bgColor, initials, contact);
+
+    return `
+    <div class="contact-item" onclick="showContactDetails(${originalIndex})">
+        <div class="contact-avatar" style="background-color: ${bgColor}; color: white;">
+            ${initials}
+        </div>
+        <div class="contact-info">
+            <span class="contact-name">${contact.name}</span>
+            <span class="contact-email">${contact.email}</span>
+        </div>
+    </div>`;
 }
 
 function showContactDetails(index) {
@@ -53,7 +67,6 @@ function contactDetailsTemplate(index) {
     let contact = contactArray[index];
     let initials = generateInitials(contact.name);  
     let bgColor = getRandomColor();  
-<<<<<<< HEAD
 
     return `          
         <div class="card-mainDivv">
@@ -81,9 +94,6 @@ function contactDetailsTemplate(index) {
                 <a href="#" class="contact-phone">${contact.number}</a>
             </div>
         </div>`;
-=======
-    return generateContactDetailsHTML(bgColor, initials, contact);
->>>>>>> ef87393be338725f7e180f6f647b47287e80a474
 }
 
 function arrowDeleteContact() {
@@ -125,8 +135,6 @@ function getDialogTemplate(contact, index = null) {
             </div>
         </div>
     </div>`;
-function getDialogTemplate(index) {
-    return generateContactDialogHTML();
 }
 
 function preventEventBubbling(event) {
@@ -209,7 +217,7 @@ async function saveContact(index) {
     } catch (error) {
         console.error('Fehler beim Aktualisieren des Kontakts:', error);
     }
-    
-    document.getElementById('contact-card').innerHTML = '';
+
     toggleOverlay();
+    document.getElementById('contact-card').innerHTML = '';
 }
