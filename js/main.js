@@ -29,6 +29,8 @@ function includeHTML() {
         }
     }
     checkHTMLforClassList();
+    generateInitialsForHeader();
+
 }
 
 function init() {
@@ -103,10 +105,10 @@ function openInfBox() {
 
         if (!event.target.closest('.infoBox') && !event.target.closest('.header-user')) {
             console.log('Klick war außerhalb der InfoBox und header-user');  // Verfolge, ob diese Bedingung erfüllt ist
-  
+
             closeBox();
             console.log('Klick close');  // Verfolge, ob diese Bedingung erfüllt ist
-  
+
             document.removeEventListener('click', closeOnClickOutside); // Entferne den Event-Listener, wenn geschlossen wird
         }
     });
@@ -119,7 +121,6 @@ function closeBox() {
 }
 
 
-
 function showToast(id) {
     const toast = document.getElementById(id);
 
@@ -130,4 +131,9 @@ function showToast(id) {
     setTimeout(() => {
         toast.classList.remove('toast-visible');
     }, 3000);
+}
+
+function generateInitialsForHeader() {
+    const user = localStorage.getItem("currentUser");
+    document.getElementById('loggedUser').innerText = generateInitials(JSON.parse(user));
 }

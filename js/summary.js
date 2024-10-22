@@ -35,6 +35,7 @@ document.addEventListener('DOMContentLoaded', function () {
         console.log('HTML templates included');
         setTimeout(function () {
             init();
+            generateInitialsForHeader();
             console.log('init function called after timeout');
         }, 100);
     });

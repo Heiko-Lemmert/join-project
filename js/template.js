@@ -143,3 +143,14 @@ function generateSummaryHTML(toDoCount, doneCount, urgentPrio, upcomingDeadline,
         </div>
     </section>`
 }
+
+/* Task HTML */
+
+function generateTaskContacts(contactName, contactsInitials) {
+    return `
+        <div class="contact-option">
+            <div class="contact-initials" style="background-color: ${getRandomColor()}">${contactsInitials}</div>
+            <label>${contactName}</label>
+            <img src="./assets/img/no-check-btn.png" alt="Check" class="check-icon" id="checkIcon">
+        </div>`
+}
