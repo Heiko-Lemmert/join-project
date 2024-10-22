@@ -9,24 +9,41 @@ async function loadContacts() {
     renderContacts();
 }
 
+async function log() {
+    const contacts = await getData("contacts");
+    const users = await getData("users");
+    const tasks = await getData("tasks");
+    console.log('contacts', contacts);
+    console.log('users', users);
+    console.log('tasks', tasks); 
+}
+
+log();
+
 function renderContacts() {
     let contactSection = document.getElementById('contact-section');
     contactSection.innerHTML = '';
 
     for (let index = 0; index < contactArray.length; index++) {
         contactSection.innerHTML += contactItemTemplate(index);
-
     }
 }
 
 function contactItemTemplate(index) {
-    return `<div class="contact-item" onclick="showContactDetails(${index})">
-    <span class="contact-initial">SB</span>
-    <div class="contact-info">
-    <span class="contact-name">${contactArray[index].name}</span>
-    <span class="contact-email">${contactArray[index].email}</span>
-    </div>
-    </div>`
+    let contact = contactArray[index];
+    let initials = generateInitials(contact.name); 
+    let bgColor = getRandomColor(); 
+
+    return `
+    <div class="contact-item" onclick="showContactDetails(${index})">
+        <span class="contact-initial" style="background-color: ${bgColor}; color: white; border-radius: 50%; padding: 10px;">
+            ${initials}
+        </span>
+        <div class="contact-info">
+            <span class="contact-name">${contact.name}</span>
+            <span class="contact-email">${contact.email}</span>
+        </div>
+    </div>`;
 }
 
 function showContactDetails(index) {
@@ -36,32 +53,39 @@ function showContactDetails(index) {
 }
 
 function contactDetailsTemplate(index) {
+    let contact = contactArray[index];
+    let initials = generateInitials(contact.name);  
+    let bgColor = getRandomColor();  
+
     return `          
         <div class="card-mainDivv">
-
             <div class="profile-section">
                <div class="profile-higher-section">
-                  <img src="./assets/img/Frame 79.png"class="profile-img">
-                <img src="./assets/img/back-arrow.svg" alt="" class="back-contact-arrow"  onclick="arrowDeleteContact()">
+                  <!-- Initialen anstelle eines Bildes, mit zufälliger Hintergrundfarbe -->
+                  <div class="profile-img" style="background-color: ${bgColor}; color: white; border-radius: 50%; 
+                      width: 100px; height: 100px; display: flex; justify-content: center; align-items: center; font-size: 36px;">
+                      ${initials}
                   </div>
-                <div class="contact-name">
-                    <h1 class="profile-name">${contactArray[index].name}</h1>
+                  <img src="./assets/img/back-arrow.svg" alt="" class="back-contact-arrow" onclick="arrowDeleteContact()">
+               </div>
+               <div class="contact-name">
+                    <h1 class="profile-name">${contact.name}</h1>
                     <div class="profile-actions">
-                    <a href="#" class="profile-edit" onclick="toggleOverlay(); renderDialog();">Edit</a>
-                    <a href="#" class="profile-delete">Delete</a>
+                        <a href="#" class="profile-edit" onclick="toggleOverlay(); renderDialog();">Edit</a>
+                        <a href="#" class="profile-delete">Delete</a>
                     </div>
                 </div>
             </div>
             <div class="contact-details">
                 <h2 class="details-heading">Contact Information</h2>
                 <p class="contact-label"><strong>Email</strong></p>
-                <a href="#" class="contact-email">${contactArray[index].email}</a>
+                <a href="#" class="contact-email">${contact.email}</a>
                 <p class="contact-label"><strong>Phone</strong></p>
-                <a href="#" class="contact-phone">${contactArray[index].number}</a>
+                <a href="#" class="contact-phone">${contact.number}</a>
             </div>
-     </div>
-            `
+        </div>`;
 }
+
 
 function arrowDeleteContact() {
     document.getElementById('contact-card').innerHTML = '';
@@ -79,6 +103,9 @@ function renderDialog(index) {
     overlayRef.innerHTML += getDialogTemplate(index);
 }
 
+async function createContact() {
+    const contacts = await getData("contacts");
+}
 
 function getDialogTemplate(index) {
     return `<div id="dialog" onclick="preventEventBubbling(event)">
@@ -97,7 +124,7 @@ function getDialogTemplate(index) {
             <input type="tel" placeholder="Phone" class="phone-input">
             <div class="button-container">
                 <button class="cancel-button" onclick="toggleOverlay();">Cancel</button>
-                <button class="create-contact-button">Create contact</button>
+                <button class="create-contact-button" onclick="createContact();">Create contact</button>
             </div>
         </div>
       </div>
