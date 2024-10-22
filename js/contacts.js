@@ -6,17 +6,6 @@ async function loadContacts() {
     renderContacts();
 }
 
-async function log() {
-    const contacts = await getData("contacts");
-    const users = await getData("users");
-    const tasks = await getData("tasks");
-    console.log('contacts', contacts);
-    console.log('users', users);
-    console.log('tasks', tasks); 
-}
-
-log();
-
 function renderContacts() {
     let contactSection = document.getElementById('contact-section');
     contactSection.innerHTML = '';
