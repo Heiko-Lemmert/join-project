@@ -2,7 +2,7 @@ let contactArray = [];
 
 async function loadContacts() {
     const contactsData = await getData("contacts/-O8W_xHifJ5jIH4moSJq");
-    contactArray = Array.isArray(contactsData) ? contactsData : []; // Sicherstellen, dass es ein Array ist
+    contactArray = Array.isArray(contactsData) ? contactsData : [];
     renderContacts();
 }
 
@@ -20,13 +20,8 @@ log();
 function renderContacts() {
     let contactSection = document.getElementById('contact-section');
     contactSection.innerHTML = '';
-
-    // Pair contacts with their original index
     let indexedContacts = contactArray.map((contact, index) => ({ ...contact, originalIndex: index }));
-
-    // Sort contacts by name
     let sortedContacts = indexedContacts.sort((a, b) => a.name.localeCompare(b.name));
-
     let currentLetter = '';
 
     for (let contact of sortedContacts) {
@@ -41,7 +36,7 @@ function renderContacts() {
                 </div>`;
         }
 
-        contactSection.innerHTML += contactItemTemplate(contact.originalIndex); // Use original index for deletion
+        contactSection.innerHTML += contactItemTemplate(contact.originalIndex);
     }
 }
 
@@ -86,7 +81,7 @@ function contactDetailsTemplate(index) {
                <div class="contact-name">
                     <h1 class="profile-name">${contact.name}</h1>
                     <div class="profile-actions">
-                        <a href="#" class="profile-edit" onclick="toggleOverlay(); renderDialog();">Edit</a>
+                        <a href="#" class="profile-edit" onclick="toggleOverlay(); renderDialog(${index});">Edit</a>
                         <a href="#" class="profile-delete" onclick="deleteContact(${index});">Delete</a>
                     </div>
                 </div>
@@ -111,36 +106,34 @@ function toggleOverlay() {
 }
 
 function renderDialog(index) {
+    let contact = contactArray[index];
     let overlayRef = document.getElementById('overlay');
     overlayRef.innerHTML = '';
-    overlayRef.innerHTML += getDialogTemplate(index);
+    overlayRef.innerHTML += getDialogTemplate(contact, index);
 }
 
-async function createContact() {
-    const contacts = await getData("contacts");
-}
+function getDialogTemplate(contact, index = null) {
+    const title = contact ? 'Edit contact' : 'Add contact';
+    const buttonText = contact ? 'Save' : 'Create contact';
 
-function getDialogTemplate(index) {
     return `<div id="dialog" onclick="preventEventBubbling(event)">
-    <div class="contact-form-description">
-        <img src="./assets/img/Capa 2 (1).png">
-        <h2>Add contact</h2>
-        <p>Tasks are better with a team!</p>
-    </div>
-    <div class="contact-form">
-        <img src="./assets/img/Frame 79.png" class="profile-image">
-        <div class="contact-form-text">
-        <input type="text" placeholder="Name" required class="name-input" id="name-input">
-        <img src="" alt="" class="email-icon"> 
-        <input type="email" placeholder="Email" required class="email-input" id="email-input">
-        <img src="" alt="" class="phone-icon">
-        <input type="tel" placeholder="Phone" required class="phone-input" id="phone-input">
-            <div class="button-container">
-                <button class="cancel-button" onclick="toggleOverlay();">Cancel</button>
-                <button class="create-contact-button" onclick="addContact();">Create contact</button>
+        <div class="contact-form-description">
+            <img src="./assets/img/Capa 2 (1).png">
+            <h2>${title}</h2>
+            <p>Tasks are better with a team!</p>
+        </div>
+        <div class="contact-form">
+            <img src="./assets/img/Frame 79.png" class="profile-image">
+            <div class="contact-form-text">
+                <input type="text" placeholder="Name" required class="name-input" id="name-input" value="${contact ? contact.name : ''}">
+                <input type="email" placeholder="Email" required class="email-input" id="email-input" value="${contact ? contact.email : ''}">
+                <input type="tel" placeholder="Phone" required class="phone-input" id="phone-input" value="${contact ? contact.number : ''}">
+                <div class="button-container">
+                    <button class="cancel-button" onclick="toggleOverlay();">Cancel</button>
+                    <button class="create-contact-button" onclick="${contact ? `saveContact(${index})` : 'addContact()'}">${buttonText}</button>
+                </div>
             </div>
         </div>
-      </div>
     </div>`;
 }
 
@@ -174,9 +167,7 @@ async function addContact() {
         }
 
         await updateData("contacts/-O8W_xHifJ5jIH4moSJq", contactsData);
-
         loadContacts();
-
     } catch (error) {
         console.error('Fehler beim Hinzufügen des Kontakts:', error);
     }
@@ -190,11 +181,43 @@ async function deleteContact(index) {
 
         if (Array.isArray(contactsData)) {
             contactsData.splice(index, 1); 
-            await updateData("contacts/-O8W_xHifJ5jIH4moSJq", contactsData); // Aktualisiere Firebase
+            await updateData("contacts/-O8W_xHifJ5jIH4moSJq", contactsData);
             loadContacts();
             document.getElementById('contact-card').innerHTML = '';
         }
     } catch (error) {
         console.error('Fehler beim Löschen des Kontakts:', error);
     }
+}
+
+async function saveContact(index) {  
+    const name = document.getElementById('name-input').value;
+    const email = document.getElementById('email-input').value;
+    const number = document.getElementById('phone-input').value;
+
+    if (!name || !email || !number) {
+        alert('Bitte alle Felder ausfüllen!');
+        return;
+    }
+
+    const updatedContact = {
+        name: name,
+        email: email,
+        number: number
+    };
+
+    try {
+        let contactsData = await getData("contacts/-O8W_xHifJ5jIH4moSJq");
+
+        if (Array.isArray(contactsData)) {
+            contactsData[index] = updatedContact; 
+            await updateData("contacts/-O8W_xHifJ5jIH4moSJq", contactsData);
+            loadContacts(); 
+        }
+    } catch (error) {
+        console.error('Fehler beim Aktualisieren des Kontakts:', error);
+    }
+    
+    document.getElementById('contact-card').innerHTML = '';
+    toggleOverlay();
 }
