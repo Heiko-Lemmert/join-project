@@ -114,6 +114,20 @@ body {
     font-size: 14px;
 }
 
+.contact-avatar {
+    min-width: 40px;
+    min-height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.contact-section-letter {
+    margin-bottom: 10px !important;
+}
+
 /* Dynamic initial background colors */
 .contact-section:nth-child(1) .contact-initial {
     background-color: purple;

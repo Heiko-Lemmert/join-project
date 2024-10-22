@@ -24,21 +24,41 @@ function renderContacts() {
     let contactSection = document.getElementById('contact-section');
     contactSection.innerHTML = '';
 
-    for (let index = 0; index < contactArray.length; index++) {
+    // Kontakte alphabetisch nach Name sortieren
+    let sortedContacts = contactArray.sort((a, b) => a.name.localeCompare(b.name));
+
+    let currentLetter = '';
+
+    // Kontaktliste durchgehen
+    for (let index = 0; index < sortedContacts.length; index++) {
+        let contact = sortedContacts[index];
+        let firstLetter = contact.name.charAt(0).toUpperCase();  // Anfangsbuchstabe
+
+        // Wenn ein neuer Anfangsbuchstabe kommt, erstelle eine neue Sektion
+        if (firstLetter !== currentLetter) {
+            currentLetter = firstLetter;
+            contactSection.innerHTML += `
+                <div class="contact-letter-section">
+                    <span class="contact-section-letter">${currentLetter}</span>
+                    <span><hr class="contact-divider"></span>
+                </div>`;
+        }
+
+        // Kontakt hinzufügen
         contactSection.innerHTML += contactItemTemplate(index);
     }
 }
 
 function contactItemTemplate(index) {
     let contact = contactArray[index];
-    let initials = generateInitials(contact.name); 
-    let bgColor = getRandomColor(); 
+    let initials = generateInitials(contact.name);
+    let bgColor = getRandomColor();
 
     return `
     <div class="contact-item" onclick="showContactDetails(${index})">
-        <span class="contact-initial" style="background-color: ${bgColor}; color: white; border-radius: 50%; padding: 10px;">
+        <div class="contact-avatar" style="background-color: ${bgColor}; color: white;">
             ${initials}
-        </span>
+        </div>
         <div class="contact-info">
             <span class="contact-name">${contact.name}</span>
             <span class="contact-email">${contact.email}</span>
