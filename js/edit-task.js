@@ -11,19 +11,24 @@
     const editSubtaskInput = document.getElementById('editSubtaskInput');
     const editAddBtn = document.getElementById('editAddBtn');
     const dotMarker = '&bull;';
+    const today = new Date()
+    const year = today.getFullYear()
+    const month = today.getMonth() + 1
+    const date = today.getDate()
+    const dateStr = `${year}-${month}-${date}`
+    const input = document.querySelector('[name=edit-task-date]')
+    input.setAttribute('min', dateStr)
     let writtenSubtask = [];
     let selected = [];
     let selectedContactName = [];
     let currentPrio = 'medium';
     let category = '';
     let contacts = [];
-    let testVari = 'Edit Task'
 
     function initTask() {
         includeHTML();
         loadAllTasks();
         loadContacts();
-        console.log('Loaded Edit Task Init')
     }
 
     async function loadContacts() {
@@ -37,12 +42,7 @@
         const editContactOptions = document.getElementById('editContactOptions');
         contacts.forEach(contact => {
             const contactsInitials = generateInitials(contact.name);
-            editContactOptions.innerHTML += `
-            <div class="contact-option">
-                <div class="contact-initials" style="background-color: ${getRandomColor()}">${contactsInitials}</div>
-                <label>${contact.name}</label>
-                <img src="./assets/img/no-check-btn.png" alt="Check" class="check-icon" id="checkIcon">
-            </div>`;
+            editContactOptions.innerHTML += generateTaskContacts(contact.name, contactsInitials);
         });
     }
 
@@ -209,9 +209,13 @@
     }
 
     function createSubtask(newSubtask) {
-        writtenSubtask.push({ title: newSubtask, done: false });
-        editSubtaskInput.value = '';
-        renderSubtask();
+        if (writtenSubtask.length < 5) {
+            writtenSubtask.push({ title: newSubtask, done: false });
+            editSubtaskInput.value = '';
+            renderSubtask();
+        } else {
+            alert('Too many Subtask. Please only enter 5 Subtask');
+        }
     }
 
     function deleteSubtask(id) {
@@ -379,7 +383,7 @@
     window.prioChooser = prioChooser;
     window.editSubtask = editSubtask;
     window.deleteSubtask = deleteSubtask;
-    window.editSubtaskArry =  editSubtaskArry;
+    window.editSubtaskArry = editSubtaskArry;
     window.fillEditTask = fillEditTask;
     window.editTask = editTask;
 }());
