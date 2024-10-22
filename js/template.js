@@ -138,7 +138,7 @@ function generateSummaryHTML(toDoCount, doneCount, urgentPrio, upcomingDeadline,
             </div>
           <div class="welcm-Section" >
             <h2 class="wlcText" id="welcomeText">Moin</h2>
-            <h1 class="wlcName">Guest</h1>
+            <h1 class="wlcName" id="welcomeName">Guest</h1>
            </div>
         </div>
     </section>`

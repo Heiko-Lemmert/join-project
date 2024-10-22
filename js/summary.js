@@ -10,6 +10,7 @@ function init() {
 
 function setWelcomeText() {
     let welcomeText = document.getElementById('welcomeText');
+    let welcomeName = document.getElementById('welcomeName');
     console.log('Setting welcome text...');
     if (welcomeText) {
         console.log('Element found:', welcomeText);
@@ -22,6 +23,7 @@ function setWelcomeText() {
         } else {
             welcomeText.innerText = 'Good Night,';
         }
+        welcomeName.innerText = JSON.parse(localStorage.getItem('currentUser'))
         console.log('Text set to:', welcomeText.innerText);
     } else {
         console.error("Element with ID 'welcomeText' not found.");
