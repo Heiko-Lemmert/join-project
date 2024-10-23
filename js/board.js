@@ -484,9 +484,6 @@ function initializeImageHover() {
     });
 }
 
-<<<<<<< Updated upstream
-// Stelle sicher, dass die Funktion beim Laden der Seite aufgerufen wird
-=======
 function highlight(id) {
     const element = document.getElementById(id);
     element.classList.add('drag-area-highlight');
@@ -498,4 +495,3 @@ function removeHighlight(id) {
     element.classList.remove('drag-area-highlight');
 
 }
->>>>>>> Stashed changes
