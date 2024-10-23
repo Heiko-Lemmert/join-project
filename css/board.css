@@ -368,6 +368,11 @@ h1 {
     gap: 7px;
 }
 
+.drag-area-highlight {
+    background-color: #e8e8e8;
+}
+
+
 @media(max-width: 1190px) {
 
 

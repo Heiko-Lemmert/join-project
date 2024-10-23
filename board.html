@@ -54,7 +54,7 @@
                         class="board-bottomPlusImg hover-image" src="./assets/img/plusButton.png" alt=""
                         onclick="showOrHideOverlay()"></div>
                 <div class="scroll-div" id="scroll-div-1">
-                    <div id="left">
+                    <div id="left"  ondragleave="removeHighlight('scroll-div-1')" ondragover=" highlight('scroll-div-1')">
                         <span class="noTaskSpan">No tasks in to do</span>
                     </div>
                 </div>
@@ -66,7 +66,7 @@
                         class="board-bottomPlusImg hover-image" src="./assets/img/plusButton.png" alt=""
                         onclick="showOrHideOverlay()"></div>
                 <div class="scroll-div" id="scroll-div-2">
-                    <div id="leftNum2">
+                    <div id="leftNum2" ondragleave="removeHighlight('scroll-div-2')" ondragover=" highlight('scroll-div-2')">
                         <span class="noTaskSpan">No tasks in progress</span>
                     </div>
                 </div>
@@ -77,16 +77,17 @@
                         class="board-bottomPlusImg hover-image" src="./assets/img/plusButton.png" alt=""
                         onclick="showOrHideOverlay()"></div>
                 <div class="scroll-div" id="scroll-div-3">
-                    <div id="right">
+                    <div id="right" ondragleave="removeHighlight('scroll-div-3')" ondragover="highlight('scroll-div-3')">
                         <span class="noTaskSpan">No tasks in await feedback</span>
                     </div>
+                    
                 </div>
             </div>
 
             <div class="overDiv-bottom-f">
                 <div class="toAdd-bottom"><span class="board-centerTitel">Done</span></div>
                 <div class="scroll-div" id="scroll-div-4">
-                    <div id="rightNum2">
+                    <div id="rightNum2"ondragleave="removeHighlight('scroll-div-4')" ondragover="highlight('scroll-div-4')">
                         <span class="noTaskSpan">No tasks in done</span>
                         <!-- <div class="list" draggable="true" onclick="openList()"></div> -->
                     </div>
@@ -94,7 +95,7 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Containert to show the filtered tasks -->
     <div id="taskArea"></div>
 

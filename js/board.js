@@ -274,7 +274,6 @@ document.addEventListener('DOMContentLoaded', checkForList);
 // Fügen Sie ein Event-Listener für die Größenänderung des Fensters hinzu
 window.addEventListener('resize', checkForList);//Nutze Events wie resize und DOMContentLoaded: Stelle sicher, dass deine Funktionen, die auf Fenstergröße oder andere dynamische Änderungen reagieren sollen, immer an die entsprechenden Events gebunden sind
 
-
 function dagAndDrop() {
     let lists = document.getElementsByClassName("list");
     let rightBox = document.getElementById("right");
@@ -283,33 +282,47 @@ function dagAndDrop() {
     let leftBoxNum2 = document.getElementById("leftNum2");
     let selected = null;
 
+    // Setze EventListener auf alle list-Elemente
     for (let list of lists) {
         list.addEventListener("dragstart", function (e) {
-            selected = e.target;
+            selected = e.target; // Speichert das gezogene Element
         });
     }
-
-    function setupDropArea(box) {
+    
+    function setupDropArea(box, boxId) {
         box.addEventListener("dragover", function (e) {
-            e.preventDefault();
+            e.preventDefault(); // Verhindert das Standardverhalten
+        });
+
+        box.addEventListener("dragleave", function (e) {
+        
         });
 
         box.addEventListener("drop", function (e) {
-            box.appendChild(selected);
-            const selectedTask = JSON.parse(selected.dataset.task);
-            selectedTask.progress = checkDropArea(selected.parentElement.id);
-            updateData("tasks/" + selectedTask.databaseKey, selectedTask);
-            selected = null;
-            checkForList();//die Funktion checkForList() nach dem Verschieben der Liste erneut aufrufen, damit die Scrollleisten in beiden div-Elementen aktualisiert werden
-            checkForEmptyLists();
+            e.preventDefault(); // Verhindert das Standardverhalten
+            if (selected) {
+                box.appendChild(selected); // Element dem Zielbereich hinzufügen
+                const selectedTask = JSON.parse(selected.dataset.task); // Task-Objekt in JSON umwandeln
+                selectedTask.progress = checkDropArea(selected.parentElement.id);
+                updateData("tasks/" + selectedTask.databaseKey, selectedTask);
+                selected = null;
+                checkForList();
+                checkForEmptyLists();
+                
+                removeHighlight(boxId); // Highlight entfernen, nachdem das Element gedroppt wurde
+            } else {
+                console.error('No valid element selected for dragging.');
+            }
         });
     }
 
-    setupDropArea(rightBox);
-    setupDropArea(rightBoxNum2);
-    setupDropArea(leftBox);
-    setupDropArea(leftBoxNum2);
+    setupDropArea(rightBox, 'right');
+    setupDropArea(rightBoxNum2, 'rightNum2');
+    setupDropArea(leftBox, 'left');
+    setupDropArea(leftBoxNum2, 'leftNum2');
 }
+
+
 
 function checkDropArea(column) {
     switch (column) {
@@ -471,4 +484,18 @@ function initializeImageHover() {
     });
 }
 
+<<<<<<< Updated upstream
 // Stelle sicher, dass die Funktion beim Laden der Seite aufgerufen wird
+=======
+function highlight(id) {
+    const element = document.getElementById(id);
+    element.classList.add('drag-area-highlight');
+
+}
+
+function removeHighlight(id) {
+    const element = document.getElementById(id);
+    element.classList.remove('drag-area-highlight');
+
+}
+>>>>>>> Stashed changes
