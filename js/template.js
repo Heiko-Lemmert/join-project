@@ -1,7 +1,11 @@
 /* Board HTML */
 
+
 function generateBoardTasksHTML(currentTask, categoryBanner, whichSection, i, prioImg) {
-    return `
+    if (currentTask && Object.keys(currentTask).length > 0) {
+        // Generiere das HTML für die Aufgabe
+
+        return `
         <div class="list" draggable="true" data-task='${JSON.stringify(currentTask)}' onclick="openList(this)">
             <div class="task-card-category">${categoryBanner}</div>
             <h3 class="task-card-title">${currentTask.title}</h3>
@@ -14,9 +18,13 @@ function generateBoardTasksHTML(currentTask, categoryBanner, whichSection, i, pr
             </div>
         </div>
         `
+    } else {
+        console.error('Current task data is missing or invalid.');
+    }
+
 }
 
-function generateBoardSubtaskHTML(subtaskValue, subtaskCounter,subtaskLength) {
+function generateBoardSubtaskHTML(subtaskValue, subtaskCounter, subtaskLength) {
     return `
         <div class="subtask-container">
             <div class="subtask-value" style="width: ${subtaskValue}%"></div>
@@ -29,7 +37,7 @@ function generateBoardTaskContactsHTML(contactsInitials) {
     return `<p class="contact-initials" style="background-color: ${getRandomColor()}">${contactsInitials}</p>`
 }
 
-function generateTaskCardHTML(categoryBanner, openTask,prioTextUpperCase, prioImg) {
+function generateTaskCardHTML(categoryBanner, openTask, prioTextUpperCase, prioImg) {
     return `
         <div class="background-bigListView">
         <div class="inner-bigListView">
@@ -210,7 +218,7 @@ function generateContactHTML(index, bgColor, initials, contact) {
         </div>`;
 }
 
-function generateContactDetailsHTML(bgColor, initials,contact) {
+function generateContactDetailsHTML(bgColor, initials, contact) {
     return `
         <div class="card-mainDivv">
             <div class="profile-section">

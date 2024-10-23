@@ -288,14 +288,14 @@ function dagAndDrop() {
             selected = e.target; // Speichert das gezogene Element
         });
     }
-    
+
     function setupDropArea(box, boxId) {
         box.addEventListener("dragover", function (e) {
             e.preventDefault(); // Verhindert das Standardverhalten
         });
 
         box.addEventListener("dragleave", function (e) {
-        
+
         });
 
         box.addEventListener("drop", function (e) {
@@ -308,7 +308,7 @@ function dagAndDrop() {
                 selected = null;
                 checkForList();
                 checkForEmptyLists();
-                
+
                 removeHighlight(boxId); // Highlight entfernen, nachdem das Element gedroppt wurde
             } else {
                 console.error('No valid element selected for dragging.');
