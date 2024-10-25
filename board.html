@@ -11,11 +11,13 @@
     <link rel="stylesheet" href="./css/board.css">
     <link rel="stylesheet" href="./css/add-task.css">
     <link rel="stylesheet" href="./css/style.css">
+    <script src="./js/template.js"></script>
+    <script src="./js/board.js"></script>
     <script src="./js/auth.js"></script>
     <script src="./js/firebase.js"></script>
     <script src="./js/main.js"></script>
-    <script src="./js/board.js"></script>
-    <script src="./js/template.js"></script>
+ 
+   
     <title>Task Board</title>
 </head>
 
@@ -66,7 +68,7 @@
                         class="board-bottomPlusImg hover-image" src="./assets/img/plusButton.png" alt=""
                         onclick="showOrHideOverlay()"></div>
                 <div class="scroll-div" id="scroll-div-2">
-                    <div id="leftNum2" ondragleave="removeHighlight('scroll-div-2')" ondragover=" highlight('scroll-div-2')">
+                    <div id="leftNum2" ondragleave="removeHighlight('scroll-div-2')" ondragover="highlight('scroll-div-2')">
                         <span class="noTaskSpan">No tasks in progress</span>
                     </div>
                 </div>
@@ -110,7 +112,6 @@
 
     <div class="et-overlay-container et-overlay-hidden" id="etOverlay"
         w3-include-html="./assets/templates/edit-task-overlay.html"></div>
-
 
 </body>
 

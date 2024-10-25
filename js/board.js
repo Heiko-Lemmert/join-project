@@ -176,6 +176,7 @@ function filterAndShowTask() {
     renderTasks();
 }
 
+
 function renderTasks() {
     let leftContainer = document.getElementById('left');
     let leftNum2Container = document.getElementById('leftNum2');
@@ -295,6 +296,7 @@ function dagAndDrop() {
         });
 
         box.addEventListener("dragleave", function (e) {
+            
 
         });
 
@@ -309,10 +311,8 @@ function dagAndDrop() {
                 checkForList();
                 checkForEmptyLists();
 
-                removeHighlight(boxId); // Highlight entfernen, nachdem das Element gedroppt wurde
-            } else {
-                console.error('No valid element selected for dragging.');
-            }
+            } 
+            
         });
     }
 
