@@ -21,8 +21,6 @@ async function loadAllTasks() {
         console.error("Error loading data:", error);
     });
 
-    console.log("Loaded allTasks:", allTasks);  // Hier wird der Inhalt von allTasks angezeigt
-
     if (allTasks && Object.keys(allTasks).length > 0) {
         moveTask();
         checkForList();//sichergestellt, dass die Funktion erst dann ausgeführt wird, wenn die Aufgaben tatsächlich im DOM vorhanden sind. Dadurch konnte die Scrollleiste korrekt aktiviert werden, da nun Inhalt vorhanden war, den sie scrollen musste.
@@ -72,7 +70,8 @@ function renderBoard() {
 function renderSection(section, id) {
     const sectionArray = document.getElementById(id);
     const whichSection = sectionChooser(section);
-    //sectionArray.innerHTML = '';
+    sectionArray.innerHTML = `<span class="noTaskSpan">No tasks in ${whichSection}</span>`;
+    
 
     if (section) {
         section.forEach((currentTask, i) => {
@@ -346,7 +345,7 @@ function showOrHideOverlay() {
     if (atOverlay.classList.contains('at-overlay-hidden')) {
         atOverlay.classList.toggle('at-overlay-hidden')
         if (!script || script.getAttribute('src') !== './js/add-task.js') {
-            if (script) script.remove(); // Entfernt das alte Script vollständig
+            if (script) script.remove();
             loadExternalScript('./js/add-task.js', loadInitAddTask);
         }
     } else {
@@ -463,7 +462,9 @@ function loadInitEditTask() {
 
 function closeViewList() {
     document.getElementById('bigViewList').innerHTML = '';
+    loadAllTasks();
 }
+
 /**
  * This function is used to change the image if the User click on it
  */
