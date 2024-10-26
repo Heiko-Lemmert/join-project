@@ -309,7 +309,7 @@ function dagAndDrop() {
                 selected = null;
                 checkForList();
                 checkForEmptyLists();
-                removeHighlight(boxId);
+             
 
             } 
             
