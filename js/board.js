@@ -170,10 +170,10 @@ function filterAndShowTask() {
             (task.description && task.description.toLowerCase().includes(filterWord));
     });
 
-    console.log("Filtered tasks: ", currentTaskName);
 
     // Gefilterte Aufgaben rendern
     renderTasks();
+    
 }
 
 
@@ -310,6 +310,7 @@ function dagAndDrop() {
                 selected = null;
                 checkForList();
                 checkForEmptyLists();
+                removeHighlight(boxId);
 
             } 
             

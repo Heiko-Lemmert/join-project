@@ -370,6 +370,7 @@ h1 {
 
 .drag-area-highlight {
     background-color: #e8e8e8;
+    border-radius: 8px;
 }
 
 
