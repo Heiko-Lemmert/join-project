@@ -21,9 +21,21 @@ body {
     padding: 40px 20px;
 }
 
+.sign-up-headline {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.sign-up-text{
+    display: flex;
+    flex-direction: column;
+}
+
 h1 {
     font-size: 2rem;
-    margin-bottom: 20px;
     color: #000;
 }
 
@@ -35,6 +47,12 @@ h1 {
 .back-arrow img {
     width: 20px;
     height: 20px;
+    margin-right: 90px;
+}
+
+#back-arrow-img {
+    height: 24px;
+    width: 24px;
 }
 
 .input-group {
@@ -68,10 +86,15 @@ h1 {
 
 .checkbox-group input {
     margin-right: 10px;
+    cursor: pointer;
+}
+
+.checkbox-group label{
+    cursor: pointer;
 }
 
 .checkbox-group label a {
-    color: #2A3647;
+    color: #29ABE2;
     text-decoration: none;
 }
 

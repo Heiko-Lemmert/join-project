@@ -50,6 +50,23 @@ h2 {
 
 .input-group {
     margin-bottom: 15px;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-group input {
+    width: 100%;
+    padding-right: 35px; /* Platz für das Icon auf der rechten Seite */
+    box-sizing: border-box;
+}
+
+.input-icon {
+    position: absolute;
+    right: 10px; /* Abstand des Icons vom rechten Rand des Eingabefelds */
+    height: 20px;
+    width: 20px;
+    pointer-events: none; /* Verhindert, dass das Icon klickbar ist */
 }
 
 input[type="email"], input[type="password"] {
