@@ -75,7 +75,7 @@ function renderTask() {
     let minField = null;
 
     for (let i = 0; i < taskArray.length; i++) {
-        const taskCount = Array.isArray(taskArray[i].tasks) ? taskArray[i].tasks.length : 1;
+        let taskCount = Array.isArray(taskArray[i].tasks) ? taskArray[i].tasks.length : 1;
         totalTaskCount += taskCount;
         let dateField = taskArray[i].date;
 
