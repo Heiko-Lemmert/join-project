@@ -8,6 +8,11 @@ body {
     margin: 0;
 }
 
+.logo img {
+    width: 60px;
+    margin-bottom: 20px;
+}
+
 .signup-container {
     text-align: center;
     padding: 20px;
@@ -129,4 +134,42 @@ h1 {
 
 .footer a:hover {
     text-decoration: underline;
+}
+
+@media (min-width: 768px) {
+
+    .logo {
+        position: absolute;
+        top: 48px;
+        left: 48px;
+    }
+}
+
+@media (max-width: 767px) {
+
+    .logo {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+    }
+
+    .logo img {
+        width: 40px;
+        margin-bottom: 10px;
+    }
+
+    .signup-box {
+        max-width: 90vw;
+        padding: 40px;
+        margin-top: 40px;
+    }
+
+    .back-arrow {
+        margin-bottom: 0;
+    }
+
+    #back-arrow-img {
+        margin-right: 48px;
+    }
+
 }
