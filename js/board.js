@@ -6,6 +6,7 @@ let awaitFeedbackSection = [];
 let doneSection = [];
 let currentTaskName = [];
 let openTask = [];
+let currentFilterWord = ''; // Neue Variable für den Filterzustand
 
 function renderCode() {
     includeHTML();
@@ -155,25 +156,18 @@ function sectionChooser(section) {
  * it is filtering the searched input
  */
 function filterAndShowTask() {
-    // Wandelt das allTasks-Objekt in ein Array von Aufgaben um
+  
     let tasksArray = Object.values(allTasks);
-
     let filterInputElement = document.getElementById('filterTaskInput');
-
-    let filterWord = filterInputElement.value.toLowerCase();
-
-    // Filtere die Aufgaben basierend auf dem Titel oder der Beschreibung
+    currentFilterWord = filterInputElement.value.toLowerCase(); // Filterbegriff speichern
     currentTaskName = tasksArray.filter(task => {
-        return (task.title && task.title.toLowerCase().includes(filterWord)) ||
-            (task.description && task.description.toLowerCase().includes(filterWord));
+        return (task.title && task.title.toLowerCase().includes(currentFilterWord)) ||
+               (task.description && task.description.toLowerCase().includes(currentFilterWord));
     });
 
-
-    // Gefilterte Aufgaben rendern
     renderTasks();
-    
+    checkForEmptyLists();
 }
-
 
 function renderTasks() {
     let leftContainer = document.getElementById('left');
@@ -181,23 +175,21 @@ function renderTasks() {
     let rightContainer = document.getElementById('right');
     let rightNum2Container = document.getElementById('rightNum2');
 
-    // Leere alle Container
     leftContainer.innerHTML = '';
     leftNum2Container.innerHTML = '';
     rightContainer.innerHTML = '';
     rightNum2Container.innerHTML = '';
 
-    // Verwende entweder gefilterte Aufgaben oder alle Aufgaben, wenn kein Filter aktiv ist
-    let tasksToRender = currentTaskName.length > 0 ? currentTaskName : Object.values(allTasks);
+    // Wenn ein Filter aktiv ist, dann zeige nur die gefilterten Aufgaben
+    let tasksToRender = currentFilterWord ? currentTaskName : Object.values(allTasks);
 
     tasksToRender.forEach((task, i) => {
         let prioImg = prioImgChooser(task.prio);
         let categoryBanner = bannerChooser(task.category);
-        let whichSection = task.progress;  // Nutze den "progress"-Wert direkt, da `sectionChooser` eine Funktion benötigt
+        let whichSection = task.progress;
 
         let taskHTML = generateBoardTasksHTML(task, categoryBanner, whichSection, i, prioImg);
 
-        // Aufgabe in die entsprechende Section einfügen
         switch (task.progress) {
             case 'to-do':
                 leftContainer.innerHTML += taskHTML;
@@ -213,7 +205,11 @@ function renderTasks() {
                 break;
         }
     });
+
+    dagAndDrop();
 }
+
+
 
 // Funktion zur Überprüfung der Listen auf leere Inhalte
 function checkForEmptyLists() {         //Diese Funktion dient dazu, die Anzeige der Meldung "No tasks" zu steuern, je nachdem, ob in den jeweiligen Containern (div-Elementen) Aufgaben (list-Elemente) vorhanden sind oder nicht.
@@ -309,7 +305,7 @@ function dagAndDrop() {
                 checkForList();
                 checkForEmptyLists();
              
-
+                dagAndDrop(); // Drag-and-Drop für neu gerenderte Aufgaben wieder aktivieren
             } 
             
         });
