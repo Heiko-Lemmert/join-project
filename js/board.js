@@ -156,18 +156,27 @@ function sectionChooser(section) {
  * it is filtering the searched input
  */
 function filterAndShowTask() {
-  
     let tasksArray = Object.values(allTasks);
     let filterInputElement = document.getElementById('filterTaskInput');
     currentFilterWord = filterInputElement.value.toLowerCase(); // Filterbegriff speichern
+
+    if (currentFilterWord === '') {
+        // Wenn das Eingabefeld leer ist, zeige den Anfangszustand an
+        moveTask(); // Zeige alle Aufgaben erneut an
+        return; // Beende die Funktion
+    }
+
+    // Filtere die Aufgaben basierend auf dem Titel oder der Beschreibung
     currentTaskName = tasksArray.filter(task => {
         return (task.title && task.title.toLowerCase().includes(currentFilterWord)) ||
                (task.description && task.description.toLowerCase().includes(currentFilterWord));
     });
 
+    // Nur gefilterte Aufgaben rendern
     renderTasks();
-    checkForEmptyLists();
+    checkForEmptyLists(); // Überprüfe, ob nach dem Filtern Listen leer sind
 }
+
 
 function renderTasks() {
     let leftContainer = document.getElementById('left');
