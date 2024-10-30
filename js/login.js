@@ -31,34 +31,21 @@ async function updateData(path = "", data = {}) {
 async function login() {
     const email = document.getElementById("email-input").value;
     const password = document.getElementById("password-input").value;
-
     try {
-       
         let data = await getData("users");
-        console.log("Fetched users data:", data);
-
-        let usersArray = Object.values(data);
-        console.log("Users array:", usersArray); 
-
+        let usersArray = Object.values(data); 
         let userFound = false;
-
         for (const user of usersArray) {
-            console.log("Checking user:", user); 
             if (user.email === email && user.password.toString() === password) {
                 userFound = true;
-
                 localStorage.setItem("currentUser", JSON.stringify(user.name));
-                console.log("User saved to localStorage:", user);
-
                 window.location.href = "summary.html";
                 break;
             }
         }
-
         if (!userFound) {
             alert('Check your email and password. Please try again.');
         }
-
     } catch (error) {
         console.error("Error during login:", error);
     }
@@ -67,7 +54,6 @@ async function login() {
 
 async function showUsers() {
     let users = await getData('users');
-    console.log(users);
 }
 
 showUsers();

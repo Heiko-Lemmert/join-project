@@ -11,9 +11,7 @@ function init() {
 function setWelcomeText() {
     let welcomeText = document.getElementById('welcomeText');
     let welcomeName = document.getElementById('welcomeName');
-    console.log('Setting welcome text...');
     if (welcomeText) {
-        console.log('Element found:', welcomeText);
         if (currentHour >= 6 && currentHour <= 11) {
             welcomeText.innerText = 'Good Morning,';
         } else if (currentHour >= 12 && currentHour <= 17) {
@@ -24,7 +22,6 @@ function setWelcomeText() {
             welcomeText.innerText = 'Good Night,';
         }
         welcomeName.innerText = JSON.parse(localStorage.getItem('currentUser'))
-        console.log('Text set to:', welcomeText.innerText);
     } else {
         console.error("Element with ID 'welcomeText' not found.");
     }
@@ -32,13 +29,10 @@ function setWelcomeText() {
 
 // Ein weiteres Logging direkt vor dem Laden des Templates
 document.addEventListener('DOMContentLoaded', function () {
-    console.log('DOMContentLoaded event fired');
     w3.includeHTML(function () {
-        console.log('HTML templates included');
         setTimeout(function () {
             init();
             generateInitialsForHeader();
-            console.log('init function called after timeout');
         }, 100);
     });
 });
@@ -57,7 +51,6 @@ async function getData(key) {
 
 async function loadTasks() {
     const tasks = await getData("tasks");
-    console.log("Loaded tasks:", tasks); // Debug-Ausgabe zur Kontrolle der geladenen Aufgaben
     taskArray = Object.values(tasks); // Verarbeite die geladene Aufgabenliste
     renderTask(); // Aufgabe rendern
 }

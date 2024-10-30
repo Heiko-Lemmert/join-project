@@ -161,7 +161,6 @@ function filterAndShowTask() {
     let filterInputElement = document.getElementById('filterTaskInput');
 
     let filterWord = filterInputElement.value.toLowerCase();
-    console.log("Filter word: ", filterWord);
 
     // Filtere die Aufgaben basierend auf dem Titel oder der Beschreibung
     currentTaskName = tasksArray.filter(task => {

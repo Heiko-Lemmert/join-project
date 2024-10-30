@@ -92,7 +92,6 @@
 
         taskOptionsDivs.forEach(taskDiv => {
             taskDiv.addEventListener('click', event => {
-                console.log(event.target.innerText);
                 editTaskSelector.textContent = '';
                 editTaskSelector.textContent = event.target.innerText;
                 category = event.target.innerText;
@@ -293,7 +292,6 @@
         const databaseKey = openTask.databaseKey;
 
         if (isValid) {
-            console.log('Formular ist gültig.');
             const taskAsObject = getValues();
             updateData("tasks/" + databaseKey, taskAsObject)
                 .catch(error => {
@@ -301,7 +299,6 @@
                 });
             showToast('editToast');
         } else {
-            console.log('Formular ist ungültig.');
             whichValueIsFalse();
         }
     }

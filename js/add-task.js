@@ -28,7 +28,6 @@
     function initTask() {
         includeHTML();
         loadContacts();
-        console.log('Loaded Add Task Init')
     }
 
     async function loadContacts() {
@@ -92,7 +91,6 @@
 
         taskOptionsDivs.forEach(taskDiv => {
             taskDiv.addEventListener('click', event => {
-                console.log(event.target.innerText);
                 taskSelector.textContent = '';
                 taskSelector.textContent = event.target.innerText;
                 category = event.target.innerText;
@@ -271,7 +269,6 @@
         const isValid = validateForm();
 
         if (isValid) {
-            console.log('Formular ist gültig.');
             const taskAsObject = getValues();
             postData("tasks", taskAsObject)
                 .catch(error => {
@@ -280,7 +277,6 @@
             clearTask(event);
             showToast('toast');
         } else {
-            console.log('Formular ist ungültig.');
             whichValueIsFalse();
         }
     }
