@@ -571,6 +571,11 @@ button img {
     .task-btn-container {
         margin-bottom: 30px;
     }
+    
+
+    #prioChooser {
+        flex-direction: column;
+    }
 
 
     /*overlay addtask*/
