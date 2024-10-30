@@ -271,9 +271,9 @@ a {
         display: flex;
         flex-direction: column;
         padding: 0;
-        /* margin: 20px; */
         cursor: pointer;
-        height: 88px;
+        margin-top: 8px;
+        margin-bottom: 8px;
         width: 88px;
     }
 
