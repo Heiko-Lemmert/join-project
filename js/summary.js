@@ -4,7 +4,6 @@ let currentHour = currentDate.getHours();
 let taskArray = [];
 
 function init() {
-    setWelcomeText();
     loadTasks();
 }
 
