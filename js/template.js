@@ -183,16 +183,20 @@ function generateSubtaksHTML(dotMarker, subtask, i) {
 }
 
 /* Main HTML */
-
 function generateHeaderHTML() {
     return `
         <div class="infoBox">
-            <span class="infoBox-Header-text"> <a href="./legal-notice.html" id="legalNotice"></a>Legal Notice</span>
-            <span class="infoBox-Header-text"><a href="./privacy-policy.html" id="privacyPolicy"></a>Privacy Policy</span>
+            <span class="infoBox-Header-text">
+                <a class="infoBox-href-text"  href="./legal-notice.html" id="legalNotice">Legal Notice</a>
+            </span>
+            <span class="infoBox-Header-text">
+                <a class="infoBox-href-text" href="./privacy-policy.html" id="privacyPolicy">Privacy Policy</a>
+            </span>
             <span class="infoBox-Header-text" onclick="logout()">Log Out</span>
         </div>
-    `
+    `;
 }
+
 
 /* Contact HTML */
 

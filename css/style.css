@@ -45,6 +45,11 @@ a {
 }
 
 /* Header */
+
+.infoBox-href-text {
+    color: #CDCDCD;
+}
+
 .header-mainDiv {
     position: fixed;
     z-index: 1000;
