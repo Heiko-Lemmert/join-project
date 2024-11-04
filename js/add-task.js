@@ -21,6 +21,7 @@
     let writtenSubtask = [];
     let selected = [];
     let selectedContactName = [];
+    let selectedContactColor = [];
     let currentPrio = 'medium';
     let category = '';
     let contacts = [];
@@ -41,7 +42,7 @@
         const contactOptions = document.getElementById('contactOptions');
         contacts.forEach(contact => {
             const contactsInitials = generateInitials(contact.name);
-            contactOptions.innerHTML += generateTaskContacts(contact.name, contactsInitials);
+            contactOptions.innerHTML += generateTaskContacts(contact.name, contactsInitials, contact.color);
         });
     }
 
@@ -103,6 +104,7 @@
         const contactOptions = document.getElementById('contactOptions');
         selected = [];
         selectedContactName = [];
+        selectedContactColor = [];
 
         contactOptions.querySelectorAll('.contact-option').forEach(optionDiv => {
             const checkIcon = optionDiv.querySelector('.check-icon');
@@ -110,8 +112,11 @@
                 const textLabel = optionDiv.querySelector('label').textContent;
                 const textContent = optionDiv.querySelector('.contact-initials').textContent;
                 const getStyle = optionDiv.querySelector('.contact-initials').getAttribute('style');
+                const colorMatch = getStyle.match(/background-color:\s*(#[0-9A-Fa-f]{6})/);
+                const colorHex = colorMatch ? colorMatch[1] : '';
                 selected.push(`<div class="contact-initials" style="${getStyle}">${textContent}</div>`);
-                selectedContactName.push(textLabel)
+                selectedContactName.push(textLabel);
+                selectedContactColor.push(colorHex);
             }
         });
 
@@ -292,7 +297,7 @@
         const description = taskDescription.value;
         const date = taskDate.value;
 
-        return { 'title': title, 'description': description, 'date': date, 'contacts': selectedContactName, 'prio': currentPrio, 'category': category, 'subtask': writtenSubtask, 'progress': 'to-do' }
+        return { 'title': title, 'description': description, 'date': date, 'contacts': selectedContactName, 'contactColor': selectedContactColor, 'prio': currentPrio, 'category': category, 'subtask': writtenSubtask, 'progress': 'to-do' }
     }
 
     function whichValueIsFalse() {

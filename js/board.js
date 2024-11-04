@@ -83,7 +83,7 @@ function renderSection(section, id) {
                 renderBoardSubtaskCounter(currentTask.subtask, whichSection, i);
             };
             if (currentTask.contacts) {
-                renderBoardTaskContacts(currentTask.contacts, whichSection, i);
+                renderBoardTaskContacts(currentTask.contacts, whichSection, i, currentTask.contactColor);
             };
         });
     }
@@ -102,11 +102,12 @@ function renderBoardSubtaskCounter(subtasks, section, i) {
     boardSubtask.innerHTML = generateBoardSubtaskHTML(subtaskValue, subtaskCounter, subtaskLength);
 }
 
-function renderBoardTaskContacts(taskContacts, section, i) {
-    const boardTaskContacts = document.getElementById('boardTaskContacts-' + section + '-' + i);
-    taskContacts.forEach(contact => {
+function renderBoardTaskContacts(taskContacts, section, index, color) {
+    const boardTaskContacts = document.getElementById('boardTaskContacts-' + section + '-' + index);
+    taskContacts.forEach((contact, i) => {
+        let contactColor = color[i]
         let contactsInitials = generateInitials(contact);
-        boardTaskContacts.innerHTML += generateBoardTaskContactsHTML(contactsInitials);
+        boardTaskContacts.innerHTML += generateBoardTaskContactsHTML(contactsInitials, contactColor);
     })
 }
 
@@ -392,7 +393,7 @@ function openList(element) {
         renderOverlaySubtask(openTask.subtask);
     };
     if (openTask.contacts) {
-        renderOverlayTaskContacts(openTask.contacts);
+        renderOverlayTaskContacts(openTask.contacts, openTask.contactColor);
     };
 
 }
@@ -424,19 +425,20 @@ function changeSubtaskStatus(index) {
     renderOverlaySubtask(openTask.subtask);
 }
 
-function renderOverlayTaskContacts(taskContacts) {
+function renderOverlayTaskContacts(taskContacts, contactColor) {
     const boardTaskContacts = document.getElementById('overlayTaskContacts');
     boardTaskContacts.innerHTML = '<p>Assigned To:</p>'
-    taskContacts.forEach(contact => {
+    taskContacts.forEach((contact, i) => {
+        let color = contactColor[i];
         let contactsInitials = generateInitials(contact);
-        boardTaskContacts.innerHTML += generateOverlayTaskContactsHTML(contactsInitials, contact);
+        boardTaskContacts.innerHTML += generateOverlayTaskContactsHTML(contactsInitials, contact, color);
     })
 }
 
 function deleteTask(dbObjectKey) {
     deleteData('tasks/' + dbObjectKey);
     showToast('deleteToast');
-    setTimeout(closeViewList, 1000);
+    setTimeout(closeViewList, 1500);
 }
 
 function openOrCloseEditTask() {

@@ -33,8 +33,8 @@ function generateBoardSubtaskHTML(subtaskValue, subtaskCounter, subtaskLength) {
         `
 }
 
-function generateBoardTaskContactsHTML(contactsInitials) {
-    return `<p class="contact-initials" style="background-color: ${getRandomColor()}">${contactsInitials}</p>`
+function generateBoardTaskContactsHTML(contactsInitials, contactColor) {
+    return `<p class="contact-initials" style="background-color: ${contactColor}">${contactsInitials}</p>`
 }
 
 function generateTaskCardHTML(categoryBanner, openTask, prioTextUpperCase, prioImg) {
@@ -77,10 +77,10 @@ function generateOverlaySubtaskHTML(checkImg, i, subtask) {
         `
 }
 
-function generateOverlayTaskContactsHTML(contactsInitials, contact) {
+function generateOverlayTaskContactsHTML(contactsInitials, contact, color) {
     return `
         <div class="tc-overlay">
-            <p class="contact-initials" style="background-color: ${getRandomColor()}">${contactsInitials}</p>
+            <p class="contact-initials" style="background-color: ${color}">${contactsInitials}</p>
             <p>${contact}</p>
         </div>
         `
@@ -154,10 +154,10 @@ function generateSummaryHTML(toDoCount, doneCount, urgentPrio, upcomingDeadline,
 
 /* Task HTML */
 
-function generateTaskContacts(contactName, contactsInitials) {
+function generateTaskContacts(contactName, contactsInitials, contactColor) {
     return `
         <div class="contact-option">
-            <div class="contact-initials" style="background-color: ${getRandomColor()}">${contactsInitials}</div>
+            <div class="contact-initials" style="background-color: ${contactColor}">${contactsInitials}</div>
             <label>${contactName}</label>
             <img src="./assets/img/no-check-btn.png" alt="Check" class="check-icon" id="checkIcon">
         </div>`
