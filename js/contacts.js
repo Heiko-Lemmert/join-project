@@ -2,7 +2,12 @@ let contactArray = [];
 
 async function loadContacts() {
     const contactsData = await getData("contacts/-O8W_xHifJ5jIH4moSJq");
-    contactArray = Array.isArray(contactsData) ? contactsData : [];
+    contactArray = Array.isArray(contactsData) 
+        ? contactsData.map(contact => ({
+            ...contact,
+            color: contact.color || getRandomColor() 
+        })) 
+        : [];
     renderContacts();
 }
 
@@ -32,7 +37,7 @@ function renderContacts() {
 function contactItemTemplate(originalIndex) {
     let contact = contactArray[originalIndex];
     let initials = generateInitials(contact.name);
-    let bgColor = getRandomColor();
+    let bgColor = contact.color; // Use stored color
 
     return `
     <div class="contact-item" onclick="showContactDetails(${originalIndex})">
@@ -55,7 +60,7 @@ function showContactDetails(index) {
 function contactDetailsTemplate(index) {
     let contact = contactArray[index];
     let initials = generateInitials(contact.name);  
-    let bgColor = getRandomColor();  
+    let bgColor = contact.color; // Use stored color
 
     return `          
         <div class="card-mainDivv">
@@ -83,6 +88,51 @@ function contactDetailsTemplate(index) {
                 <a href="#" class="contact-phone">${contact.number}</a>
             </div>
         </div>`;
+}
+
+async function addContact() { 
+    const name = document.getElementById('name-input').value;
+    const email = document.getElementById('email-input').value;
+    const number = document.getElementById('phone-input').value;
+
+    if (!name || !email || !number) {
+        alert('Bitte alle Felder ausfüllen!');
+        return;
+    }
+
+    if (!isValidEmail(email)) {
+        alert('Bitte eine gültige E-Mail-Adresse eingeben!');
+        return;
+    }
+
+    if (!isValidPhoneNumber(number)) {
+        alert('Bitte eine gültige Telefonnummer eingeben!');
+        return;
+    }
+
+    const newContact = { 
+        name, 
+        email, 
+        number,
+        color: getRandomColor()
+    };
+
+    try {
+        let contactsData = await getData("contacts/-O8W_xHifJ5jIH4moSJq");
+
+        if (Array.isArray(contactsData)) {
+            contactsData.push(newContact);
+        } else {
+            contactsData = [newContact];
+        }
+
+        await updateData("contacts/-O8W_xHifJ5jIH4moSJq", contactsData);
+        loadContacts(); // Reload contacts
+    } catch (error) {
+        console.error('Fehler beim Hinzufügen des Kontakts:', error);
+    }
+
+    toggleOverlay();
 }
 
 function arrowDeleteContact() {
@@ -130,40 +180,6 @@ function preventEventBubbling(event) {
     event.stopPropagation();
 }
 
-async function addContact() { 
-    const name = document.getElementById('name-input').value;
-    const email = document.getElementById('email-input').value;
-    const number = document.getElementById('phone-input').value;
-
-    if (!name || !email || !number) {
-        alert('Bitte alle Felder ausfüllen!');
-        return;
-    }
-
-    const newContact = {
-        name: name,
-        email: email,
-        number: number
-    };
-
-    try {
-        let contactsData = await getData("contacts/-O8W_xHifJ5jIH4moSJq");
-
-        if (Array.isArray(contactsData)) {
-            contactsData.push(newContact);
-        } else {
-            contactsData = [newContact];
-        }
-
-        await updateData("contacts/-O8W_xHifJ5jIH4moSJq", contactsData);
-        loadContacts();
-    } catch (error) {
-        console.error('Fehler beim Hinzufügen des Kontakts:', error);
-    }
-
-    toggleOverlay();
-}
-
 async function deleteContact(index) {
     try {
         let contactsData = await getData("contacts/-O8W_xHifJ5jIH4moSJq");
@@ -189,10 +205,21 @@ async function saveContact(index) {
         return;
     }
 
-    const updatedContact = {
-        name: name,
-        email: email,
-        number: number
+    if (!isValidEmail(email)) {
+        alert('Bitte eine gültige E-Mail-Adresse eingeben!');
+        return;
+    }
+
+    if (!isValidPhoneNumber(number)) {
+        alert('Bitte eine gültige Telefonnummer eingeben!');
+        return;
+    }
+
+    const updatedContact = { 
+        name, 
+        email, 
+        number, 
+        color: contactArray[index].color
     };
 
     try {
@@ -209,4 +236,14 @@ async function saveContact(index) {
 
     toggleOverlay();
     document.getElementById('contact-card').innerHTML = '';
+}
+
+function isValidEmail(email) {
+    const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return re.test(String(email).toLowerCase());
+}
+
+function isValidPhoneNumber(number) {
+    const re = /^\d{1,15}$/; 
+    return re.test(String(number).trim());
 }
