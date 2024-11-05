@@ -315,7 +315,6 @@
             taskDate.classList.remove('required-border');
             taskSelector.classList.remove('required-border');
         }, 1000)
-
     }
 
     document.addEventListener('click', (event) => {

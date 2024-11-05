@@ -53,6 +53,8 @@ function contactItemTemplate(originalIndex) {
 
 function showContactDetails(index) {
     let contactDetails = document.getElementById('contact-card');
+    let contactContent = document.querySelector('.contact-content');
+    contactContent.classList.add('zindex')
     contactDetails.innerHTML = '';
     contactDetails.innerHTML = contactDetailsTemplate(index);
 }
@@ -94,49 +96,76 @@ async function addContact() {
     const name = document.getElementById('name-input').value;
     const email = document.getElementById('email-input').value;
     const number = document.getElementById('phone-input').value;
+    const isValid = validateForm();
 
-    if (!name || !email || !number) {
-        alert('Bitte alle Felder ausfüllen!');
-        return;
-    }
-
-    if (!isValidEmail(email)) {
-        alert('Bitte eine gültige E-Mail-Adresse eingeben!');
-        return;
-    }
-
-    if (!isValidPhoneNumber(number)) {
-        alert('Bitte eine gültige Telefonnummer eingeben!');
-        return;
-    }
-
-    const newContact = { 
-        name, 
-        email, 
-        number,
-        color: getRandomColor()
-    };
-
-    try {
-        let contactsData = await getData("contacts/-O8W_xHifJ5jIH4moSJq");
-
-        if (Array.isArray(contactsData)) {
-            contactsData.push(newContact);
-        } else {
-            contactsData = [newContact];
+    if(isValid) {
+        const newContact = { 
+            name, 
+            email, 
+            number,
+            color: getRandomColor()
+        };
+    
+        try {
+            let contactsData = await getData("contacts/-O8W_xHifJ5jIH4moSJq");
+    
+            if (Array.isArray(contactsData)) {
+                contactsData.push(newContact);
+            } else {
+                contactsData = [newContact];
+            }
+    
+            await updateData("contacts/-O8W_xHifJ5jIH4moSJq", contactsData);
+            loadContacts(); // Reload contacts
+        } catch (error) {
+            console.error('Fehler beim Hinzufügen des Kontakts:', error);
         }
-
-        await updateData("contacts/-O8W_xHifJ5jIH4moSJq", contactsData);
-        loadContacts(); // Reload contacts
-    } catch (error) {
-        console.error('Fehler beim Hinzufügen des Kontakts:', error);
+        showToast('contactToast')
+        toggleOverlay();
+    } else {
+        whichValueIsFalse();
     }
+}
 
-    toggleOverlay();
+function validateForm() {
+    const name = document.getElementById('name-input').value;
+    const email = document.getElementById('email-input').value;
+    const number = document.getElementById('phone-input').value;
+    const checkMail = isValidEmail(email);
+    const checkPhone = isValidPhoneNumber(number);
+
+    if (name && checkMail && checkPhone ) {
+        return true
+    }
+}
+
+function whichValueIsFalse() {
+    const name = document.getElementById('name-input');
+    const email = document.getElementById('email-input');
+    const number = document.getElementById('phone-input');
+    const checkMail = isValidEmail(email.value);
+    const checkPhone = isValidPhoneNumber(number.value);
+
+    if (!name.value) {
+        name.classList.add('required-border');
+    }
+    if (!checkMail) {
+        email.classList.add('required-border');
+    }
+    if (!checkPhone) {
+        number.classList.add('required-border');
+    }
+    setTimeout(() => {
+        name.classList.remove('required-border');
+        email.classList.remove('required-border');
+        number.classList.remove('required-border');
+    }, 1000)
 }
 
 function arrowDeleteContact() {
     document.getElementById('contact-card').innerHTML = '';
+    let contactContent = document.querySelector('.contact-content');
+    contactContent.classList.remove('zindex')
 }
 
 function toggleOverlay() {

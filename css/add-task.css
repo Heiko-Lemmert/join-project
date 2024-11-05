@@ -534,33 +534,6 @@ button img {
     flex-direction: column;
 }
 
-/* Grundlegender Stil für die Toast-Nachricht */
-.toast-message {
-    position: fixed;
-    bottom: -100px;
-    /* Startpunkt außerhalb des Bildschirms */
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: #333;
-    color: white;
-    padding: 15px 30px;
-    border-radius: 5px;
-    font-size: 18px;
-    z-index: 1000;
-    opacity: 0;
-    transition: bottom 0.5s ease, opacity 0.5s ease;
-}
-
-/* Toast-Nachricht in die Mitte des Bildschirms schieben */
-.toast-visible {
-    bottom: 50%;
-    /* Mitte des Bildschirms */
-    opacity: 1;
-    /* Sichtbar */
-}
-
-
-
 @media (max-width: 1200px) {
     .task-section {
         height: auto;

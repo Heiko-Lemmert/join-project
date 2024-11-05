@@ -15,6 +15,7 @@ body {
     position: fixed;
     left: var(--sidebar-width);
     top: var(--header-height);
+    z-index: 200;
 }
 
 .contact-content {
@@ -22,6 +23,7 @@ body {
     left: 550px;
     height: 100%;
     top: var(--header-height);
+    z-index: 100;
 }
 
 .contact-letter-section {
@@ -350,6 +352,14 @@ body {
     visibility: hidden;
 }
 
+.zindex {
+    z-index: 999;
+}
+
+.required-border {
+    border: 1px solid #FD8F9C !important;
+}
+
 @media (max-width: 1200px) {
 
     .contact-list-sidebar {
@@ -363,6 +373,86 @@ body {
     
 }
 
+@media (max-width: 980px) {
+
+    #overlay {
+        z-index: 1000;
+        position: unset;
+        height: auto;
+        width: auto;
+        background-color: unset;
+    }
+
+    #dialog {
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        width: 100%;
+        background-color: #ffffff;
+        border-radius: unset;
+        position: fixed;
+        top: unset;
+        left: unset;
+        transform: unset;
+    }
+
+
+    .contact-form-description {
+        display: flex;
+        height: 50%;
+        width: 100%;
+        flex-direction: column;
+        justify-content: center;
+        border-top-left-radius: initial;
+        border-bottom-left-radius: initial;
+        gap: 20px;
+    }
+
+
+    .contact-form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 50%;
+        width: 100%;
+        position: relative;
+    }
+
+    .contact-form-text {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 100px;
+    }
+
+    .button-container {
+        display: flex;
+        flex-direction: unset;
+        justify-content: center;
+    }
+
+    .name-input,
+    .email-input,
+    .phone-input {
+        width: 80%;
+    }
+
+    .profile-image {
+        width: 100px;
+        position: absolute;
+        top: -60px;
+        width: 112px;
+        height: 112px;
+        border-radius: 50%;
+        margin-bottom: 20px;
+        margin: 0px 48px;
+    }
+
+    .contact-form-text {
+        display: flex;
+        flex-direction: column;
+    }
+}
 
 @media (max-width: 775px) {
 
@@ -426,11 +516,7 @@ body {
 
     .back-contact-arrow {
         margin-top: 10px
-    }
-}
-
-
-@media (max-width: 613px) {
+    } 
 
     .card-mainDivv {
         margin-top: 80px;
@@ -456,84 +542,5 @@ body {
         left: 0;
         top: 0;
 
-    }
-
-}
-
-@media (max-width: 980px) {
-
-    #overlay {
-        z-index: 1000;
-        position: unset;
-        height: auto;
-        width: auto;
-        background-color: unset;
-    }
-
-    #dialog {
-        display: flex;
-        flex-direction: column;
-        height: 100vh;
-        width: 100%;
-        background-color: #ffffff;
-        border-radius: unset;
-        position: fixed;
-        top: unset;
-        left: unset;
-        transform: unset;
-    }
-
-
-    .contact-form-description {
-        display: flex;
-        height: 50%;
-        width: 100%;
-        flex-direction: column;
-        justify-content: center;
-        border-top-left-radius: initial;
-        border-bottom-left-radius: initial;
-    }
-
-
-    .contact-form {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        height: 50%;
-        width: 100%;
-    }
-
-    .contact-form-text {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .button-container {
-        display: flex;
-        flex-direction: unset;
-        justify-content: center;
-    }
-
-    .name-input,
-    .email-input,
-    .phone-input {
-        width: 80%;
-    }
-
-    .profile-image {
-        width: 100px;
-        position: absolute;
-        top: 300px;
-        width: 112px;
-        height: 112px;
-        border-radius: 50%;
-        margin-bottom: 20px;
-        margin: 0px 48px;
-    }
-
-    .contact-form-text {
-        display: flex;
-        flex-direction: column;
-        margin-top: 64px;
     }
 }
