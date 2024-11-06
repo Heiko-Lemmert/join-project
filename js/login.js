@@ -115,3 +115,11 @@ async function signUpUser() {
         console.error('Fehler beim Registrieren des Benutzers:', error);
     }
 }
+
+function loader() {
+    document.querySelector('.startsequence').style.opacity = '0';
+    document.querySelector('.logo-start').classList.add('logo')
+    setTimeout(() => {
+        document.querySelector('.startsequence').style.display = 'none';
+    }, 1500);
+}
