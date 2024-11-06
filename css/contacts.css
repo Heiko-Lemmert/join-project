@@ -108,6 +108,12 @@ body {
     border-radius: 16px;
 }
 
+.contact-highlight {
+    background-color: #2A3647;
+    color: white;
+    border-radius: 16px;
+}
+
 .contact-initial {
     width: 40px;
     height: 40px;
@@ -178,10 +184,6 @@ body {
 .contact-email {
     color: gray;
     font-size: 14px;
-}
-
-.contact-card {
-    padding: 20px;
 }
 
 .profile-section {
@@ -523,6 +525,7 @@ body {
         padding: 64px;
         padding-bottom: 150px;
         background: #f9f9f9;
+        height: 100vh;
     }
 
     .back-contact-arrow {

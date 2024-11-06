@@ -40,7 +40,7 @@ function contactItemTemplate(originalIndex) {
     let bgColor = contact.color; // Use stored color
 
     return `
-    <div class="contact-item" onclick="showContactDetails(${originalIndex})">
+    <div id="contact-${originalIndex}" class="contact-item" onclick="showContactDetails(${originalIndex})">
         <div class="contact-avatar" style="background-color: ${bgColor}; color: white;">
             ${initials}
         </div>
@@ -57,6 +57,8 @@ function showContactDetails(index) {
     contactContent.classList.add('zindex')
     contactDetails.innerHTML = '';
     contactDetails.innerHTML = contactDetailsTemplate(index);
+    preventScrolling();
+    addHighlight(index);
 }
 
 function contactDetailsTemplate(index) {
@@ -166,6 +168,7 @@ function arrowDeleteContact() {
     document.getElementById('contact-card').innerHTML = '';
     let contactContent = document.querySelector('.contact-content');
     contactContent.classList.remove('zindex')
+    allowScrolling();
 }
 
 function toggleOverlay() {
@@ -275,4 +278,11 @@ function isValidEmail(email) {
 function isValidPhoneNumber(number) {
     const re = /^\d{1,15}$/; 
     return re.test(String(number).trim());
+}
+
+function addHighlight(id) {
+    contactArray.forEach((contact, i) => {
+        document.getElementById('contact-' + i).classList.remove('contact-highlight');
+    })
+    document.getElementById('contact-' + id).classList.add('contact-highlight');
 }
