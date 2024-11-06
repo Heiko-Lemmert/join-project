@@ -137,6 +137,7 @@ button img {
     background-color: #2A3647;
     color: #fff;
     margin-left: 15px;
+    text-wrap: nowrap;
 }
 
 .create-task-btn:hover {
@@ -236,7 +237,7 @@ button img {
 .task-container-right {
     position: relative;
     margin: 0px 25px;
-    flex: 1;
+    width: 50%;
 }
 
 .task-container-left label,
@@ -330,6 +331,7 @@ button img {
 #selectedContacts,
 #editSelectedContacts {
     display: flex;
+    overflow: auto;
 }
 
 .sc-check {
@@ -402,6 +404,7 @@ button img {
 
 .task-btn-container {
     margin-top: 16px;
+    display: flex;
 }
 
 .show-subtask {
@@ -538,6 +541,7 @@ button img {
     .task-section {
         height: auto;
         left: auto;
+        width: 100%;
     }
 
 
@@ -569,6 +573,10 @@ button img {
 
 @media (max-width: 610px) {
 
+    .task-section {
+        padding: 15px 10px 25px;
+    }
+
     .task-form {
         display: block;
     }
@@ -588,8 +596,17 @@ button img {
     .task-btn-container {
         margin-top: 16px;
         margin-bottom: 30px;
-        display: flex;
+        flex-direction: column;
+        gap: 10px;
     }
+
+    .task-container-left, .task-container-right {
+        width: 95%;
+      }
+
+      .create-task-btn {
+        margin-left: 0px;
+      }
 }
 
 /*overlay addtask*/

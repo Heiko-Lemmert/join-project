@@ -225,8 +225,8 @@ a {
 /* Contact Styling */
 
 .contact-initials {
-    width: 30px;
-    height: 30px;
+    min-width: 30px;
+    min-height: 30px;
     border-radius: 50%;
     color: #fff;
     font-weight: bold;
@@ -376,3 +376,7 @@ a {
         margin-left: 16px;
     }
 }
+
+.content-size {
+    max-width: 1920px;
+  }

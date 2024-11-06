@@ -90,7 +90,7 @@ function generateOverlayTaskContactsHTML(contactsInitials, contact, color) {
 
 function generateSummaryHTML(toDoCount, doneCount, urgentPrio, upcomingDeadline, totalTaskCount, progressCount, feedBackCount) {
     return `
-    <section class="summary-section">
+    <section class="summary-section content-size">
         <header class="summary-header">
             <h1>Join 360</h1>
             <hr>
