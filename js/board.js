@@ -178,46 +178,77 @@ function filterAndShowTask() {
     checkForEmptyLists(); // Überprüfe, ob nach dem Filtern Listen leer sind
 }
 
-
 function renderTasks() {
     let leftContainer = document.getElementById('left');
     let leftNum2Container = document.getElementById('leftNum2');
     let rightContainer = document.getElementById('right');
     let rightNum2Container = document.getElementById('rightNum2');
 
-    leftContainer.innerHTML = '';
-    leftNum2Container.innerHTML = '';
-    rightContainer.innerHTML = '';
-    rightNum2Container.innerHTML = '';
+    clearContainers([leftContainer, leftNum2Container, rightContainer, rightNum2Container]);
 
-    // Wenn ein Filter aktiv ist, dann zeige nur die gefilterten Aufgaben
-    let tasksToRender = currentFilterWord ? currentTaskName : Object.values(allTasks);
+    // Filtere Aufgaben, wenn ein Filter aktiv ist
+    let tasksToRender = getTasksToRender();
 
     tasksToRender.forEach((task, i) => {
-        let prioImg = prioImgChooser(task.prio);
-        let categoryBanner = bannerChooser(task.category);
-        let whichSection = task.progress;
+        let taskHTML = createTaskHTML(task, i);
 
-        let taskHTML = generateBoardTasksHTML(task, categoryBanner, whichSection, i, prioImg);
-
-        switch (task.progress) {
-            case 'to-do':
-                leftContainer.innerHTML += taskHTML;
-                break;
-            case 'in-progress':
-                leftNum2Container.innerHTML += taskHTML;
-                break;
-            case 'await-feedback':
-                rightContainer.innerHTML += taskHTML;
-                break;
-            case 'done':
-                rightNum2Container.innerHTML += taskHTML;
-                break;
-        }
+        renderTaskToSection(task.progress, taskHTML, task, i);
     });
 
     dagAndDrop();
 }
+
+// Hilfsfunktion zum Löschen des Inhalts der Container
+function clearContainers(containers) {
+    containers.forEach(container => container.innerHTML = '');
+}
+
+// Hilfsfunktion zum Abrufen der zu rendernden Aufgaben basierend auf dem Filter
+function getTasksToRender() {
+    return currentFilterWord ? currentTaskName : Object.values(allTasks);
+}
+
+// Funktion zum Erstellen des HTML für eine Aufgabe
+function createTaskHTML(task, index) {
+    let prioImg = prioImgChooser(task.prio);
+    let categoryBanner = bannerChooser(task.category);
+    let whichSection = task.progress;
+    return generateBoardTasksHTML(task, categoryBanner, whichSection, index, prioImg);
+}
+
+// Funktion zum Hinzufügen der Aufgabe in den richtigen Abschnitt
+function renderTaskToSection(section, taskHTML, task, index) {
+    let container;
+
+    switch (section) {
+        case 'to-do':
+            container = document.getElementById('left');
+            break;
+        case 'in-progress':
+            container = document.getElementById('leftNum2');
+            break;
+        case 'await-feedback':
+            container = document.getElementById('right');
+            break;
+        case 'done':
+            container = document.getElementById('rightNum2');
+            break;
+    }
+
+    container.innerHTML += taskHTML;
+    renderTaskDetails(task, section, index);
+}
+
+// Funktion zum Rendern von Subtasks und Kontakten einer Aufgabe
+function renderTaskDetails(task, section, index) {
+    if (task.subtask) {
+        renderBoardSubtaskCounter(task.subtask, section, index);
+    }
+    if (task.contacts) {
+        renderBoardTaskContacts(task.contacts, section, index, task.contactColor);
+    }
+}
+
 
 
 
@@ -344,7 +375,7 @@ function checkDropArea(column) {
     }
 }
 
-function showOrHideOverlay() {
+function showOrHideOverlay(taskSection) {
     const atOverlay = document.getElementById('atOverlay');
     const script = document.scripts.namedItem('taskOnBoard');
     if (atOverlay.classList.contains('at-overlay-hidden')) {
@@ -356,6 +387,7 @@ function showOrHideOverlay() {
     } else {
         atOverlay.classList.toggle('at-overlay-hidden');
     }
+    progressStatus = taskSection;
 }
 
 function loadInitAddTask() {
@@ -395,7 +427,7 @@ function openList(element) {
     if (openTask.contacts) {
         renderOverlayTaskContacts(openTask.contacts, openTask.contactColor);
     };
-
+    preventScrolling();
 }
 
 function renderOverlaySubtask(subtasks) {
@@ -462,13 +494,15 @@ function loadInitEditTask() {
     initTask();
     editBtn.addEventListener('click', () => {
         setTimeout(openOrCloseEditTask, 1000);
+        setTimeout(closeViewList, 1000);
     })
     fillEditTask(openTask);
 }
 
 function closeViewList() {
     document.getElementById('bigViewList').innerHTML = '';
-    loadAllTasks();
+    setTimeout(loadAllTasks, 500);
+    allowScrolling();
 }
 
 /**

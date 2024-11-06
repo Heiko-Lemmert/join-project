@@ -297,7 +297,7 @@
         const description = taskDescription.value;
         const date = taskDate.value;
 
-        return { 'title': title, 'description': description, 'date': date, 'contacts': selectedContactName, 'contactColor': selectedContactColor, 'prio': currentPrio, 'category': category, 'subtask': writtenSubtask, 'progress': 'to-do' }
+        return { 'title': title, 'description': description, 'date': date, 'contacts': selectedContactName, 'contactColor': selectedContactColor, 'prio': currentPrio, 'category': category, 'subtask': writtenSubtask, 'progress': progressStatus }
     }
 
     function whichValueIsFalse() {
