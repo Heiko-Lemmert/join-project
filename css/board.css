@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
     height: calc(100vh - var(--header-height));
-    width: calc(100vw - var(--sidebar-width));
+    width: calc(99vw - var(--sidebar-width));
     position: relative;
     left: var(--sidebar-width);
     top: var(--header-height);
@@ -102,6 +102,8 @@ h1 {
     font-size: 20px;
     font-weight: 700;
     margin-right: 10px;
+    padding-right: 100px;
+    text-wrap: nowrap;
 }
 
 .board-bottomPlusImg {
@@ -117,8 +119,21 @@ h1 {
 
 .board-bottom {
     display: flex;
-    align-items: center;
     justify-content: space-around;
+    height: 100vh;
+    margin-right: 90px;
+    margin-left: 48px;
+    gap: 30px;
+}
+
+.overDiv-bottom,
+.overDiv-bottom-f {
+    width: 25%;
+}
+
+.toAdd-bottom {
+    display: flex;
+    justify-content: space-between;
 }
 
 .noTaskSpan {
@@ -139,9 +154,7 @@ h1 {
     position: relative;
     margin-top: 24px;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 300px;
+    min-height: 150px;
     /* overflow-y: scroll;*/
     /* Verhindert anfängliche Anzeige der Scrollleiste */
 }
@@ -167,18 +180,18 @@ h1 {
     background-color: #c0c0c0;
 }
 
-#left,
+/* #left,
 #right,
 #leftNum2,
 #rightNum2 {
     width: 230px;
     height: 100%;
     padding: 1px;
-}
+} */
 
 .list {
-    height: 224px;
-    width: 224px;
+    min-height: 300px;
+    width: 99%;
     margin-bottom: 8px;
     display: flex;
     align-items: center;
@@ -223,10 +236,6 @@ h1 {
 
 .close-bigListView-button {
     cursor: pointer;
-}
-
-.board-centerTitel {
-    padding-right: 100px;
 }
 
 /* Task Card Styling */
@@ -376,9 +385,6 @@ h1 {
 
 
 @media(max-width: 1190px) {
-
-
-
     .board-mainContainer {
         left: auto;
         width: auto;
@@ -399,7 +405,6 @@ h1 {
     .board-bottom {
         display: flex;
         flex-direction: column;
-        align-items: initial;
         justify-content: space-around;
     }
 
@@ -417,7 +422,7 @@ h1 {
     }
 
     .scroll-div {
-        height: 270px;
+        height: auto;
         justify-content: initial;
         /* damit wird es zurückgesetzt auf dem anfangs zustand */
         overflow-y: hidden;
@@ -428,7 +433,6 @@ h1 {
         width: 224px;
         margin: 8px;
     }
-
 
     /* Stil für die horizontale Scrollleiste */
     .scroll-div::-webkit-scrollbar {
@@ -454,6 +458,14 @@ h1 {
 
     .board-bottom {
         margin-top: 64px;
+        margin-left: 10px;
+        margin-right: 10px;
+        height: auto;
+    }
+
+    .overDiv-bottom,
+    .overDiv-bottom-f {
+        width: 100%;
     }
 
 }
@@ -467,11 +479,13 @@ h1 {
     .board-InputField {
         position: absolute;
         top: 130px;
-        right: 10px;
-        left: auto;
+        right: 0;
+        left: 0;
         border-radius: 10px;
-        width: 278px;
+        width: 95%;
         height: 39px;
+        margin-left: 10px;
+        margin-right: 10px;
     }
 
     .board-searchImage {
@@ -489,7 +503,8 @@ h1 {
 
     .board-top {
         display: flex;
-        margin: 40px;
+        margin-top: 40px;
+        margin-left: 10px;
         margin-right: 10px;
     }
 

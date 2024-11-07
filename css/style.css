@@ -233,7 +233,7 @@ a {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-right: 10px;
+    margin-right: -5px;
     font-size: 0.9rem;
     border: 1px solid white;
 }
@@ -297,8 +297,9 @@ a {
         flex-direction: column;
         padding: 0;
         cursor: pointer;
-        margin-top: 8px;
-        margin-bottom: 8px;
+        justify-content: center;
+        margin-top: 0;
+        margin-bottom: 0;
         width: 88px;
     }
 
@@ -331,10 +332,10 @@ a {
         display: flex;
         flex-direction: column;
         padding: 0;
-        /* margin: 20px; */
         cursor: pointer;
         height: 80px;
         width: 80px;
+
     }
 
 
@@ -345,11 +346,13 @@ a {
     .sideBar-changeArea-text {
         font-size: 14px;
     }
+
+    .sideBar-changeAreaSub.clicked {
+        border-radius: 15px;
+    }
 }
 
 /*header responsive */
-
-
 
 @media(max-width: 1200px) {
 
@@ -379,4 +382,4 @@ a {
 
 .content-size {
     max-width: 1920px;
-  }
+}
