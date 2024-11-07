@@ -560,6 +560,11 @@ button img {
         position: fixed;
     }
 
+    .et-overlay {
+        max-height: 95%;
+        overflow-y: auto;
+    }
+
 }
 
 @media (max-width: 730px) {
@@ -572,9 +577,8 @@ button img {
 }
 
 @media (max-width: 610px) {
-
     .task-section {
-        padding: 15px 10px 25px;
+        padding: 15px 20px 25px;
     }
 
     .task-form {
@@ -606,6 +610,7 @@ button img {
 
       .create-task-btn {
         margin-left: 0px;
+        margin-bottom: 15px;
       }
 }
 
@@ -638,7 +643,10 @@ button img {
         padding: 50px;
         z-index: 2000;
     }
-
+    
+    .et-overlay {
+        width: 95%;
+    }
 }
 
 @media (max-width: 730px) {
