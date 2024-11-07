@@ -11,13 +11,8 @@
     const subtask = document.getElementById('subtask');
     const addBtn = document.getElementById('addBtn');
     const dotMarker = '&bull;';
-    const today = new Date()
-    const year = today.getFullYear()
-    const month = today.getMonth() + 1
-    const date = today.getDate()
-    const dateStr = `${year}-${month}-${date}`
-    const input = document.querySelector('[name=task-date]')
-    input.setAttribute('min', dateStr)
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById("taskDate").setAttribute("min", today);
     let writtenSubtask = [];
     let selected = [];
     let selectedContactName = [];
@@ -39,6 +34,7 @@
     }
 
     function renderTaskContact() {
+        contacts.sort((a, b) => a.name.localeCompare(b.name));
         const contactOptions = document.getElementById('contactOptions');
         contacts.forEach(contact => {
             const contactsInitials = generateInitials(contact.name);
@@ -281,6 +277,7 @@
                 });
             clearTask(event);
             showToast('toast');
+            if (window.location.pathname === '/add-task.html') { setTimeout(() => { window.location.href = 'board.html'; }, 1500) };
         } else {
             whichValueIsFalse();
         }

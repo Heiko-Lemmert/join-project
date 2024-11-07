@@ -233,9 +233,13 @@ a {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-right: -5px;
+    margin-right: 10px;
     font-size: 0.9rem;
     border: 1px solid white;
+}
+
+.ci-margin {
+    margin-right: -5px;
 }
 
 /* Grundlegender Stil für die Toast-Nachricht */

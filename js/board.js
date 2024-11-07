@@ -10,7 +10,6 @@ let currentFilterWord = '';
 
 function renderCode() {
     includeHTML();
-    // checkForList();
     dagAndDrop();
     checkForEmptyLists();
     initializeImageHover();
@@ -24,7 +23,6 @@ async function loadAllTasks() {
 
     if (allTasks && Object.keys(allTasks).length > 0) {
         moveTask();
-        // checkForList();
     } else {
         console.error("No tasks found or allTasks is not an object");
     }
@@ -249,33 +247,6 @@ function checkForEmptyLists() {
         }
     }
 }
-
-// function checkForList() {
-//     let scrollDivs = document.querySelectorAll(".scroll-div");
-//     for (let i = 0; i < scrollDivs.length; i++) {
-//         let scrollDiv = scrollDivs[i];
-//         let lists = scrollDiv.querySelectorAll(".list");
-
-//         scrollDiv.style.overflowX = "hidden";
-//         scrollDiv.style.overflowY = "hidden";
-
-//         if (window.innerWidth <= 970) {
-//             if (lists.length <= 1) {
-//                 scrollDiv.style.overflowX = "hidden";
-//             } else {
-//                 scrollDiv.style.overflowX = "scroll";
-//             }
-//         } else if ((window.innerWidth > 970)) {
-//             if (lists.length <= 1) {
-//                 scrollDiv.style.overflowY = "hidden";
-//             } else {
-//                 scrollDiv.style.overflowY = "scroll";
-//             }
-//         }
-//     }
-// }
-// document.addEventListener('DOMContentLoaded', checkForList);
-// window.addEventListener('resize', checkForList);
 
 function dagAndDrop() {
     let lists = document.getElementsByClassName("list");

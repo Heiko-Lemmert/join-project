@@ -11,13 +11,8 @@
     const editSubtaskInput = document.getElementById('editSubtaskInput');
     const editAddBtn = document.getElementById('editAddBtn');
     const dotMarker = '&bull;';
-    const today = new Date()
-    const year = today.getFullYear()
-    const month = today.getMonth() + 1
-    const date = today.getDate()
-    const dateStr = `${year}-${month}-${date}`
-    const input = document.querySelector('[name=edit-task-date]')
-    input.setAttribute('min', dateStr)
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById("taskDate").setAttribute("min", today);
     let writtenSubtask = [];
     let selected = [];
     let selectedContactName = [];

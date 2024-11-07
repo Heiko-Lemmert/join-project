@@ -34,7 +34,7 @@ function generateBoardSubtaskHTML(subtaskValue, subtaskCounter, subtaskLength) {
 }
 
 function generateBoardTaskContactsHTML(contactsInitials, contactColor) {
-    return `<p class="contact-initials" style="background-color: ${contactColor}">${contactsInitials}</p>`
+    return `<p class="contact-initials ci-margin" style="background-color: ${contactColor}">${contactsInitials}</p>`
 }
 
 function generateTaskCardHTML(categoryBanner, openTask, prioTextUpperCase, prioImg) {

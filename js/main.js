@@ -36,7 +36,7 @@ function includeHTML() {
 
 function init() {
     includeHTML();
-    
+
 }
 
 // Sidebar JS
