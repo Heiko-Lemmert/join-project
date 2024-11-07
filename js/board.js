@@ -6,7 +6,7 @@ let awaitFeedbackSection = [];
 let doneSection = [];
 let currentTaskName = [];
 let openTask = [];
-let currentFilterWord = ''; // Neue Variable für den Filterzustand
+let currentFilterWord = '';
 
 function renderCode() {
     includeHTML();
@@ -24,12 +24,11 @@ async function loadAllTasks() {
 
     if (allTasks && Object.keys(allTasks).length > 0) {
         moveTask();
-        checkForList();//sichergestellt, dass die Funktion erst dann ausgeführt wird, wenn die Aufgaben tatsächlich im DOM vorhanden sind. Dadurch konnte die Scrollleiste korrekt aktiviert werden, da nun Inhalt vorhanden war, den sie scrollen musste.
+        checkForList();
     } else {
         console.error("No tasks found or allTasks is not an object");
     }
 }
-
 
 function resetSectionArr() {
     toDoSection = [];
@@ -42,20 +41,20 @@ function moveTask() {
     resetSectionArr();
     Object.keys(allTasks).forEach(taskKey => {
         currentTask = allTasks[taskKey];
-        currentTask.databaseKey = taskKey
+        currentTask.databaseKey = taskKey;
         if (currentTask.progress === 'to-do') {
-            toDoSection.push(currentTask)
+            toDoSection.push(currentTask);
         }
         if (currentTask.progress === 'in-progress') {
-            inProgressSection.push(currentTask)
+            inProgressSection.push(currentTask);
         }
         if (currentTask.progress === 'await-feedback') {
-            awaitFeedbackSection.push(currentTask)
+            awaitFeedbackSection.push(currentTask);
         }
         if (currentTask.progress === 'done') {
-            doneSection.push(currentTask)
+            doneSection.push(currentTask);
         }
-    })
+    });
     renderBoard();
 }
 
@@ -64,7 +63,7 @@ function renderBoard() {
     renderSection(inProgressSection, 'leftNum2');
     renderSection(awaitFeedbackSection, 'right');
     renderSection(doneSection, 'rightNum2');
-    checkForEmptyLists(); // Überprüfe, ob Listen leer sind
+    checkForEmptyLists();
     dagAndDrop();
 }
 
@@ -73,7 +72,6 @@ function renderSection(section, id) {
     const whichSection = sectionChooser(section);
     sectionArray.innerHTML = `<span class="noTaskSpan">No tasks in ${whichSection}</span>`;
     
-
     if (section) {
         section.forEach((currentTask, i) => {
             const prioImg = prioImgChooser(currentTask.prio);
@@ -81,23 +79,23 @@ function renderSection(section, id) {
             sectionArray.innerHTML += generateBoardTasksHTML(currentTask, categoryBanner, whichSection, i, prioImg);
             if (currentTask.subtask) {
                 renderBoardSubtaskCounter(currentTask.subtask, whichSection, i);
-            };
+            }
             if (currentTask.contacts) {
                 renderBoardTaskContacts(currentTask.contacts, whichSection, i, currentTask.contactColor);
-            };
+            }
         });
     }
 }
 
 function renderBoardSubtaskCounter(subtasks, section, i) {
     const boardSubtask = document.getElementById('boardSubtask-' + section + '-' + i);
-    const subtaskLength = subtasks.length
+    const subtaskLength = subtasks.length;
     let subtaskCounter = 0;
     subtasks.forEach(currentSubtask => {
         if (currentSubtask.done) {
-            subtaskCounter++
+            subtaskCounter++;
         }
-    })
+    });
     const subtaskValue = (100 / subtaskLength) * subtaskCounter;
     boardSubtask.innerHTML = generateBoardSubtaskHTML(subtaskValue, subtaskCounter, subtaskLength);
 }
@@ -105,27 +103,27 @@ function renderBoardSubtaskCounter(subtasks, section, i) {
 function renderBoardTaskContacts(taskContacts, section, index, color) {
     const boardTaskContacts = document.getElementById('boardTaskContacts-' + section + '-' + index);
     taskContacts.forEach((contact, i) => {
-        let contactColor = color[i]
+        let contactColor = color[i];
         let contactsInitials = generateInitials(contact);
         boardTaskContacts.innerHTML += generateBoardTaskContactsHTML(contactsInitials, contactColor);
-    })
+    });
 }
 
 function prioImgChooser(prio) {
     switch (prio) {
         case 'high':
-            return '<img class="task-card-prio" src="./assets/img/prio-high.png" alt=""></img>'
+            return '<img class="task-card-prio" src="./assets/img/prio-high.png" alt=""></img>';
         case 'medium':
-            return '<img class="task-card-prio-medium" src="./assets/img/prio-medium.png" alt=""></img>'
+            return '<img class="task-card-prio-medium" src="./assets/img/prio-medium.png" alt=""></img>';
         case 'low':
-            return '<img class="task-card-prio" src="./assets/img/prio-low.png" alt=""></img>'
+            return '<img class="task-card-prio" src="./assets/img/prio-low.png" alt=""></img>';
         default:
             break;
     }
 }
 
 function prioText(prio) {
-    return prio.charAt(0).toUpperCase() + prio.slice(1)
+    return prio.charAt(0).toUpperCase() + prio.slice(1);
 }
 
 function bannerChooser(category) {
@@ -153,29 +151,24 @@ function sectionChooser(section) {
             break;
     }
 }
-/**
- * it is filtering the searched input
- */
+
 function filterAndShowTask() {
     let tasksArray = Object.values(allTasks);
     let filterInputElement = document.getElementById('filterTaskInput');
-    currentFilterWord = filterInputElement.value.toLowerCase(); // Filterbegriff speichern
+    currentFilterWord = filterInputElement.value.toLowerCase();
 
     if (currentFilterWord === '') {
-        // Wenn das Eingabefeld leer ist, zeige den Anfangszustand an
-        moveTask(); // Zeige alle Aufgaben erneut an
-        return; // Beende die Funktion
+        moveTask();
+        return;
     }
 
-    // Filtere die Aufgaben basierend auf dem Titel oder der Beschreibung
     currentTaskName = tasksArray.filter(task => {
         return (task.title && task.title.toLowerCase().includes(currentFilterWord)) ||
                (task.description && task.description.toLowerCase().includes(currentFilterWord));
     });
 
-    // Nur gefilterte Aufgaben rendern
     renderTasks();
-    checkForEmptyLists(); // Überprüfe, ob nach dem Filtern Listen leer sind
+    checkForEmptyLists();
 }
 
 function renderTasks() {
@@ -185,30 +178,24 @@ function renderTasks() {
     let rightNum2Container = document.getElementById('rightNum2');
 
     clearContainers([leftContainer, leftNum2Container, rightContainer, rightNum2Container]);
-
-    // Filtere Aufgaben, wenn ein Filter aktiv ist
     let tasksToRender = getTasksToRender();
 
     tasksToRender.forEach((task, i) => {
         let taskHTML = createTaskHTML(task, i);
-
         renderTaskToSection(task.progress, taskHTML, task, i);
     });
 
     dagAndDrop();
 }
 
-// Hilfsfunktion zum Löschen des Inhalts der Container
 function clearContainers(containers) {
     containers.forEach(container => container.innerHTML = '');
 }
 
-// Hilfsfunktion zum Abrufen der zu rendernden Aufgaben basierend auf dem Filter
 function getTasksToRender() {
     return currentFilterWord ? currentTaskName : Object.values(allTasks);
 }
 
-// Funktion zum Erstellen des HTML für eine Aufgabe
 function createTaskHTML(task, index) {
     let prioImg = prioImgChooser(task.prio);
     let categoryBanner = bannerChooser(task.category);
@@ -216,10 +203,8 @@ function createTaskHTML(task, index) {
     return generateBoardTasksHTML(task, categoryBanner, whichSection, index, prioImg);
 }
 
-// Funktion zum Hinzufügen der Aufgabe in den richtigen Abschnitt
 function renderTaskToSection(section, taskHTML, task, index) {
     let container;
-
     switch (section) {
         case 'to-do':
             container = document.getElementById('left');
@@ -234,12 +219,10 @@ function renderTaskToSection(section, taskHTML, task, index) {
             container = document.getElementById('rightNum2');
             break;
     }
-
     container.innerHTML += taskHTML;
     renderTaskDetails(task, section, index);
 }
 
-// Funktion zum Rendern von Subtasks und Kontakten einer Aufgabe
 function renderTaskDetails(task, section, index) {
     if (task.subtask) {
         renderBoardSubtaskCounter(task.subtask, section, index);
@@ -249,66 +232,50 @@ function renderTaskDetails(task, section, index) {
     }
 }
 
-
-
-
-// Funktion zur Überprüfung der Listen auf leere Inhalte
-function checkForEmptyLists() {         //Diese Funktion dient dazu, die Anzeige der Meldung "No tasks" zu steuern, je nachdem, ob in den jeweiligen Containern (div-Elementen) Aufgaben (list-Elemente) vorhanden sind oder nicht.
-    let boxIds = ["left", "leftNum2", "right", "rightNum2"];  //: Eine Variable, die ein Array von IDs speichert
-    for (let i = 0; i < boxIds.length; i++) { //wir iterieren über die länge der variable
-        let box = document.getElementById(boxIds[i]); //definieren eine variable , und holen uns das jeweilige id name des divs
-        let lists = box.querySelectorAll(".list");//Findet alle Elemente innerhalb des aktuellen Containers (box), die die Klasse .list haben, und speichert sie als NodeList in der Variablen lists.
-
-        //merken : noSpan div ist anfangs in css ausgeblendet
-        let noTaskSpanList = box.querySelectorAll(".noTaskSpan");//struktur : let element = document.querySelectorAll('selector'); Erklärung : sucht innerhalb des Containers (box) nach alle Elemente, das die Klasse .noTaskSpan hat.
-        //querySelector wird auf ein Dokument (document) oder ein bestimmtes Element angewendet und akzeptiert einen String als Parameter. Dieser String ist ein CSS-Selektor, der verwendet wird, um das gewünschte Element zu finden.
-        if (lists.length === 0) { //Überprüft, ob die NodeList lists keine Aufgaben (list-Elemente) enthält (lists.length === 0).
-            if (noTaskSpanList.length > 0) { //Was macht es?    Überprüft, ob es mindestens ein span-Element mit der Klasse .noTaskSpan im aktuellen Container gibt (noTaskSpanList.length > 0).
-                noTaskSpanList[0].style.display = "block"; // Wenn ja, greift es auf das erste dieser Elemente zu (noTaskSpanList[0]) und setzt dessen CSS-Eigenschaft display auf "block", um die Meldung anzuzeigen.
+function checkForEmptyLists() {
+    let boxIds = ["left", "leftNum2", "right", "rightNum2"];
+    for (let i = 0; i < boxIds.length; i++) {
+        let box = document.getElementById(boxIds[i]);
+        let lists = box.querySelectorAll(".list");
+        let noTaskSpanList = box.querySelectorAll(".noTaskSpan");
+        if (lists.length === 0) {
+            if (noTaskSpanList.length > 0) {
+                noTaskSpanList[0].style.display = "block";
             }
-        } else { // Wenn Listen-Elemente vorhanden sind
-            if (noTaskSpanList.length > 0) { // Überprüfe erneut, ob es mindestens ein "No tasks"-Element gibt
-                noTaskSpanList[0].style.display = "none"; // Wenn ja, greift es auf das erste dieser Elemente zu (noTaskSpanList[0]) und setzt dessen CSS-Eigenschaft display auf "none", um die Meldung auszublenden.
+        } else {
+            if (noTaskSpanList.length > 0) {
+                noTaskSpanList[0].style.display = "none";
             }
         }
     }
-
 }
+
 function checkForList() {
-    // Wählen Sie alle Elemente mit der Klasse "scroll-div"
     let scrollDivs = document.querySelectorAll(".scroll-div");
-
-    // Iterieren Sie über die ausgewählten Elemente
     for (let i = 0; i < scrollDivs.length; i++) {
-        let scrollDiv = scrollDivs[i]; // Greifen Sie auf das aktuelle Element zu
-        let lists = scrollDiv.querySelectorAll(".list"); // Suchen Sie nach '.list'-Elementen innerhalb dieses 'div'
+        let scrollDiv = scrollDivs[i];
+        let lists = scrollDiv.querySelectorAll(".list");
 
-        // Setze overflowX und overflowY zurück
         scrollDiv.style.overflowX = "hidden";
         scrollDiv.style.overflowY = "hidden";
 
-        // Überprüft, ob keine '.list'-Elemente vorhanden sind
         if (window.innerWidth <= 970) {
-            // Wenn die Bildschirmbreite kleiner oder gleich 970px ist
             if (lists.length <= 1) {
-                scrollDiv.style.overflowX = "hidden"; // Horizontale Scrollleiste entfernen
+                scrollDiv.style.overflowX = "hidden";
             } else {
-                scrollDiv.style.overflowX = "scroll"; // Horizontale Scrollleiste hinzufügen
+                scrollDiv.style.overflowX = "scroll";
             }
         } else if ((window.innerWidth > 970)) {
-            // Wenn die Bildschirmbreite größer als 970px ist
             if (lists.length <= 1) {
-                scrollDiv.style.overflowY = "hidden"; // Vertikale Scrollleiste entfernen
+                scrollDiv.style.overflowY = "hidden";
             } else {
-                scrollDiv.style.overflowY = "scroll"; // Vertikale Scrollleiste hinzufügen
+                scrollDiv.style.overflowY = "scroll";
             }
         }
     }
 }
 document.addEventListener('DOMContentLoaded', checkForList);
-
-// Fügen Sie ein Event-Listener für die Größenänderung des Fensters hinzu
-window.addEventListener('resize', checkForList);//Nutze Events wie resize und DOMContentLoaded: Stelle sicher, dass deine Funktionen, die auf Fenstergröße oder andere dynamische Änderungen reagieren sollen, immer an die entsprechenden Events gebunden sind
+window.addEventListener('resize', checkForList);
 
 function dagAndDrop() {
     let lists = document.getElementsByClassName("list");
@@ -318,58 +285,48 @@ function dagAndDrop() {
     let leftBoxNum2 = document.getElementById("leftNum2");
     let selected = null;
 
-    // Setze EventListener auf alle list-Elemente
     for (let list of lists) {
         list.addEventListener("dragstart", function (e) {
-            selected = e.target; // Speichert das gezogene Element
+            selected = e.target;
         });
     }
 
-    function setupDropArea(box, boxId) {
+    function setupDropArea(box) {
         box.addEventListener("dragover", function (e) {
-            e.preventDefault(); // Verhindert das Standardverhalten
-        });
-
-        box.addEventListener("dragleave", function (e) {
-            
-
+            e.preventDefault();
         });
 
         box.addEventListener("drop", function (e) {
-            e.preventDefault(); // Verhindert das Standardverhalten
+            e.preventDefault();
             if (selected) {
-                box.appendChild(selected); // Element dem Zielbereich hinzufügen
-                const selectedTask = JSON.parse(selected.dataset.task); // Task-Objekt in JSON umwandeln
+                box.appendChild(selected);
+                const selectedTask = JSON.parse(selected.dataset.task);
                 selectedTask.progress = checkDropArea(selected.parentElement.id);
                 updateData("tasks/" + selectedTask.databaseKey, selectedTask);
                 selected = null;
                 checkForList();
                 checkForEmptyLists();
-             
-                dagAndDrop(); // Drag-and-Drop für neu gerenderte Aufgaben wieder aktivieren
-            } 
-            
+                dagAndDrop();
+            }
         });
     }
 
-    setupDropArea(rightBox, 'right');
-    setupDropArea(rightBoxNum2, 'rightNum2');
-    setupDropArea(leftBox, 'left');
-    setupDropArea(leftBoxNum2, 'leftNum2');
+    setupDropArea(rightBox);
+    setupDropArea(rightBoxNum2);
+    setupDropArea(leftBox);
+    setupDropArea(leftBoxNum2);
 }
-
-
 
 function checkDropArea(column) {
     switch (column) {
         case 'left':
-            return 'to-do'
+            return 'to-do';
         case 'leftNum2':
-            return 'in-progress'
+            return 'in-progress';
         case 'right':
-            return 'await-feedback'
+            return 'await-feedback';
         case 'rightNum2':
-            return 'done'
+            return 'done';
         default:
             break;
     }
@@ -379,7 +336,7 @@ function showOrHideOverlay(taskSection) {
     const atOverlay = document.getElementById('atOverlay');
     const script = document.scripts.namedItem('taskOnBoard');
     if (atOverlay.classList.contains('at-overlay-hidden')) {
-        atOverlay.classList.toggle('at-overlay-hidden')
+        atOverlay.classList.toggle('at-overlay-hidden');
         if (!script || script.getAttribute('src') !== './js/add-task.js') {
             if (script) script.remove();
             loadExternalScript('./js/add-task.js', loadInitAddTask);
@@ -395,24 +352,22 @@ function loadInitAddTask() {
     const createBtn = document.getElementById('createBtn');
     initTask();
     cancelBtn.addEventListener('click', () => {
-        showOrHideOverlay()
+        showOrHideOverlay();
     });
     createBtn.addEventListener('click', () => {
         setTimeout(showOrHideOverlay, 1000);
         setTimeout(loadAllTasks, 1000);
     });
-
 }
 
 function loadExternalScript(src, callback) {
     const script = document.createElement('script');
     script.src = src;
     script.type = 'text/javascript';
-    script.id = 'taskOnBoard'
-    script.onload = callback; // Optional: eine Funktion, die nach dem Laden ausgeführt wird
+    script.id = 'taskOnBoard';
+    script.onload = callback;
     document.head.appendChild(script);
 }
-
 
 function openList(element) {
     openTask = JSON.parse(element.getAttribute('data-task'));
@@ -423,21 +378,21 @@ function openList(element) {
     content.innerHTML = generateTaskCardHTML(categoryBanner, openTask, prioTextUpperCase, prioImg);
     if (openTask.subtask) {
         renderOverlaySubtask(openTask.subtask);
-    };
+    }
     if (openTask.contacts) {
         renderOverlayTaskContacts(openTask.contacts, openTask.contactColor);
-    };
+    }
     preventScrolling();
 }
 
 function renderOverlaySubtask(subtasks) {
     currentSubtasks = subtasks;
     const boardSubtask = document.getElementById('overlaySubtask');
-    boardSubtask.innerHTML = '<p>Subtasks</p>'
+    boardSubtask.innerHTML = '<p>Subtasks</p>';
     subtasks.forEach((subtask, i) => {
         const checkImg = subtask.done ? 'check-btn-dark' : 'no-check-btn';
         boardSubtask.innerHTML += generateOverlaySubtaskHTML(checkImg, i, subtask);
-    })
+    });
     overlaySubtaskEventlister(boardSubtask);
 }
 
@@ -446,8 +401,8 @@ function overlaySubtaskEventlister(id) {
     checkImgTag.forEach(imgTag => {
         imgTag.addEventListener('click', event => {
             changeSubtaskStatus(event.target.id);
-        })
-    })
+        });
+    });
 }
 
 function changeSubtaskStatus(index) {
@@ -459,12 +414,12 @@ function changeSubtaskStatus(index) {
 
 function renderOverlayTaskContacts(taskContacts, contactColor) {
     const boardTaskContacts = document.getElementById('overlayTaskContacts');
-    boardTaskContacts.innerHTML = '<p>Assigned To:</p>'
+    boardTaskContacts.innerHTML = '<p>Assigned To:</p>';
     taskContacts.forEach((contact, i) => {
         let color = contactColor[i];
         let contactsInitials = generateInitials(contact);
         boardTaskContacts.innerHTML += generateOverlayTaskContactsHTML(contactsInitials, contact, color);
-    })
+    });
 }
 
 function deleteTask(dbObjectKey) {
@@ -495,7 +450,7 @@ function loadInitEditTask() {
     editBtn.addEventListener('click', () => {
         setTimeout(openOrCloseEditTask, 1000);
         setTimeout(closeViewList, 1000);
-    })
+    });
     fillEditTask(openTask);
 }
 
@@ -505,23 +460,14 @@ function closeViewList() {
     allowScrolling();
 }
 
-/**
- * This function is used to change the image if the User click on it
- */
 function initializeImageHover() {
-    // Finde alle Bild-Elemente mit der Klasse 'hover-image'
     const hoverImages = document.querySelectorAll('.hover-image');
-
-    // Durchlaufe alle gefundenen Bild-Elemente
     hoverImages.forEach(function (hoverImage) {
-        // Füge einen Event-Listener hinzu, der auf das "mouseenter" Event hört
         hoverImage.addEventListener('mouseenter', function () {
-            hoverImage.src = './assets/img/plusButton.transiction.png'; // Bildquelle ändern, wenn die Maus darüber schwebt
+            hoverImage.src = './assets/img/plusButton.transiction.png';
         });
-
-        // Füge einen Event-Listener hinzu, der auf das "mouseleave" Event hört
         hoverImage.addEventListener('mouseleave', function () {
-            hoverImage.src = './assets/img/plusButton.png'; // Ursprüngliche Bildquelle wiederherstellen, wenn die Maus das Bild verlässt
+            hoverImage.src = './assets/img/plusButton.png';
         });
     });
 }
@@ -529,11 +475,9 @@ function initializeImageHover() {
 function highlight(id) {
     const element = document.getElementById(id);
     element.classList.add('drag-area-highlight');
-
 }
 
 function removeHighlight(id) {
     const element = document.getElementById(id);
     element.classList.remove('drag-area-highlight');
-
 }
