@@ -275,13 +275,11 @@ function dagAndDrop() {
                 selectedTask.progress = checkDropArea(selected.parentElement.id);
                 updateData("tasks/" + selectedTask.databaseKey, selectedTask);
                 selected = null;
-                // checkForList();
                 checkForEmptyLists();
                 dagAndDrop();
             }
         });
     }
-
     setupDropArea(rightBox);
     setupDropArea(rightBoxNum2);
     setupDropArea(leftBox);
@@ -413,7 +411,7 @@ function openOrCloseEditTask() {
             if (script) script.remove();
             loadExternalScript('./js/edit-task.js', loadInitEditTask);
         } else {
-            fillEditTask(openTask);
+            fillEditTask(openTask.databaseKey);
         }
     } else {
         etOverlay.classList.toggle('et-overlay-hidden');
@@ -427,7 +425,7 @@ function loadInitEditTask() {
         setTimeout(openOrCloseEditTask, 1000);
         setTimeout(closeViewList, 1000);
     });
-    fillEditTask(openTask);
+    fillEditTask(openTask.databaseKey);
 }
 
 function closeViewList() {

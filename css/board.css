@@ -123,11 +123,12 @@ h1 {
     height: 100vh;
     margin-right: 90px;
     margin-left: 48px;
-    gap: 30px;
+    gap: 20px;
 }
 
 .overDiv-bottom,
 .overDiv-bottom-f {
+    min-width: 25%;
     width: 25%;
 }
 
@@ -180,14 +181,14 @@ h1 {
     background-color: #c0c0c0;
 }
 
-/* #left,
+#left,
 #right,
 #leftNum2,
 #rightNum2 {
-    width: 230px;
+    min-width: 99%;
     height: 100%;
     padding: 1px;
-} */
+}
 
 .list {
     min-height: 300px;
@@ -312,6 +313,8 @@ h1 {
 .task-card-contacts {
     display: flex;
     margin-right: initial;
+    width: 80%;
+    overflow: auto;
 }
 
 .task-card-prio {

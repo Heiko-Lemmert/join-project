@@ -16,9 +16,11 @@
     let writtenSubtask = [];
     let selected = [];
     let selectedContactName = [];
+    let selectedContactColor = [];
     let currentPrio = 'medium';
     let category = '';
     let contacts = [];
+    let openTaskProgress = '';
 
     function initTask() {
         includeHTML();
@@ -34,10 +36,11 @@
     }
 
     function renderTaskContact() {
+        contacts.sort((a, b) => a.name.localeCompare(b.name));
         const editContactOptions = document.getElementById('editContactOptions');
         contacts.forEach(contact => {
             const contactsInitials = generateInitials(contact.name);
-            editContactOptions.innerHTML += generateTaskContacts(contact.name, contactsInitials);
+            editContactOptions.innerHTML += generateTaskContacts(contact.name, contactsInitials, contact.color);
         });
     }
 
@@ -99,6 +102,7 @@
         const editContactOptions = document.getElementById('editContactOptions');
         selected = [];
         selectedContactName = [];
+        selectedContactColor = [];
 
         editContactOptions.querySelectorAll('.contact-option').forEach(optionDiv => {
             const checkIcon = optionDiv.querySelector('.check-icon');
@@ -106,8 +110,11 @@
                 const textLabel = optionDiv.querySelector('label').textContent;
                 const textContent = optionDiv.querySelector('.contact-initials').textContent;
                 const getStyle = optionDiv.querySelector('.contact-initials').getAttribute('style');
+                const colorMatch = getStyle.match(/background-color:\s*(#[0-9A-Fa-f]{6})/);
+                const colorHex = colorMatch ? colorMatch[1] : '';
                 selected.push(`<div class="contact-initials" style="${getStyle}">${textContent}</div>`);
                 selectedContactName.push(textLabel)
+                selectedContactColor.push(colorHex);
             }
         });
 
@@ -240,18 +247,20 @@
         }
     }
 
-    function fillEditTask(taskData) {
-        editTaskTitle.value = taskData.title;
-        editTaskDescription.value = taskData.description;
-        editTaskDate.value = taskData.date;
-        prioChooser(taskData.prio);
-        editTaskSelector.innerHTML = taskData.category;
+    async function fillEditTask(key) {
+        const taskDataFromDB = await getData("tasks/" + key);
+        openTaskProgress = taskDataFromDB.progress;
+        editTaskTitle.value = taskDataFromDB.title;
+        editTaskDescription.value = taskDataFromDB.description;
+        editTaskDate.value = taskDataFromDB.date;
+        prioChooser(taskDataFromDB.prio);
+        editTaskSelector.innerHTML = taskDataFromDB.category;
         category = openTask.category
-        if (taskData.subtask) {
-            writtenSubtask = taskData.subtask;
+        if (taskDataFromDB.subtask) {
+            writtenSubtask = taskDataFromDB.subtask;
             renderSubtask();
         }
-        if (taskData.contacts) { readContactFromDB(taskData.contacts); }
+        if (taskDataFromDB.contacts) { readContactFromDB(taskDataFromDB.contacts); }
 
     }
 
@@ -309,7 +318,7 @@
         const description = editTaskDescription.value;
         const date = editTaskDate.value;
 
-        return { 'title': title, 'description': description, 'date': date, 'contacts': selectedContactName, 'prio': currentPrio, 'category': category, 'subtask': writtenSubtask, 'progress': openTask.progress }
+        return { 'title': title, 'description': description, 'date': date, 'contacts': selectedContactName, 'contactColor': selectedContactColor, 'prio': currentPrio, 'category': category, 'subtask': writtenSubtask, 'progress': openTaskProgress }
     }
 
     function whichValueIsFalse() {
