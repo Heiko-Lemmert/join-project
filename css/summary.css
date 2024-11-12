@@ -55,6 +55,7 @@ body {
     flex-direction: column;
     gap: 32px;
     flex: 1;
+    max-width: 450px;
 }
 
 .summary-container-right {
@@ -215,6 +216,8 @@ body {
 
     .summary-container {
         display: initial;
+        padding-left: 15px;
+        padding-right: 15px;
     }
 
     .summary-section {
@@ -229,7 +232,4 @@ body {
     .welcm-Section {
         display: none;
     }
-
-
-
 }

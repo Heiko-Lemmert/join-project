@@ -72,9 +72,9 @@ form {
     border-radius: 4%;
 }
 
-h2 {
-    margin-bottom: 20px;
-    font-size: 24px;
+h1 {
+    margin-bottom: 5px;
+    font-size: 45px;
 }
 
 .input-group {
@@ -176,7 +176,21 @@ footer a {
     margin: 0 10px;
 }
 
-footer a:hover {}
+.login-failed {
+    color: red;
+    font-size: 12px;
+    margin-top: -10px;
+    margin-bottom: 10px;
+}
+
+.required-border {
+    border: 1px solid #FD8F9C !important;
+}
+
+#email-input:focus,
+#password-input:focus {
+    border: 1px solid #90D1ED !important;
+}
 
 @media (min-width: 768px) {
 
@@ -197,7 +211,7 @@ footer a:hover {}
     .startsequence {
         background-color: #1f2a39;
     }
-    
+
     .container {
         max-width: 100%;
         padding: 10px;

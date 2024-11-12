@@ -436,6 +436,8 @@ h1 {
     .list {
         height: 224px;
         width: 224px;
+        min-width: 224px;
+        max-width: 224px;
         margin: 8px;
     }
 

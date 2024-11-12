@@ -231,9 +231,13 @@
 
     function editSubtaskArry(id) {
         const editSubtaskField = document.getElementById('editTaskField-' + id);
-        const newSubtask = editSubtaskField.value;
-        writtenSubtask[id].title = newSubtask
-        renderSubtask();
+        if (editSubtaskField.value.length > 0) {
+            const newSubtask = editSubtaskField.value;
+            writtenSubtask[id].title = newSubtask
+            renderSubtask();
+        } else {
+            return;
+        }
     }
 
     function renderSubtask() {
