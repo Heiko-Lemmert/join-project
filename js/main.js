@@ -1,4 +1,3 @@
-// Für Template übegreifende JS Funktionen
 const contactBackgroundColor = ['#FF7A00', '#FF5EB3', '#6E52FF', '#9327FF', '#00BEE8', '#1FD7C1', '#FF745E', '#FFA35E', '#FC71FF', '#FFC701', '#0038FF', '#0038FF', '#FFE62B', '#FF4646', '#FFBB2B'];
 let progressStatus = 'to-do';
 
@@ -39,7 +38,6 @@ function init() {
 
 }
 
-// Sidebar JS
 function checkHTMLforClassList() {
     const currentHTML = window.location.pathname;
     switch (currentHTML) {
@@ -70,7 +68,6 @@ function addClassList(id) {
     return document.getElementById(id).classList.add('clicked');
 }
 
-// Funktion zur Generierung einer zufälligen Farbe
 function getRandomColor() {
     return contactBackgroundColor[Math.floor(Math.random() * contactBackgroundColor.length)];
 }
@@ -84,25 +81,14 @@ function generateInitials(contact) {
     return initials;
 }
 
-//header
-
 function openInfBox() {
     let content = document.getElementById('infoBox');
     content.innerHTML = generateHeaderHTML();
     content.style.display = 'block';
-
-    // Füge den Event-Listener zum Dokument hinzu
     document.addEventListener('click', function closeOnClickOutside(event) {
-        // Überprüfe, ob der Klick außerhalb der Info-Box stattfindet
-        console.log('Event ausgelöst:', event.target);  // Überprüfen, ob der Event-Listener überhaupt ausgelöst wird
-
         if (!event.target.closest('.infoBox') && !event.target.closest('.header-user')) {
-            console.log('Klick war außerhalb der InfoBox und header-user');  // Verfolge, ob diese Bedingung erfüllt ist
-
             closeBox();
-            console.log('Klick close');  // Verfolge, ob diese Bedingung erfüllt ist
-
-            document.removeEventListener('click', closeOnClickOutside); // Entferne den Event-Listener, wenn geschlossen wird
+            document.removeEventListener('click', closeOnClickOutside);
         }
     });
 }
@@ -110,17 +96,13 @@ function openInfBox() {
 function closeBox() {
     let content = document.getElementById('infoBox');
     content.style.display = 'none';
-    content.innerHTML = ''; // Entferne den Inhalt der Info-Box
+    content.innerHTML = ''; 
 }
 
 
 function showToast(id) {
     const toast = document.getElementById(id);
-
-    // Zeige die Toast-Nachricht an
     toast.classList.add('toast-visible');
-
-    // Nach 3 Sekunden die Toast-Nachricht verschwinden lassen
     setTimeout(() => {
         toast.classList.remove('toast-visible');
     }, 3000);
