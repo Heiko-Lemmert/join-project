@@ -153,7 +153,7 @@ h1 {
     position: relative;
     margin-top: 24px;
     display: flex;
-    min-height: 150px;
+    height: 350px;
     /* overflow-y: scroll;*/
     /* Verhindert anfängliche Anzeige der Scrollleiste */
 }
@@ -386,6 +386,11 @@ h1 {
 
 
 @media(max-width: 1190px) {
+
+    .overDiv-bottom-f {
+        width: 100%;
+        margin-bottom: 20px;
+    }
     .board-mainContainer {
         left: auto;
         width: auto;
@@ -423,7 +428,6 @@ h1 {
     }
 
     .scroll-div {
-        height: auto;
         justify-content: initial;
         /* damit wird es zurückgesetzt auf dem anfangs zustand */
         overflow-y: hidden;

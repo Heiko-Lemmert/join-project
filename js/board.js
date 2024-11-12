@@ -10,6 +10,7 @@ let currentFilterWord = '';
 
 function renderCode() {
     includeHTML();
+    checkForList() ;
     dagAndDrop();
     checkForEmptyLists();
     initializeImageHover();
@@ -64,6 +65,8 @@ function renderBoard() {
     checkForEmptyLists();
     dagAndDrop();
 }
+
+
 
 function renderSection(section, id) {
     const sectionArray = document.getElementById(id);
@@ -285,6 +288,31 @@ function dagAndDrop() {
     setupDropArea(leftBox);
     setupDropArea(leftBoxNum2);
 }
+
+function checkForList() {
+    let scrollDivs = document.querySelectorAll(".scroll-div");
+    for (let i = 0; i < scrollDivs.length; i++) {
+        let scrollDiv = scrollDivs[i];
+        let lists = scrollDiv.querySelectorAll(".list");
+        scrollDiv.style.overflowX = "hidden";
+        scrollDiv.style.overflowY = "hidden";
+        if (window.innerWidth <= 970) {
+            if (lists.length <= 1) {
+                scrollDiv.style.overflowX = "hidden";
+            } else {
+                scrollDiv.style.overflowX = "scroll";
+            }
+        } else if ((window.innerWidth > 970)) {
+            if (lists.length <= 1) {
+                scrollDiv.style.overflowY = "hidden";
+            } else  {
+                scrollDiv.style.overflowY = "hidden";
+            }
+        }
+    }
+}
+document.addEventListener('DOMContentLoaded', checkForList);
+window.addEventListener('resize', checkForList);
 
 function checkDropArea(column) {
     switch (column) {
