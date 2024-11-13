@@ -153,7 +153,7 @@ h1 {
     position: relative;
     margin-top: 24px;
     display: flex;
-   height: 100%;
+    height: 100%;
     /* overflow-y: scroll;*/
     /* Verhindert anfängliche Anzeige der Scrollleiste */
 }
@@ -390,6 +390,7 @@ h1 {
         width: 100%;
         margin-bottom: 20px;
     }
+
     .board-mainContainer {
         left: auto;
         width: auto;

@@ -1,12 +1,25 @@
-
+/**
+ * Initializes the current date and extracts the current hour for greeting purposes.
+ */
 let currentDate = new Date();
 let currentHour = currentDate.getHours();
+
+/**
+ * Array to store tasks loaded from the database.
+ */
 let taskArray = [];
 
+/**
+ * Initializes the app by loading tasks and preparing the task view.
+ */
 function init() {
     loadTasks();
 }
 
+/**
+ * Sets a welcome text based on the current hour of the day and the user's name.
+ * Displays a different greeting depending on the time (morning, afternoon, evening, or night).
+ */
 function setWelcomeText() {
     let welcomeText = document.getElementById('welcomeText');
     let welcomeName = document.getElementById('welcomeName');
@@ -26,7 +39,9 @@ function setWelcomeText() {
     }
 }
 
-// Ein weiteres Logging direkt vor dem Laden des Templates
+/**
+ * Executes on page load. Includes HTML templates and initializes the app after a short delay.
+ */
 document.addEventListener('DOMContentLoaded', function () {
     w3.includeHTML(function () {
         setTimeout(function () {
@@ -36,9 +51,13 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
-
+/**
+ * Retrieves data from the Firebase database using the specified key.
+ * @param {string} key - The key path to fetch data from the database.
+ * @returns {Promise<Object>} - The data retrieved from the database.
+ */
 async function getData(key) {
-    const url = `https://join-89-default-rtdb.europe-west1.firebasedatabase.app/${key}.json`; // Firebase-URL
+    const url = `https://join-89-default-rtdb.europe-west1.firebasedatabase.app/${key}.json`; // Firebase URL
     try {
         const response = await fetch(url);
         const data = await response.json();
@@ -48,15 +67,24 @@ async function getData(key) {
     }
 }
 
+/**
+ * Loads tasks from the database into `taskArray` and renders the tasks on the page.
+ */
 async function loadTasks() {
     const tasks = await getData("tasks");
-    taskArray = Object.values(tasks); // Verarbeite die geladene Aufgabenliste
-    renderTask(); // Aufgabe rendern
+    taskArray = Object.values(tasks); // Processes the loaded task list
+    renderTask(); // Renders tasks on the page
 }
+
+/**
+ * Renders the tasks into a specific section on the page, calculates task statistics,
+ * and displays an upcoming deadline if available.
+ */
 function renderTask() {
     let taskSection = document.getElementById('sum-sct');
+    taskSection.innerHTML = ''; // Clears existing content
 
-    taskSection.innerHTML = ''; // Leert den vorhandenen Inhalt
+    // Task statistics counters
     let totalTaskCount = 0;
     let doneCount = 0;
     let toDoCount = 0;
@@ -66,36 +94,37 @@ function renderTask() {
     let deadLineField = [];
     let minField = null;
 
+    // Calculate task counts and earliest deadline based on task attributes
     for (let i = 0; i < taskArray.length; i++) {
         let taskCount = Array.isArray(taskArray[i].tasks) ? taskArray[i].tasks.length : 1;
         totalTaskCount += taskCount;
         let dateField = taskArray[i].date;
 
-        if (taskArray[i].progress == "in-progress") {
+        if (taskArray[i].progress === "in-progress") {
             progressCount++;
         }
-        if (taskArray[i].progress == "to-do") {
+        if (taskArray[i].progress === "to-do") {
             toDoCount++;
         }
-        if (taskArray[i].progress == "await-feedback") {
+        if (taskArray[i].progress === "await-feedback") {
             feedBackCount++;
         }
-        if (taskArray[i].progress == "done") {
+        if (taskArray[i].progress === "done") {
             doneCount++;
         }
-        if (taskArray[i].prio == "high") {
+        if (taskArray[i].prio === "high") {
             urgentPrio++;
-            deadLineField.push(Date.parse(dateField));  // Datum in Millisekunden umwandeln
-            minField = new Date(Math.min(...deadLineField));  // Den frühesten Termin finden und zurück in ein Datum konvertieren
+            deadLineField.push(Date.parse(dateField));  // Convert date to milliseconds
+            minField = new Date(Math.min(...deadLineField));  // Find the earliest date
         }
     }
 
-    // MinField überprüfen, bevor es im HTML verwendet wird
+    // Check if minField exists before using it in HTML
     const upcomingDeadline = minField ? minField.toLocaleDateString() : "No deadlines";
 
-    // Dynamisches Einfügen des HTMLs
+    // Dynamically insert summary HTML with task statistics
     taskSection.innerHTML += generateSummaryHTML(toDoCount, doneCount, urgentPrio, upcomingDeadline, totalTaskCount, progressCount, feedBackCount);
 
-    // **setWelcomeText() aufrufen, nachdem das HTML eingefügt wurde**
+    // Call setWelcomeText() after HTML is inserted
     setWelcomeText();
 }

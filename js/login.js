@@ -1,11 +1,25 @@
+/**
+ * Base URL for Firebase Realtime Database.
+ */
 const BASE_URL = "https://join-89-default-rtdb.europe-west1.firebasedatabase.app/";
 
+/**
+ * Fetches data from the specified path in the Firebase database.
+ * @param {string} path - The path in the database to retrieve data from.
+ * @returns {Promise<Object>} The data retrieved from the database.
+ */
 async function getData(path = "") {
     let response = await fetch(BASE_URL + path + ".json");
     let responseToJson = await response.json();
     return responseToJson;
 }
 
+/**
+ * Sends data to the specified path in the Firebase database.
+ * @param {string} path - The path in the database where data will be added.
+ * @param {Object} data - The data to send to the database.
+ * @returns {Promise<Object>} The response data from the database.
+ */
 async function postData(path = "", data = {}) {
     let response = await fetch(BASE_URL + path + ".json", {
         method: "POST",
@@ -17,6 +31,12 @@ async function postData(path = "", data = {}) {
     return responseToJson = await response.json();
 }
 
+/**
+ * Updates data at the specified path in the Firebase database.
+ * @param {string} path - The path in the database to update data.
+ * @param {Object} data - The new data to update in the database.
+ * @returns {Promise<Object>} The updated data from the database.
+ */
 async function updateData(path = "", data = {}) {
     let response = await fetch(BASE_URL + path + ".json", {
         method: "PUT",
@@ -28,6 +48,9 @@ async function updateData(path = "", data = {}) {
     return responseToJson = await response.json();
 }
 
+/**
+ * Handles user login by checking email and password with stored user data.
+ */
 async function login() {
     const email = document.getElementById("email-input").value;
     const password = document.getElementById("password-input").value;
@@ -51,31 +74,27 @@ async function login() {
     }
 }
 
-
+/**
+ * Retrieves and displays all users from the database.
+ */
 async function showUsers() {
     let users = await getData('users');
 }
 
 showUsers();
 
-// function validate(email, name, password, confirmPassword) {
-//     if (!email || !name || !password || !confirmPassword) {
-//         alert('Bitte fülle alle Felder aus.');
-//         return;
-//     }
-
-//     if (password !== confirmPassword) {
-//         alert('Die Passwörter stimmen nicht überein. Bitte versuche es erneut.');
-//         return;
-//     }
-
-// }
-
+/**
+ * Logs in as a guest by storing guest data in local storage.
+ */
 async function guestLogin() {
     const user = 'Guest';
     localStorage.setItem("currentUser", JSON.stringify(user));
 }
 
+/**
+ * Registers a new user by validating input, creating user data, 
+ * and adding it to the Firebase database.
+ */
 async function signUpUser() {
     const email = document.getElementById("email-input").value;
     const name = document.getElementById("name-input").value;
@@ -104,13 +123,16 @@ async function signUpUser() {
             window.location.href = "summary.html";
 
         } catch (error) {
-            console.error('Fehler beim Registrieren des Benutzers:', error);
+            console.error('Error registering user:', error);
         }
     } else {
         whichValueIsFalseSigin()
     }
 }
 
+/**
+ * Handles the loading animation sequence on page start.
+ */
 function loader() {
     document.querySelector('.startsequence').style.opacity = '0';
     document.querySelector('.logo-start').classList.add('logo')
@@ -119,6 +141,10 @@ function loader() {
     }, 1500);
 }
 
+/**
+ * Validates form input for signing up by checking for valid values.
+ * @returns {boolean} True if the form inputs are valid, false otherwise.
+ */
 function validateForm() {
     const name = document.getElementById('name-input').value;
     const email = document.getElementById('email-input').value;
@@ -131,6 +157,9 @@ function validateForm() {
     }
 }
 
+/**
+ * Shows an error message and highlights incorrect fields during login.
+ */
 function whichValueIsFalseLogin() {
     const password = document.getElementById('password-input');
     const mail = document.getElementById('email-input');
@@ -145,6 +174,9 @@ function whichValueIsFalseLogin() {
     }, 1500)
 }
 
+/**
+ * Shows error messages and highlights incorrect fields during sign-up.
+ */
 function whichValueIsFalseSigin() {
     const name = document.getElementById('name-input');
     const email = document.getElementById('email-input');
@@ -175,11 +207,20 @@ function whichValueIsFalseSigin() {
     }, 1500)
 }
 
+/**
+ * Checks if the email format is valid.
+ * @param {string} email - The email address to validate.
+ * @returns {boolean} True if the email is valid, false otherwise.
+ */
 function isValidEmail(email) {
     const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     return re.test(String(email).toLowerCase());
 }
 
+/**
+ * Compares password and confirmation password for equality.
+ * @returns {boolean} True if passwords match, false otherwise.
+ */
 function isSamePassword() {
     const password = document.getElementById('password-input').value;
     const passwordConfirm = document.getElementById('confirm-password-input').value;

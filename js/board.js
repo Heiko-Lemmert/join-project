@@ -8,15 +8,21 @@ let currentTaskName = [];
 let openTask = [];
 let currentFilterWord = '';
 
+/**
+ * Main render function to initialize tasks and UI components.
+ */
 function renderCode() {
     includeHTML();
-    checkForList() ;
+    checkForList();
     dagAndDrop();
     checkForEmptyLists();
     initializeImageHover();
     loadAllTasks();
 }
 
+/**
+ * Loads all tasks from the database and handles errors if loading fails.
+ */
 async function loadAllTasks() {
     allTasks = await getData('tasks').catch(error => {
         console.error("Error loading data:", error);
@@ -29,6 +35,9 @@ async function loadAllTasks() {
     }
 }
 
+/**
+ * Resets the task section arrays to empty lists.
+ */
 function resetSectionArr() {
     toDoSection = [];
     inProgressSection = [];
@@ -36,6 +45,9 @@ function resetSectionArr() {
     doneSection = [];
 }
 
+/**
+ * Moves tasks into their respective sections based on their progress status.
+ */
 function moveTask() {
     resetSectionArr();
     Object.keys(allTasks).forEach(taskKey => {
@@ -57,6 +69,9 @@ function moveTask() {
     renderBoard();
 }
 
+/**
+ * Renders the main task board sections based on task progress.
+ */
 function renderBoard() {
     renderSection(toDoSection, 'left');
     renderSection(inProgressSection, 'leftNum2');
@@ -66,8 +81,11 @@ function renderBoard() {
     dagAndDrop();
 }
 
-
-
+/**
+ * Renders a specific section of tasks onto the board.
+ * @param {Array} section - The section array containing tasks.
+ * @param {string} id - The ID of the HTML element to render the section in.
+ */
 function renderSection(section, id) {
     const sectionArray = document.getElementById(id);
     const whichSection = sectionChooser(section);
@@ -88,6 +106,12 @@ function renderSection(section, id) {
     }
 }
 
+/**
+ * Renders a counter for the number of completed subtasks in a task.
+ * @param {Array} subtasks - Array of subtasks.
+ * @param {string} section - The section identifier.
+ * @param {number} i - Task index.
+ */
 function renderBoardSubtaskCounter(subtasks, section, i) {
     const boardSubtask = document.getElementById('boardSubtask-' + section + '-' + i);
     const subtaskLength = subtasks.length;
@@ -101,6 +125,13 @@ function renderBoardSubtaskCounter(subtasks, section, i) {
     boardSubtask.innerHTML = generateBoardSubtaskHTML(subtaskValue, subtaskCounter, subtaskLength);
 }
 
+/**
+ * Renders contacts assigned to a task on the task card.
+ * @param {Array} taskContacts - Array of contacts assigned to the task.
+ * @param {string} section - The section identifier.
+ * @param {number} index - Task index.
+ * @param {Array} color - Array of colors representing each contact.
+ */
 function renderBoardTaskContacts(taskContacts, section, index, color) {
     const boardTaskContacts = document.getElementById('boardTaskContacts-' + section + '-' + index);
     taskContacts.forEach((contact, i) => {
@@ -110,6 +141,11 @@ function renderBoardTaskContacts(taskContacts, section, index, color) {
     });
 }
 
+/**
+ * Chooses the priority image based on the task's priority level.
+ * @param {string} prio - Task priority ('high', 'medium', 'low').
+ * @returns {string} HTML string for the priority image.
+ */
 function prioImgChooser(prio) {
     switch (prio) {
         case 'high':
@@ -123,10 +159,20 @@ function prioImgChooser(prio) {
     }
 }
 
+/**
+ * Converts priority text to a capitalized string.
+ * @param {string} prio - Task priority.
+ * @returns {string} Capitalized priority string.
+ */
 function prioText(prio) {
     return prio.charAt(0).toUpperCase() + prio.slice(1);
 }
 
+/**
+ * Chooses the banner HTML for a task based on its category.
+ * @param {string} category - Task category.
+ * @returns {string} HTML string for the category banner.
+ */
 function bannerChooser(category) {
     switch (category) {
         case 'User Story':
@@ -138,6 +184,11 @@ function bannerChooser(category) {
     }
 }
 
+/**
+ * Determines the section name based on the section array.
+ * @param {Array} section - The section array.
+ * @returns {string} The section name as a string.
+ */
 function sectionChooser(section) {
     switch (section) {
         case toDoSection:
@@ -153,6 +204,9 @@ function sectionChooser(section) {
     }
 }
 
+/**
+ * Filters tasks based on a keyword input and renders filtered tasks.
+ */
 function filterAndShowTask() {
     let tasksArray = Object.values(allTasks);
     let filterInputElement = document.getElementById('filterTaskInput');
@@ -172,6 +226,9 @@ function filterAndShowTask() {
     checkForEmptyLists();
 }
 
+/**
+ * Renders filtered tasks onto the board.
+ */
 function renderTasks() {
     let leftContainer = document.getElementById('left');
     let leftNum2Container = document.getElementById('leftNum2');
@@ -189,14 +246,28 @@ function renderTasks() {
     dagAndDrop();
 }
 
+/**
+ * Clears the content of task containers.
+ * @param {Array} containers - Array of container elements to clear.
+ */
 function clearContainers(containers) {
     containers.forEach(container => container.innerHTML = '');
 }
 
+/**
+ * Gets tasks to render based on filter criteria.
+ * @returns {Array} Array of tasks to render.
+ */
 function getTasksToRender() {
     return currentFilterWord ? currentTaskName : Object.values(allTasks);
 }
 
+/**
+ * Creates the HTML for a task card based on task data.
+ * @param {Object} task - The task object.
+ * @param {number} index - Task index.
+ * @returns {string} HTML string for the task card.
+ */
 function createTaskHTML(task, index) {
     let prioImg = prioImgChooser(task.prio);
     let categoryBanner = bannerChooser(task.category);
@@ -204,6 +275,13 @@ function createTaskHTML(task, index) {
     return generateBoardTasksHTML(task, categoryBanner, whichSection, index, prioImg);
 }
 
+/**
+ * Renders a task to a specific section on the board.
+ * @param {string} section - Section identifier.
+ * @param {string} taskHTML - HTML content for the task.
+ * @param {Object} task - Task data.
+ * @param {number} index - Task index.
+ */
 function renderTaskToSection(section, taskHTML, task, index) {
     let container;
     switch (section) {
@@ -224,6 +302,12 @@ function renderTaskToSection(section, taskHTML, task, index) {
     renderTaskDetails(task, section, index);
 }
 
+/**
+ * Renders additional details for a task, such as subtasks and contacts.
+ * @param {Object} task - Task data.
+ * @param {string} section - Section identifier.
+ * @param {number} index - Task index.
+ */
 function renderTaskDetails(task, section, index) {
     if (task.subtask) {
         renderBoardSubtaskCounter(task.subtask, section, index);
@@ -233,6 +317,9 @@ function renderTaskDetails(task, section, index) {
     }
 }
 
+/**
+ * Checks for empty lists in the board and displays a message if a list is empty.
+ */
 function checkForEmptyLists() {
     let boxIds = ["left", "leftNum2", "right", "rightNum2"];
     for (let i = 0; i < boxIds.length; i++) {
@@ -251,6 +338,9 @@ function checkForEmptyLists() {
     }
 }
 
+/**
+ * Sets up drag-and-drop functionality for tasks.
+ */
 function dagAndDrop() {
     let lists = document.getElementsByClassName("list");
     let rightBox = document.getElementById("right");
@@ -289,6 +379,9 @@ function dagAndDrop() {
     setupDropArea(leftBoxNum2);
 }
 
+/**
+ * Toggles the scroll behavior in the list area based on screen size.
+ */
 function checkForList() {
     let scrollDivs = document.querySelectorAll(".scroll-div");
     for (let i = 0; i < scrollDivs.length; i++) {
@@ -314,6 +407,11 @@ function checkForList() {
 document.addEventListener('DOMContentLoaded', checkForList);
 window.addEventListener('resize', checkForList);
 
+/**
+ * Determines the new progress state based on the drop area.
+ * @param {string} column - Column ID where the task was dropped.
+ * @returns {string} The updated progress state.
+ */
 function checkDropArea(column) {
     switch (column) {
         case 'left':
@@ -329,6 +427,10 @@ function checkDropArea(column) {
     }
 }
 
+/**
+ * Shows or hides the task overlay based on task section.
+ * @param {string} taskSection - The section of the task to show.
+ */
 function showOrHideOverlay(taskSection) {
     if (document.body.getAttribute('style') === 'visibility: visible; overflow: hidden;') {
         allowScrolling()
@@ -349,6 +451,9 @@ function showOrHideOverlay(taskSection) {
     progressStatus = taskSection;
 }
 
+/**
+ * Initializes the 'Add Task' overlay UI and sets up event listeners.
+ */
 function loadInitAddTask() {
     const cancelBtn = document.getElementById('cancelBtn');
     const createBtn = document.getElementById('createBtn');
@@ -362,6 +467,11 @@ function loadInitAddTask() {
     });
 }
 
+/**
+ * Dynamically loads an external JavaScript file and runs a callback on load.
+ * @param {string} src - Source URL of the script.
+ * @param {function} callback - Function to call once the script loads.
+ */
 function loadExternalScript(src, callback) {
     const script = document.createElement('script');
     script.src = src;
@@ -371,6 +481,10 @@ function loadExternalScript(src, callback) {
     document.head.appendChild(script);
 }
 
+/**
+ * Opens a detailed view of a selected task.
+ * @param {HTMLElement} element - The task element to open.
+ */
 function openList(element) {
     openTask = JSON.parse(element.getAttribute('data-task'));
     const content = document.getElementById('bigViewList');
@@ -387,6 +501,10 @@ function openList(element) {
     preventScrolling();
 }
 
+/**
+ * Renders subtasks for the task overlay.
+ * @param {Array} subtasks - Array of subtasks to render.
+ */
 function renderOverlaySubtask(subtasks) {
     currentSubtasks = subtasks;
     const boardSubtask = document.getElementById('overlaySubtask');
@@ -398,6 +516,10 @@ function renderOverlaySubtask(subtasks) {
     overlaySubtaskEventlister(boardSubtask);
 }
 
+/**
+ * Sets up event listeners for subtask completion checkboxes in the overlay.
+ * @param {HTMLElement} id - The element containing subtasks.
+ */
 function overlaySubtaskEventlister(id) {
     const checkImgTag = id.querySelectorAll('img');
     checkImgTag.forEach(imgTag => {
@@ -407,6 +529,10 @@ function overlaySubtaskEventlister(id) {
     });
 }
 
+/**
+ * Toggles the completion status of a subtask.
+ * @param {number} index - The index of the subtask to toggle.
+ */
 function changeSubtaskStatus(index) {
     const status = openTask.subtask[index].done ? false : true;
     openTask.subtask[index].done = status;
@@ -414,6 +540,11 @@ function changeSubtaskStatus(index) {
     renderOverlaySubtask(openTask.subtask);
 }
 
+/**
+ * Renders contacts associated with a task in the overlay.
+ * @param {Array} taskContacts - Array of task contacts.
+ * @param {Array} contactColor - Array of colors for each contact.
+ */
 function renderOverlayTaskContacts(taskContacts, contactColor) {
     const boardTaskContacts = document.getElementById('overlayTaskContacts');
     boardTaskContacts.innerHTML = '<p>Assigned To:</p>';
@@ -424,12 +555,19 @@ function renderOverlayTaskContacts(taskContacts, contactColor) {
     });
 }
 
+/**
+ * Deletes a task from the database.
+ * @param {string} dbObjectKey - Key of the task to delete.
+ */
 function deleteTask(dbObjectKey) {
     deleteData('tasks/' + dbObjectKey);
     showToast('deleteToast');
     setTimeout(closeViewList, 1500);
 }
 
+/**
+ * Opens or closes the edit task overlay.
+ */
 function openOrCloseEditTask() {
     const etOverlay = document.getElementById('etOverlay');
     const script = document.scripts.namedItem('taskOnBoard');
@@ -446,6 +584,9 @@ function openOrCloseEditTask() {
     }
 }
 
+/**
+ * Initializes the 'Edit Task' overlay UI and sets up event listeners.
+ */
 function loadInitEditTask() {
     const editBtn = document.getElementById('editBtn');
     initTask();
@@ -456,12 +597,18 @@ function loadInitEditTask() {
     fillEditTask(openTask.databaseKey);
 }
 
+/**
+ * Closes the detailed view list and reloads tasks.
+ */
 function closeViewList() {
     document.getElementById('bigViewList').innerHTML = '';
     setTimeout(loadAllTasks, 500);
     allowScrolling();
 }
 
+/**
+ * Initializes hover effects for images in task cards.
+ */
 function initializeImageHover() {
     const hoverImages = document.querySelectorAll('.hover-image');
     hoverImages.forEach(function (hoverImage) {
@@ -474,11 +621,19 @@ function initializeImageHover() {
     });
 }
 
+/**
+ * Highlights a draggable area when a task is dragged over it.
+ * @param {string} id - The ID of the draggable area.
+ */
 function highlight(id) {
     const element = document.getElementById(id);
     element.classList.add('drag-area-highlight');
 }
 
+/**
+ * Removes highlight from a draggable area.
+ * @param {string} id - The ID of the draggable area.
+ */
 function removeHighlight(id) {
     const element = document.getElementById(id);
     element.classList.remove('drag-area-highlight');
