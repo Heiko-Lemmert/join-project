@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: auth.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,38 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: auth.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Checks if a user is logged in by verifying the presence of a user token in localStorage.
+ * If a user is logged in, the page is displayed; otherwise, it redirects to the login page.
+ */
+function checkUserLoggedIn() {
+    const user = localStorage.getItem("currentUser");
+    if (user) {
+        document.body.style.visibility = "visible";
+    } else {
+        window.location.href = "index.html";
+    }
+}
 
-
-    <h3> </h3>
-
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
+/**
+ * Logs out the current user by removing the user token from localStorage and redirecting to the login page.
+ */
+function logout() {
+    localStorage.removeItem("currentUser");
+    window.location.href = "index.html";
+    document.body.style.visibility = "hidden";
+}</code></pre>
+        </article>
+    </section>
 
 
 

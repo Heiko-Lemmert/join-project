@@ -26,28 +26,178 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>// Für Template übegreifende JS Funktionen
-
-
-//Test für JSDoc
+            <pre class="prettyprint source linenums"><code>/**
+ * Array of colors used for contact avatars or background highlights.
+ */
+const contactBackgroundColor = ['#FF7A00', '#FF5EB3', '#6E52FF', '#9327FF', '#00BEE8', '#1FD7C1', '#FF745E', '#FFA35E', '#FC71FF', '#FFC701', '#0038FF', '#0038FF', '#FFE62B', '#FF4646', '#FFBB2B'];
 
 /**
-This function is used to greet someone on the command line
+ * Default progress status used for task initialization.
+ */
+let progressStatus = 'to-do';
 
-@param {string} name - This is the name of the person that you want to greet
-**/
-function greet(name) {
-    console('Hallo Welt')
+/**
+ * Includes HTML content from external files based on the `w3-include-html` attribute.
+ * Used for modular HTML structure. This function loads content and re-calls itself recursively.
+ */
+function includeHTML() {
+    var z, i, elmnt, file, xhttp;
+    /* Loop through all HTML elements: */
+    z = document.getElementsByTagName("*");
+    for (i = 0; i &lt; z.length; i++) {
+        elmnt = z[i];
+        /* Search for elements with a specific attribute: */
+        file = elmnt.getAttribute("w3-include-html");
+        if (file) {
+            /* Create an HTTP request using the attribute value as the file name: */
+            xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4) {
+                    if (this.status == 200) { elmnt.innerHTML = this.responseText; }
+                    if (this.status == 404) { elmnt.innerHTML = "Page not found."; }
+                    /* Remove the attribute, and call this function once more: */
+                    elmnt.removeAttribute("w3-include-html");
+                    includeHTML();
+                }
+            }
+            xhttp.open("GET", file, true);
+            xhttp.send();
+            /* Exit the function: */
+            return;
+        }
+    }
+    checkHTMLforClassList();
+    generateInitialsForHeader();
 }
 
+/**
+ * Initializes the app by including HTML and setting up initial configurations.
+ */
+function init() {
+    includeHTML();
+}
 
 /**
- * 
- * @param {int} number 
+ * Checks the current HTML page and assigns a specific class to the navigation element.
+ * This highlights the current page in the navigation.
  */
-function test2(number) {
-    console(123)
-}</code></pre>
+function checkHTMLforClassList() {
+    const currentHTML = window.location.pathname;
+    switch (currentHTML) {
+        case '/summary.html':
+            addClassList('summary')
+            break;
+        case '/add-task.html':
+            addClassList('addTask')
+            break;
+        case '/board.html':
+            addClassList('board')
+            break;
+        case '/contacts.html':
+            addClassList('contacts')
+            break;
+        case '/privacy-policy.html':
+            addClassList('privacyPolicy')
+            break;
+        case '/legal-notice.html':
+            addClassList('legalNotice')
+            break;
+        default:
+            break;
+    }
+}
+
+/**
+ * Adds a 'clicked' class to the specified element ID, marking it as active.
+ * @param {string} id - The ID of the element to highlight.
+ */
+function addClassList(id) {
+    return document.getElementById(id).classList.add('clicked');
+}
+
+/**
+ * Returns a random color from the `contactBackgroundColor` array.
+ * Useful for assigning unique colors to contacts.
+ * @returns {string} A random color code from the array.
+ */
+function getRandomColor() {
+    return contactBackgroundColor[Math.floor(Math.random() * contactBackgroundColor.length)];
+}
+
+/**
+ * Generates initials from a contact name by taking the first letter of each name part.
+ * @param {string} contact - The full name of the contact.
+ * @returns {string} The initials generated from the contact's name.
+ */
+function generateInitials(contact) {
+    let initials = '';
+    let splitString = contact.split(' ');
+    splitString.forEach(name => {
+        initials += name.charAt(0)
+    });
+    return initials;
+}
+
+/**
+ * Opens an information box (infobox) and loads its content. Adds an event listener 
+ * to close the infobox if the user clicks outside of it.
+ */
+function openInfBox() {
+    let content = document.getElementById('infoBox');
+    content.innerHTML = generateHeaderHTML();
+    content.style.display = 'block';
+    document.addEventListener('click', function closeOnClickOutside(event) {
+        if (!event.target.closest('.infoBox') &amp;&amp; !event.target.closest('.header-user')) {
+            closeBox();
+            document.removeEventListener('click', closeOnClickOutside);
+        }
+    });
+}
+
+/**
+ * Closes the information box (infobox) by hiding it and clearing its content.
+ */
+function closeBox() {
+    let content = document.getElementById('infoBox');
+    content.style.display = 'none';
+    content.innerHTML = ''; 
+}
+
+/**
+ * Displays a toast notification for a brief period.
+ * @param {string} id - The ID of the toast element to show.
+ */
+function showToast(id) {
+    const toast = document.getElementById(id);
+    toast.classList.add('toast-visible');
+    setTimeout(() => {
+        toast.classList.remove('toast-visible');
+    }, 3000);
+}
+
+/**
+ * Generates initials for the currently logged-in user and displays them in the header.
+ */
+function generateInitialsForHeader() {
+    const user = localStorage.getItem("currentUser");
+    document.getElementById('loggedUser').innerText = generateInitials(JSON.parse(user));
+}
+
+/**
+ * Prevents page scrolling by disabling overflow on the body element.
+ */
+function preventScrolling() {
+    window.scrollTo(0, 0);
+    document.body.style.overflow = 'hidden';
+}
+
+/**
+ * Allows page scrolling by enabling overflow on the body element.
+ */
+function allowScrolling() {
+    document.body.style.overflow = 'auto';
+}
+</code></pre>
         </article>
     </section>
 
@@ -57,13 +207,13 @@ function test2(number) {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#greet">greet</a></li><li><a href="global.html#test2">test2</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#BASE_URL">BASE_URL</a></li><li><a href="global.html#addClassList">addClassList</a></li><li><a href="global.html#addContact">addContact</a></li><li><a href="global.html#addHighlight">addHighlight</a></li><li><a href="global.html#allowScrolling">allowScrolling</a></li><li><a href="global.html#arrowDeleteContact">arrowDeleteContact</a></li><li><a href="global.html#bannerChooser">bannerChooser</a></li><li><a href="global.html#changeSubtaskStatus">changeSubtaskStatus</a></li><li><a href="global.html#checkDropArea">checkDropArea</a></li><li><a href="global.html#checkForEmptyLists">checkForEmptyLists</a></li><li><a href="global.html#checkForList">checkForList</a></li><li><a href="global.html#checkHTMLforClassList">checkHTMLforClassList</a></li><li><a href="global.html#checkUserLoggedIn">checkUserLoggedIn</a></li><li><a href="global.html#clearContainers">clearContainers</a></li><li><a href="global.html#closeBox">closeBox</a></li><li><a href="global.html#closeViewList">closeViewList</a></li><li><a href="global.html#contactBackgroundColor">contactBackgroundColor</a></li><li><a href="global.html#contactDetailsTemplate">contactDetailsTemplate</a></li><li><a href="global.html#contactItemTemplate">contactItemTemplate</a></li><li><a href="global.html#createTaskHTML">createTaskHTML</a></li><li><a href="global.html#currentDate">currentDate</a></li><li><a href="global.html#dagAndDrop">dagAndDrop</a></li><li><a href="global.html#deleteContact">deleteContact</a></li><li><a href="global.html#deleteData">deleteData</a></li><li><a href="global.html#deleteTask">deleteTask</a></li><li><a href="global.html#filterAndShowTask">filterAndShowTask</a></li><li><a href="global.html#generateBoardSubtaskHTML">generateBoardSubtaskHTML</a></li><li><a href="global.html#generateBoardTaskContactsHTML">generateBoardTaskContactsHTML</a></li><li><a href="global.html#generateBoardTasksHTML">generateBoardTasksHTML</a></li><li><a href="global.html#generateContactHTML">generateContactHTML</a></li><li><a href="global.html#generateFirstLetterHTML">generateFirstLetterHTML</a></li><li><a href="global.html#generateHeaderHTML">generateHeaderHTML</a></li><li><a href="global.html#generateInitials">generateInitials</a></li><li><a href="global.html#generateInitialsForHeader">generateInitialsForHeader</a></li><li><a href="global.html#generateOverlaySubtaskHTML">generateOverlaySubtaskHTML</a></li><li><a href="global.html#generateOverlayTaskContactsHTML">generateOverlayTaskContactsHTML</a></li><li><a href="global.html#generateSubtaksHTML">generateSubtaksHTML</a></li><li><a href="global.html#generateSummaryHTML">generateSummaryHTML</a></li><li><a href="global.html#generateTaskCardHTML">generateTaskCardHTML</a></li><li><a href="global.html#generateTaskContacts">generateTaskContacts</a></li><li><a href="global.html#getData">getData</a></li><li><a href="global.html#getDialogTemplate">getDialogTemplate</a></li><li><a href="global.html#getRandomColor">getRandomColor</a></li><li><a href="global.html#getTasksToRender">getTasksToRender</a></li><li><a href="global.html#guestLogin">guestLogin</a></li><li><a href="global.html#highlight">highlight</a></li><li><a href="global.html#includeHTML">includeHTML</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#initializeImageHover">initializeImageHover</a></li><li><a href="global.html#isSamePassword">isSamePassword</a></li><li><a href="global.html#isValidEmail">isValidEmail</a></li><li><a href="global.html#isValidPhoneNumber">isValidPhoneNumber</a></li><li><a href="global.html#loadAllTasks">loadAllTasks</a></li><li><a href="global.html#loadContacts">loadContacts</a></li><li><a href="global.html#loadExternalScript">loadExternalScript</a></li><li><a href="global.html#loadInitAddTask">loadInitAddTask</a></li><li><a href="global.html#loadInitEditTask">loadInitEditTask</a></li><li><a href="global.html#loadTasks">loadTasks</a></li><li><a href="global.html#loader">loader</a></li><li><a href="global.html#login">login</a></li><li><a href="global.html#logout">logout</a></li><li><a href="global.html#moveTask">moveTask</a></li><li><a href="global.html#openInfBox">openInfBox</a></li><li><a href="global.html#openList">openList</a></li><li><a href="global.html#openOrCloseEditTask">openOrCloseEditTask</a></li><li><a href="global.html#overlaySubtaskEventlister">overlaySubtaskEventlister</a></li><li><a href="global.html#postData">postData</a></li><li><a href="global.html#preventEventBubbling">preventEventBubbling</a></li><li><a href="global.html#preventScrolling">preventScrolling</a></li><li><a href="global.html#prioImgChooser">prioImgChooser</a></li><li><a href="global.html#prioText">prioText</a></li><li><a href="global.html#progressStatus">progressStatus</a></li><li><a href="global.html#removeHighlight">removeHighlight</a></li><li><a href="global.html#renderBoard">renderBoard</a></li><li><a href="global.html#renderBoardSubtaskCounter">renderBoardSubtaskCounter</a></li><li><a href="global.html#renderBoardTaskContacts">renderBoardTaskContacts</a></li><li><a href="global.html#renderCode">renderCode</a></li><li><a href="global.html#renderContacts">renderContacts</a></li><li><a href="global.html#renderDialog">renderDialog</a></li><li><a href="global.html#renderOverlaySubtask">renderOverlaySubtask</a></li><li><a href="global.html#renderOverlayTaskContacts">renderOverlayTaskContacts</a></li><li><a href="global.html#renderSection">renderSection</a></li><li><a href="global.html#renderTask">renderTask</a></li><li><a href="global.html#renderTaskDetails">renderTaskDetails</a></li><li><a href="global.html#renderTaskToSection">renderTaskToSection</a></li><li><a href="global.html#renderTasks">renderTasks</a></li><li><a href="global.html#resetSectionArr">resetSectionArr</a></li><li><a href="global.html#saveContact">saveContact</a></li><li><a href="global.html#sectionChooser">sectionChooser</a></li><li><a href="global.html#setWelcomeText">setWelcomeText</a></li><li><a href="global.html#showContactDetails">showContactDetails</a></li><li><a href="global.html#showOrHideOverlay">showOrHideOverlay</a></li><li><a href="global.html#showToast">showToast</a></li><li><a href="global.html#showUsers">showUsers</a></li><li><a href="global.html#signUpUser">signUpUser</a></li><li><a href="global.html#taskArray">taskArray</a></li><li><a href="global.html#toggleOverlay">toggleOverlay</a></li><li><a href="global.html#updateData">updateData</a></li><li><a href="global.html#validateForm">validateForm</a></li><li><a href="global.html#whichValueIsFalse">whichValueIsFalse</a></li><li><a href="global.html#whichValueIsFalseLogin">whichValueIsFalseLogin</a></li><li><a href="global.html#whichValueIsFalseSigin">whichValueIsFalseSigin</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Wed Aug 21 2024 20:08:47 GMT+0200 (Mitteleuropäische Sommerzeit)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Thu Nov 14 2024 18:03:37 GMT+0100 (Mitteleuropäische Normalzeit)
 </footer>
 
 <script> prettyPrint(); </script>

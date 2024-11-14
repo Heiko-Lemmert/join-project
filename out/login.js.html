@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: login.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: login.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Base URL for Firebase Realtime Database.
+ */
+const BASE_URL = "https://join-89-default-rtdb.europe-west1.firebasedatabase.app/";
+
+/**
+ * Fetches data from the specified path in the Firebase database.
+ * @param {string} path - The path in the database to retrieve data from.
+ * @returns {Promise&lt;Object>} The data retrieved from the database.
+ */
+async function getData(path = "") {
+    let response = await fetch(BASE_URL + path + ".json");
+    let responseToJson = await response.json();
+    return responseToJson;
+}
+
+/**
+ * Sends data to the specified path in the Firebase database.
+ * @param {string} path - The path in the database where data will be added.
+ * @param {Object} data - The data to send to the database.
+ * @returns {Promise&lt;Object>} The response data from the database.
+ */
+async function postData(path = "", data = {}) {
+    let response = await fetch(BASE_URL + path + ".json", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data)
+    });
+    return responseToJson = await response.json();
+}
+
+/**
+ * Updates data at the specified path in the Firebase database.
+ * @param {string} path - The path in the database to update data.
+ * @param {Object} data - The new data to update in the database.
+ * @returns {Promise&lt;Object>} The updated data from the database.
+ */
+async function updateData(path = "", data = {}) {
+    let response = await fetch(BASE_URL + path + ".json", {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data)
+    });
+    return responseToJson = await response.json();
+}
+
+/**
+ * Handles user login by checking email and password with stored user data.
+ */
+async function login() {
+    const email = document.getElementById("email-input").value;
+    const password = document.getElementById("password-input").value;
+    try {
+        let data = await getData("users");
+        let usersArray = Object.values(data);
+        let userFound = false;
+        for (const user of usersArray) {
+            if (user.email === email &amp;&amp; user.password.toString() === password) {
+                userFound = true;
+                localStorage.setItem("currentUser", JSON.stringify(user.name));
+                window.location.href = "summary.html";
+                break;
+            }
+        }
+        if (!userFound) {
+            whichValueIsFalseLogin();
+        }
+    } catch (error) {
+        console.error("Error during login:", error);
+    }
+}
+
+/**
+ * Retrieves and displays all users from the database.
+ */
+async function showUsers() {
+    let users = await getData('users');
+}
+
+showUsers();
+
+/**
+ * Logs in as a guest by storing guest data in local storage.
+ */
+async function guestLogin() {
+    const user = 'Guest';
+    localStorage.setItem("currentUser", JSON.stringify(user));
+}
+
+/**
+ * Registers a new user by validating input, creating user data, 
+ * and adding it to the Firebase database.
+ */
+async function signUpUser() {
+    const email = document.getElementById("email-input").value;
+    const name = document.getElementById("name-input").value;
+    const password = document.getElementById("password-input").value;
+    const confirmPassword = document.getElementById("confirm-password-input").value;
+    const isValid = validateForm();
+
+    if (isValid) {
+        const newUserData = {
+            email: email,
+            name: name,
+            password: password
+        };
+
+        try {
+            let data = await getData("users");
+            let usersArray = Object.values(data);
+
+            if (!usersArray) {
+                usersArray = [];
+            }
+
+            usersArray.push(newUserData);
+
+            await updateData('users', usersArray);
+            window.location.href = "summary.html";
+
+        } catch (error) {
+            console.error('Error registering user:', error);
+        }
+    } else {
+        whichValueIsFalseSigin()
+    }
+}
+
+/**
+ * Handles the loading animation sequence on page start.
+ */
+function loader() {
+    document.querySelector('.startsequence').style.opacity = '0';
+    document.querySelector('.logo-start').classList.add('logo')
+    setTimeout(() => {
+        document.querySelector('.startsequence').style.display = 'none';
+    }, 1500);
+}
+
+/**
+ * Validates form input for signing up by checking for valid values.
+ * @returns {boolean} True if the form inputs are valid, false otherwise.
+ */
+function validateForm() {
+    const name = document.getElementById('name-input').value.trim();
+    const email = document.getElementById('email-input').value;
+    const password = document.getElementById('password-input').value;
+    const passwordConfirm = document.getElementById('confirm-password-input').value;
+    const checkMail = isValidEmail(email);
+    const isNameValid = /^[A-Za-zÄäÖöÜüß\s]+$/.test(name);
+
+    if (isNameValid &amp;&amp; checkMail &amp;&amp; password &amp;&amp; passwordConfirm) {
+        return true;
+    } else {
+        console.error('Validation failed: Name must contain only letters.');
+        return false;
+    }
+}
+
+/**
+ * Shows an error message and highlights incorrect fields during login.
+ */
+function whichValueIsFalseLogin() {
+    const password = document.getElementById('password-input');
+    const mail = document.getElementById('email-input');
+    const none = document.getElementById('wrong-login');
+    password.classList.add('required-border');
+    mail.classList.add('required-border');
+    none.classList.remove('d-none');
+    setTimeout(() => {
+        password.classList.remove('required-border');
+        mail.classList.remove('required-border');
+        none.classList.add('d-none');
+    }, 1500)
+}
+
+// /**
+//  * Shows error messages and highlights incorrect fields during sign-up.
+//  */
+// function whichValueIsFalseSigin() {
+//     const name = document.getElementById('name-input');
+//     const email = document.getElementById('email-input');
+//     const password = document.getElementById('password-input');
+//     const passwordConfirm = document.getElementById('confirm-password-input');
+//     const checkbox = document.getElementById('privacy-policy');
+//     const checkMail = isValidEmail(email.value);
+
+//     if (!name.value || name.value.length > 0) {
+//         name.classList.add('required-border');
+//     }
+//     if (!checkMail) {
+//         email.classList.add('required-border');
+//     }
+//     if (!isSamePassword()) {
+//         passwordConfirm.classList.add('required-border');
+//         password.classList.add('required-border');
+//     }
+//     if (!checkbox.checked) {
+//         document.getElementById('checkPrivacy').classList.add('required-underline');
+//     } 
+//     setTimeout(() => {
+//         name.classList.remove('required-border');
+//         email.classList.remove('required-border');
+//         password.classList.remove('required-border');
+//         passwordConfirm.classList.remove('required-border');
+//         document.getElementById('checkPrivacy').classList.remove('required-underline');
+//     }, 1500)
+// }
+
+/**
+ * Shows error messages and highlights incorrect fields during sign-up.
+ */
+/**
+ * Shows error messages and highlights incorrect fields during sign-up.
+ */
+function whichValueIsFalseSigin() {
+    const name = document.getElementById('name-input');
+    const email = document.getElementById('email-input');
+    const password = document.getElementById('password-input');
+    const passwordConfirm = document.getElementById('confirm-password-input');
+    const checkbox = document.getElementById('privacy-policy');
+    const checkMail = isValidEmail(email.value);
+    const isNameValid = /^[A-Za-zÄäÖöÜüß\s]+$/.test(name.value);
+    let hasError = false;
+
+    if (!name.value || !isNameValid) {
+        name.classList.add('required-border');
+        document.getElementById('name-error').textContent = "Name must contain only letters.";
+        hasError = true;
+    }
+
+    if (!checkMail) {
+        email.classList.add('required-border');
+        document.getElementById('email-error').textContent = "Please enter a valid email address.";
+        hasError = true;
+    }
+
+    if (!isSamePassword()) {
+        password.classList.add('required-border');
+        passwordConfirm.classList.add('required-border');
+        document.getElementById('password-error').textContent = "Passwords do not match.";
+        document.getElementById('confirm-password-error').textContent = "Passwords do not match.";
+        hasError = true;
+    }
+
+    if (!checkbox.checked) {
+        document.getElementById('checkPrivacy').classList.add('required-underline');
+        document.getElementById('privacy-policy-error').textContent = "Please accept the privacy policy.";
+        hasError = true;
+    }
+
+    setTimeout(() => {
+        name.classList.remove('required-border');
+        email.classList.remove('required-border');
+        password.classList.remove('required-border');
+        passwordConfirm.classList.remove('required-border');
+        document.getElementById('name-error').textContent = "";
+        document.getElementById('email-error').textContent = "";
+        document.getElementById('password-error').textContent = "";
+        document.getElementById('confirm-password-error').textContent = "";
+        document.getElementById('privacy-policy-error').textContent = "";
+        document.getElementById('checkPrivacy').classList.remove('required-underline');
+    }, 1500);
+
+    return !hasError;
+}
+
+/**
+ * Checks if the email format is valid.
+ * @param {string} email - The email address to validate.
+ * @returns {boolean} True if the email is valid, false otherwise.
+ */
+function isValidEmail(email) {
+    const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return re.test(String(email).toLowerCase());
+}
+
+/**
+ * Compares password and confirmation password for equality.
+ * @returns {boolean} True if passwords match, false otherwise.
+ */
+function isSamePassword() {
+    const password = document.getElementById('password-input').value;
+    const passwordConfirm = document.getElementById('confirm-password-input').value;
+    if (password.length > 0 &amp;&amp; passwordConfirm.length > 0) {
+        const result = password.localeCompare(passwordConfirm);
+        if (result == 0) {
+            return true
+        } else {
+            return false
+        }
+    } else {return false}
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#BASE_URL">BASE_URL</a></li><li><a href="global.html#addClassList">addClassList</a></li><li><a href="global.html#addContact">addContact</a></li><li><a href="global.html#addHighlight">addHighlight</a></li><li><a href="global.html#allowScrolling">allowScrolling</a></li><li><a href="global.html#arrowDeleteContact">arrowDeleteContact</a></li><li><a href="global.html#bannerChooser">bannerChooser</a></li><li><a href="global.html#changeSubtaskStatus">changeSubtaskStatus</a></li><li><a href="global.html#checkDropArea">checkDropArea</a></li><li><a href="global.html#checkForEmptyLists">checkForEmptyLists</a></li><li><a href="global.html#checkForList">checkForList</a></li><li><a href="global.html#checkHTMLforClassList">checkHTMLforClassList</a></li><li><a href="global.html#checkUserLoggedIn">checkUserLoggedIn</a></li><li><a href="global.html#clearContainers">clearContainers</a></li><li><a href="global.html#closeBox">closeBox</a></li><li><a href="global.html#closeViewList">closeViewList</a></li><li><a href="global.html#contactBackgroundColor">contactBackgroundColor</a></li><li><a href="global.html#contactDetailsTemplate">contactDetailsTemplate</a></li><li><a href="global.html#contactItemTemplate">contactItemTemplate</a></li><li><a href="global.html#createTaskHTML">createTaskHTML</a></li><li><a href="global.html#currentDate">currentDate</a></li><li><a href="global.html#dagAndDrop">dagAndDrop</a></li><li><a href="global.html#deleteContact">deleteContact</a></li><li><a href="global.html#deleteData">deleteData</a></li><li><a href="global.html#deleteTask">deleteTask</a></li><li><a href="global.html#filterAndShowTask">filterAndShowTask</a></li><li><a href="global.html#generateBoardSubtaskHTML">generateBoardSubtaskHTML</a></li><li><a href="global.html#generateBoardTaskContactsHTML">generateBoardTaskContactsHTML</a></li><li><a href="global.html#generateBoardTasksHTML">generateBoardTasksHTML</a></li><li><a href="global.html#generateContactHTML">generateContactHTML</a></li><li><a href="global.html#generateFirstLetterHTML">generateFirstLetterHTML</a></li><li><a href="global.html#generateHeaderHTML">generateHeaderHTML</a></li><li><a href="global.html#generateInitials">generateInitials</a></li><li><a href="global.html#generateInitialsForHeader">generateInitialsForHeader</a></li><li><a href="global.html#generateOverlaySubtaskHTML">generateOverlaySubtaskHTML</a></li><li><a href="global.html#generateOverlayTaskContactsHTML">generateOverlayTaskContactsHTML</a></li><li><a href="global.html#generateSubtaksHTML">generateSubtaksHTML</a></li><li><a href="global.html#generateSummaryHTML">generateSummaryHTML</a></li><li><a href="global.html#generateTaskCardHTML">generateTaskCardHTML</a></li><li><a href="global.html#generateTaskContacts">generateTaskContacts</a></li><li><a href="global.html#getData">getData</a></li><li><a href="global.html#getDialogTemplate">getDialogTemplate</a></li><li><a href="global.html#getRandomColor">getRandomColor</a></li><li><a href="global.html#getTasksToRender">getTasksToRender</a></li><li><a href="global.html#guestLogin">guestLogin</a></li><li><a href="global.html#highlight">highlight</a></li><li><a href="global.html#includeHTML">includeHTML</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#initializeImageHover">initializeImageHover</a></li><li><a href="global.html#isSamePassword">isSamePassword</a></li><li><a href="global.html#isValidEmail">isValidEmail</a></li><li><a href="global.html#isValidPhoneNumber">isValidPhoneNumber</a></li><li><a href="global.html#loadAllTasks">loadAllTasks</a></li><li><a href="global.html#loadContacts">loadContacts</a></li><li><a href="global.html#loadExternalScript">loadExternalScript</a></li><li><a href="global.html#loadInitAddTask">loadInitAddTask</a></li><li><a href="global.html#loadInitEditTask">loadInitEditTask</a></li><li><a href="global.html#loadTasks">loadTasks</a></li><li><a href="global.html#loader">loader</a></li><li><a href="global.html#login">login</a></li><li><a href="global.html#logout">logout</a></li><li><a href="global.html#moveTask">moveTask</a></li><li><a href="global.html#openInfBox">openInfBox</a></li><li><a href="global.html#openList">openList</a></li><li><a href="global.html#openOrCloseEditTask">openOrCloseEditTask</a></li><li><a href="global.html#overlaySubtaskEventlister">overlaySubtaskEventlister</a></li><li><a href="global.html#postData">postData</a></li><li><a href="global.html#preventEventBubbling">preventEventBubbling</a></li><li><a href="global.html#preventScrolling">preventScrolling</a></li><li><a href="global.html#prioImgChooser">prioImgChooser</a></li><li><a href="global.html#prioText">prioText</a></li><li><a href="global.html#progressStatus">progressStatus</a></li><li><a href="global.html#removeHighlight">removeHighlight</a></li><li><a href="global.html#renderBoard">renderBoard</a></li><li><a href="global.html#renderBoardSubtaskCounter">renderBoardSubtaskCounter</a></li><li><a href="global.html#renderBoardTaskContacts">renderBoardTaskContacts</a></li><li><a href="global.html#renderCode">renderCode</a></li><li><a href="global.html#renderContacts">renderContacts</a></li><li><a href="global.html#renderDialog">renderDialog</a></li><li><a href="global.html#renderOverlaySubtask">renderOverlaySubtask</a></li><li><a href="global.html#renderOverlayTaskContacts">renderOverlayTaskContacts</a></li><li><a href="global.html#renderSection">renderSection</a></li><li><a href="global.html#renderTask">renderTask</a></li><li><a href="global.html#renderTaskDetails">renderTaskDetails</a></li><li><a href="global.html#renderTaskToSection">renderTaskToSection</a></li><li><a href="global.html#renderTasks">renderTasks</a></li><li><a href="global.html#resetSectionArr">resetSectionArr</a></li><li><a href="global.html#saveContact">saveContact</a></li><li><a href="global.html#sectionChooser">sectionChooser</a></li><li><a href="global.html#setWelcomeText">setWelcomeText</a></li><li><a href="global.html#showContactDetails">showContactDetails</a></li><li><a href="global.html#showOrHideOverlay">showOrHideOverlay</a></li><li><a href="global.html#showToast">showToast</a></li><li><a href="global.html#showUsers">showUsers</a></li><li><a href="global.html#signUpUser">signUpUser</a></li><li><a href="global.html#taskArray">taskArray</a></li><li><a href="global.html#toggleOverlay">toggleOverlay</a></li><li><a href="global.html#updateData">updateData</a></li><li><a href="global.html#validateForm">validateForm</a></li><li><a href="global.html#whichValueIsFalse">whichValueIsFalse</a></li><li><a href="global.html#whichValueIsFalseLogin">whichValueIsFalseLogin</a></li><li><a href="global.html#whichValueIsFalseSigin">whichValueIsFalseSigin</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Thu Nov 14 2024 18:03:37 GMT+0100 (Mitteleuropäische Normalzeit)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

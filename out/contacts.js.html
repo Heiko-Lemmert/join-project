@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: contacts.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: contacts.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>let contactArray = [];
+
+/**
+ * Loads contact data from the database and updates the `contactArray`.
+ * Adds a random color if no color is specified for a contact.
+ * @async
+ */
+async function loadContacts() {
+    const contactsData = await getData("contacts/-O8W_xHifJ5jIH4moSJq");
+    contactArray = Array.isArray(contactsData) ?
+        contactsData.map(contact => ({
+            ...contact,
+            color: contact.color || getRandomColor()
+        })) : [];
+    renderContacts();
+}
+
+/**
+ * Renders the contact list in the HTML view, sorting them alphabetically.
+ * Displays contacts under their respective starting letters.
+ */
+function renderContacts() {
+    let contactSection = document.getElementById('contact-section');
+    contactSection.innerHTML = '';
+    let indexedContacts = contactArray.map((contact, index) => ({
+        ...contact,
+        originalIndex: index
+    }));
+    let sortedContacts = indexedContacts.sort((a, b) => a.name.localeCompare(b.name));
+    let currentLetter = '';
+
+    for (let contact of sortedContacts) {
+        let firstLetter = contact.name.charAt(0).toUpperCase();
+
+        if (firstLetter !== currentLetter) {
+            currentLetter = firstLetter;
+            contactSection.innerHTML += `
+                &lt;div class="contact-letter-section">
+                    &lt;span class="contact-section-letter">${currentLetter}&lt;/span>
+                    &lt;span>&lt;hr class="contact-divider">&lt;/span>
+                &lt;/div>`;
+        }
+
+        contactSection.innerHTML += contactItemTemplate(contact.originalIndex);
+    }
+}
+
+/**
+ * Generates an HTML template for a single contact item.
+ * @param {number} originalIndex - The index of the contact in the `contactArray`.
+ * @returns {string} HTML template string for the contact item.
+ */
+function contactItemTemplate(originalIndex) {
+    let contact = contactArray[originalIndex];
+    let initials = generateInitials(contact.name);
+    let bgColor = contact.color; // Use stored color
+
+    return `
+    &lt;div id="contact-${originalIndex}" class="contact-item" onclick="showContactDetails(${originalIndex})">
+        &lt;div class="contact-avatar" style="background-color: ${bgColor}; color: white;">
+            ${initials}
+        &lt;/div>
+        &lt;div class="contact-info">
+            &lt;span class="contact-name">${contact.name}&lt;/span>
+            &lt;span class="contact-email">${contact.email}&lt;/span>
+        &lt;/div>
+    &lt;/div>`;
+}
+
+/**
+ * Displays the details of the selected contact in a separate view.
+ * @param {number} index - The index of the selected contact.
+ */
+function showContactDetails(index) {
+    let contactDetails = document.getElementById('contact-card');
+    let contactContent = document.querySelector('.contact-content');
+    contactContent.classList.add('zindex')
+    contactDetails.innerHTML = '';
+    contactDetails.innerHTML = contactDetailsTemplate(index);
+    preventScrolling();
+    addHighlight(index);
+}
+
+/**
+ * Highlights the selected contact in the contact list.
+ * @param {number} id - The ID of the contact to highlight.
+ */
+async function addContact() {
+    const name = document.getElementById('name-input').value;
+    const email = document.getElementById('email-input').value;
+    const number = document.getElementById('phone-input').value;
+    const isValid = validateForm();
+
+    if (isValid) {
+        const newContact = {
+            name,
+            email,
+            number,
+            color: getRandomColor()
+        };
+
+        try {
+            let contactsData = await getData("contacts/-O8W_xHifJ5jIH4moSJq");
+
+            if (Array.isArray(contactsData)) {
+                contactsData.push(newContact);
+            } else {
+                contactsData = [newContact];
+            }
+
+            await updateData("contacts/-O8W_xHifJ5jIH4moSJq", contactsData);
+            loadContacts();
+        } catch (error) {
+            console.error('Fehler beim Hinzufügen des Kontakts:', error);
+        }
+        showToast('contactToast')
+        toggleOverlay();
+    } else {
+        whichValueIsFalse();
+    }
+}
+
+/**
+ * Validates the form fields for contact creation or editing.
+ * Checks if the name, email, and phone number fields are filled in and valid.
+ * 
+ * @returns {boolean} - Returns true if all fields are valid; otherwise, undefined.
+ */
+function validateForm() {
+    const name = document.getElementById('name-input').value;
+    const email = document.getElementById('email-input').value;
+    const number = document.getElementById('phone-input').value;
+    const checkMail = isValidEmail(email);
+    const checkPhone = isValidPhoneNumber(number);
+
+    if (name &amp;&amp; checkMail &amp;&amp; checkPhone) {
+        return true
+    }
+}
+
+/**
+ * Highlights input fields with errors based on the user's input.
+ * Adds a red border to invalid fields (name, email, phone number) and removes it after 1 second.
+ */
+function whichValueIsFalse() {
+    const name = document.getElementById('name-input');
+    const email = document.getElementById('email-input');
+    const number = document.getElementById('phone-input');
+    const checkMail = isValidEmail(email.value);
+    const checkPhone = isValidPhoneNumber(number.value);
+
+    if (!name.value) {
+        name.classList.add('required-border');
+    }
+    if (!checkMail) {
+        email.classList.add('required-border');
+    }
+    if (!checkPhone) {
+        number.classList.add('required-border');
+    }
+    setTimeout(() => {
+        name.classList.remove('required-border');
+        email.classList.remove('required-border');
+        number.classList.remove('required-border');
+    }, 1000)
+}
+
+/**
+ * Clears the contact details view and removes the z-index class from the contact content section.
+ * Allows page scrolling again after closing the contact details view.
+ */
+function arrowDeleteContact() {
+    document.getElementById('contact-card').innerHTML = '';
+    let contactContent = document.querySelector('.contact-content');
+    contactContent.classList.remove('zindex')
+    allowScrolling();
+}
+
+/**
+ * Toggles the visibility of the overlay (used for editing/adding contacts).
+ */
+function toggleOverlay() {
+    let overlayRef = document.getElementById('overlay');
+    overlayRef.classList.toggle('d-none');
+}
+
+/**
+ * Renders the edit dialog with the contact's information.
+ * @param {number} index - The index of the contact to edit.
+ */
+function renderDialog(index) {
+    let contact = contactArray[index];
+    let overlayRef = document.getElementById('overlay');
+    overlayRef.innerHTML = '';
+    overlayRef.innerHTML += getDialogTemplate(contact, index);
+}
+
+
+/**
+ * Prevents the click event from propagating to parent elements.
+ * Used to stop click events from closing the dialog when interacting with the form.
+ * 
+ * @param {Event} event - The event object.
+ */
+function preventEventBubbling(event) {
+    event.stopPropagation();
+}
+
+/**
+ * Handles the process of deleting a contact from the database.
+ * @async
+ * @param {number} index - The index of the contact to delete.
+ */
+async function deleteContact(index) {
+    try {
+        let contactsData = await getData("contacts/-O8W_xHifJ5jIH4moSJq");
+
+        if (Array.isArray(contactsData)) {
+            contactsData.splice(index, 1);
+            await updateData("contacts/-O8W_xHifJ5jIH4moSJq", contactsData);
+            loadContacts();
+            document.getElementById('contact-card').innerHTML = '';
+        }
+    } catch (error) {
+        console.error('Fehler beim Löschen des Kontakts:', error);
+    }
+}
+
+/**
+ * Saves the updated contact details to the contact array and updates the database.
+ * Validates the input fields before updating the contact data.
+ * 
+ * @async
+ * @param {number} index - The index of the contact in the contact array to be updated.
+ */
+async function saveContact(index) {
+    const name = document.getElementById('name-input').value;
+    const email = document.getElementById('email-input').value;
+    const number = document.getElementById('phone-input').value;
+    const isValid = validateForm();
+
+    if (isValid) {
+        const updatedContact = {
+            name,
+            email,
+            number,
+            color: contactArray[index].color
+        };
+
+        try {
+            let contactsData = await getData("contacts/-O8W_xHifJ5jIH4moSJq");
+
+            if (Array.isArray(contactsData)) {
+                contactsData[index] = updatedContact;
+                await updateData("contacts/-O8W_xHifJ5jIH4moSJq", contactsData);
+                loadContacts();
+            }
+        } catch (error) {
+            console.error('Fehler beim Aktualisieren des Kontakts:', error);
+        }
+
+        toggleOverlay();
+        document.getElementById('contact-card').innerHTML = '';
+    } else {
+        whichValueIsFalse();
+    }
+}
+
+/**
+ * Validates if the provided email has a correct format.
+ * 
+ * @param {string} email - The email address to validate.
+ * @returns {boolean} - Returns true if the email format is valid; otherwise, false.
+ */
+function isValidEmail(email) {
+    const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return re.test(String(email).toLowerCase());
+}
+
+/**
+ * Validates if the provided phone number consists of 1 to 15 digits.
+ * 
+ * @param {string} number - The phone number to validate.
+ * @returns {boolean} - Returns true if the phone number format is valid; otherwise, false.
+ */
+function isValidPhoneNumber(number) {
+    const re = /^\d{1,15}$/;
+    return re.test(String(number).trim());
+}
+
+/**
+ * Highlights the selected contact in the contact list.
+ * @param {number} id - The ID of the contact to highlight.
+ */
+function addHighlight(id) {
+    contactArray.forEach((contact, i) => {
+        document.getElementById('contact-' + i).classList.remove('contact-highlight');
+    })
+    document.getElementById('contact-' + id).classList.add('contact-highlight');
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#BASE_URL">BASE_URL</a></li><li><a href="global.html#addClassList">addClassList</a></li><li><a href="global.html#addContact">addContact</a></li><li><a href="global.html#addHighlight">addHighlight</a></li><li><a href="global.html#allowScrolling">allowScrolling</a></li><li><a href="global.html#arrowDeleteContact">arrowDeleteContact</a></li><li><a href="global.html#bannerChooser">bannerChooser</a></li><li><a href="global.html#changeSubtaskStatus">changeSubtaskStatus</a></li><li><a href="global.html#checkDropArea">checkDropArea</a></li><li><a href="global.html#checkForEmptyLists">checkForEmptyLists</a></li><li><a href="global.html#checkForList">checkForList</a></li><li><a href="global.html#checkHTMLforClassList">checkHTMLforClassList</a></li><li><a href="global.html#checkUserLoggedIn">checkUserLoggedIn</a></li><li><a href="global.html#clearContainers">clearContainers</a></li><li><a href="global.html#closeBox">closeBox</a></li><li><a href="global.html#closeViewList">closeViewList</a></li><li><a href="global.html#contactBackgroundColor">contactBackgroundColor</a></li><li><a href="global.html#contactDetailsTemplate">contactDetailsTemplate</a></li><li><a href="global.html#contactItemTemplate">contactItemTemplate</a></li><li><a href="global.html#createTaskHTML">createTaskHTML</a></li><li><a href="global.html#currentDate">currentDate</a></li><li><a href="global.html#dagAndDrop">dagAndDrop</a></li><li><a href="global.html#deleteContact">deleteContact</a></li><li><a href="global.html#deleteData">deleteData</a></li><li><a href="global.html#deleteTask">deleteTask</a></li><li><a href="global.html#filterAndShowTask">filterAndShowTask</a></li><li><a href="global.html#generateBoardSubtaskHTML">generateBoardSubtaskHTML</a></li><li><a href="global.html#generateBoardTaskContactsHTML">generateBoardTaskContactsHTML</a></li><li><a href="global.html#generateBoardTasksHTML">generateBoardTasksHTML</a></li><li><a href="global.html#generateContactHTML">generateContactHTML</a></li><li><a href="global.html#generateFirstLetterHTML">generateFirstLetterHTML</a></li><li><a href="global.html#generateHeaderHTML">generateHeaderHTML</a></li><li><a href="global.html#generateInitials">generateInitials</a></li><li><a href="global.html#generateInitialsForHeader">generateInitialsForHeader</a></li><li><a href="global.html#generateOverlaySubtaskHTML">generateOverlaySubtaskHTML</a></li><li><a href="global.html#generateOverlayTaskContactsHTML">generateOverlayTaskContactsHTML</a></li><li><a href="global.html#generateSubtaksHTML">generateSubtaksHTML</a></li><li><a href="global.html#generateSummaryHTML">generateSummaryHTML</a></li><li><a href="global.html#generateTaskCardHTML">generateTaskCardHTML</a></li><li><a href="global.html#generateTaskContacts">generateTaskContacts</a></li><li><a href="global.html#getData">getData</a></li><li><a href="global.html#getDialogTemplate">getDialogTemplate</a></li><li><a href="global.html#getRandomColor">getRandomColor</a></li><li><a href="global.html#getTasksToRender">getTasksToRender</a></li><li><a href="global.html#guestLogin">guestLogin</a></li><li><a href="global.html#highlight">highlight</a></li><li><a href="global.html#includeHTML">includeHTML</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#initializeImageHover">initializeImageHover</a></li><li><a href="global.html#isSamePassword">isSamePassword</a></li><li><a href="global.html#isValidEmail">isValidEmail</a></li><li><a href="global.html#isValidPhoneNumber">isValidPhoneNumber</a></li><li><a href="global.html#loadAllTasks">loadAllTasks</a></li><li><a href="global.html#loadContacts">loadContacts</a></li><li><a href="global.html#loadExternalScript">loadExternalScript</a></li><li><a href="global.html#loadInitAddTask">loadInitAddTask</a></li><li><a href="global.html#loadInitEditTask">loadInitEditTask</a></li><li><a href="global.html#loadTasks">loadTasks</a></li><li><a href="global.html#loader">loader</a></li><li><a href="global.html#login">login</a></li><li><a href="global.html#logout">logout</a></li><li><a href="global.html#moveTask">moveTask</a></li><li><a href="global.html#openInfBox">openInfBox</a></li><li><a href="global.html#openList">openList</a></li><li><a href="global.html#openOrCloseEditTask">openOrCloseEditTask</a></li><li><a href="global.html#overlaySubtaskEventlister">overlaySubtaskEventlister</a></li><li><a href="global.html#postData">postData</a></li><li><a href="global.html#preventEventBubbling">preventEventBubbling</a></li><li><a href="global.html#preventScrolling">preventScrolling</a></li><li><a href="global.html#prioImgChooser">prioImgChooser</a></li><li><a href="global.html#prioText">prioText</a></li><li><a href="global.html#progressStatus">progressStatus</a></li><li><a href="global.html#removeHighlight">removeHighlight</a></li><li><a href="global.html#renderBoard">renderBoard</a></li><li><a href="global.html#renderBoardSubtaskCounter">renderBoardSubtaskCounter</a></li><li><a href="global.html#renderBoardTaskContacts">renderBoardTaskContacts</a></li><li><a href="global.html#renderCode">renderCode</a></li><li><a href="global.html#renderContacts">renderContacts</a></li><li><a href="global.html#renderDialog">renderDialog</a></li><li><a href="global.html#renderOverlaySubtask">renderOverlaySubtask</a></li><li><a href="global.html#renderOverlayTaskContacts">renderOverlayTaskContacts</a></li><li><a href="global.html#renderSection">renderSection</a></li><li><a href="global.html#renderTask">renderTask</a></li><li><a href="global.html#renderTaskDetails">renderTaskDetails</a></li><li><a href="global.html#renderTaskToSection">renderTaskToSection</a></li><li><a href="global.html#renderTasks">renderTasks</a></li><li><a href="global.html#resetSectionArr">resetSectionArr</a></li><li><a href="global.html#saveContact">saveContact</a></li><li><a href="global.html#sectionChooser">sectionChooser</a></li><li><a href="global.html#setWelcomeText">setWelcomeText</a></li><li><a href="global.html#showContactDetails">showContactDetails</a></li><li><a href="global.html#showOrHideOverlay">showOrHideOverlay</a></li><li><a href="global.html#showToast">showToast</a></li><li><a href="global.html#showUsers">showUsers</a></li><li><a href="global.html#signUpUser">signUpUser</a></li><li><a href="global.html#taskArray">taskArray</a></li><li><a href="global.html#toggleOverlay">toggleOverlay</a></li><li><a href="global.html#updateData">updateData</a></li><li><a href="global.html#validateForm">validateForm</a></li><li><a href="global.html#whichValueIsFalse">whichValueIsFalse</a></li><li><a href="global.html#whichValueIsFalseLogin">whichValueIsFalseLogin</a></li><li><a href="global.html#whichValueIsFalseSigin">whichValueIsFalseSigin</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Thu Nov 14 2024 18:03:37 GMT+0100 (Mitteleuropäische Normalzeit)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
