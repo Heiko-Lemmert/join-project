@@ -225,7 +225,8 @@
                     editAddBtn.style.display = 'block';
                     editAddSubtask.classList.toggle('field-activ');
                 } else {
-                    if (editSubtaskInput.value.length >= 1) {
+                    const subtaskInput = subtask.value.trim();
+                    if (subtaskInput.length >= 1) {
                         createSubtask(editSubtaskInput.value);
                     }
                 }
@@ -243,12 +244,15 @@
      * @param {string} newSubtask - The title of the new subtask.
      */
     function createSubtask(newSubtask) {
-        if (writtenSubtask.length < 5) {
-            writtenSubtask.push({ title: newSubtask, done: false });
+        if (writtenSubtask.length < 20) {
+            writtenSubtask.push({
+                title: newSubtask,
+                done: false
+            });
             editSubtaskInput.value = '';
             renderSubtask();
         } else {
-            alert('Too many Subtask. Please only enter 5 Subtask');
+            alert('Too many Subtask. Please only enter 20 Subtask');
         }
     }
 
@@ -279,7 +283,8 @@
      */
     function editSubtaskArry(id) {
         const editSubtaskField = document.getElementById('editTaskField-' + id);
-        if (editSubtaskField.value.length > 0) {
+        const editSubtaskInput = editSubtaskField.value.trim()
+        if (editSubtaskInput.length > 0) {
             const newSubtask = editSubtaskField.value;
             writtenSubtask[id].title = newSubtask
             renderSubtask();
@@ -318,7 +323,9 @@
             writtenSubtask = taskDataFromDB.subtask;
             renderSubtask();
         }
-        if (taskDataFromDB.contacts) { readContactFromDB(taskDataFromDB.contacts); }
+        if (taskDataFromDB.contacts) {
+            readContactFromDB(taskDataFromDB.contacts);
+        }
 
     }
 
@@ -348,10 +355,10 @@
         updateSelectedContacts();
     }
 
-/**
- * Submits the edited task data to the database and displays a success message if valid.
- * @param {Event} event - The submit event object.
- */   
+    /**
+     * Submits the edited task data to the database and displays a success message if valid.
+     * @param {Event} event - The submit event object.
+     */
     function editTask(event) {
         event.preventDefault();
         const isValid = validateForm();
@@ -373,10 +380,30 @@
      * Validates the task form fields to ensure all required fields are filled.
      * @returns {boolean} - Returns true if all fields are valid, otherwise false.
      */
+
     function validateForm() {
-        if (editTaskTitle.value && editTaskDate.value && editTaskSelector.innerText !== 'Select task category') {
-            return true
-        }
+        const title = document.getElementById('editTaskTitle').value.trim();
+        const date = document.getElementById('editTaskDate').value;
+        const category = document.getElementById('editTaskSelector').innerText;
+
+        const isTitleValid = title.length > 0;
+        const isDateValid = checkDateValidity(date);
+        const isCategorySelected = category !== 'Select task category';
+
+        return isTitleValid && isDateValid && isCategorySelected;
+    }
+
+    /**
+     * Checks if the selected date is either today or in the future.
+     * @param {string} date - The selected date as a string.
+     * @returns {boolean} - Returns true if the date is today or in the future, otherwise false.
+     */
+    function checkDateValidity(date) {
+        const selectedDate = new Date(date);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        return selectedDate >= today;
     }
 
     /**
@@ -401,26 +428,40 @@
         };
     }
 
-    /**
-     * Highlights missing required fields in the form by adding a red border.
-     * Removes the highlight after a short delay.
+      /**
+     * Highlights missing or incorrect fields in the form and displays error messages.
      */
-    function whichValueIsFalse() {
-        if (!editTaskTitle.value) {
-            editTaskTitle.classList.add('required-border');
-        }
-        if (!editTaskDate.value) {
-            editTaskDate.classList.add('required-border');
-        }
-        if (editTaskSelector.innerText === 'Select task category') {
-            editTaskSelector.classList.add('required-border');
-        }
-        setTimeout(() => {
-            editTaskTitle.classList.remove('required-border');
-            editTaskDate.classList.remove('required-border');
-            editTaskSelector.classList.remove('required-border');
-        }, 1000)
+      function whichValueIsFalse() {
+        const title = document.getElementById('editTaskTitle');
+        const date = document.getElementById('editTaskDate');
+        const category = document.getElementById('editTaskSelector');
+        const titleError = document.getElementById('editTitle-error');
+        const dateError = document.getElementById('editDate-error');
+        const categoryError = document.getElementById('editCategory-error');
 
+        if (!title.value.trim()) {
+            title.classList.add('required-border');
+            titleError.textContent = "Please enter a title.";
+        }
+
+        if (!checkDateValidity(date.value)) {
+            date.classList.add('required-border');
+            dateError.textContent = "Please select a valid date (today or future).";
+        }
+
+        if (category.innerText === 'Select task category') {
+            category.classList.add('required-border');
+            categoryError.textContent = "Please select a task category.";
+        }
+
+        setTimeout(() => {
+            titleError.textContent = "";
+            dateError.textContent = "";
+            categoryError.textContent = "";
+            title.classList.remove('required-border');
+            date.classList.remove('required-border');
+            category.classList.remove('required-border');
+        }, 1000);
     }
 
     /**

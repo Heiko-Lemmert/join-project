@@ -28,6 +28,8 @@
                 <div class="task-container-left">
                     <label for="task-title">Title <span class="required">*</span></label>
                     <input required type="text" id="taskTitle" placeholder="Enter a Title">
+                    <p id="title-error" class="error-message"></p>
+
                     <label for="task-description">Description</label>
                     <textarea name="task-description" id="taskDescription" placeholder="Enter a Description"></textarea>
                     <label for="task-contacts">Assigned to</label>
@@ -49,6 +51,8 @@
                 <div class="task-container-right">
                     <label for="task-date">Due date <span class="required">*</span></label>
                     <input required type="date" id="taskDate" name="task-date">
+                    <p id="date-error" class="error-message"></p>
+
                     <label for="task-prio">Prio</label>
                     <div id="prioChooser">
                         <a class="prio-btn btn-high" id="prioHigh" onclick="prioChooser('high')">Ugrent</a>
@@ -70,6 +74,7 @@
                                 <label>User Story</label>
                             </div>
                         </div>
+                        <p id="category-error" class="error-message"></p>
                     </div>
                     <label for="subtask">Subtasks</label>
                     <div class="add-subtask" id="addSubtask">

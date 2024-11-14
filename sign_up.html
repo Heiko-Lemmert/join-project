@@ -35,22 +35,27 @@
                 <div class="input-group">
                     <input type="text" placeholder="Name" id="name-input" required>
                     <img src="./assets/img/person.png" alt="user icon">
+                    <p id="name-error" class="error-message"></p>
                 </div>
                 <div class="input-group">
                     <input type="email" placeholder="Email" id="email-input" required>
                     <img src="./assets/img/mail.png" alt="email icon">
+                    <p id="email-error" class="error-message"></p>
                 </div>
                 <div class="input-group">
                     <input type="password" placeholder="Password" id="password-input" required>
                     <img src="./assets/img/lock.png" alt="password icon">
+                    <p id="password-error" class="error-message"></p>
                 </div>
                 <div class="input-group">
                     <input type="password" placeholder="Confirm Password" id="confirm-password-input" required>
                     <img src="./assets/img/lock.png" alt="confirm password icon">
+                    <p id="confirm-password-error" class="error-message"></p>
                 </div>
                 <div class="checkbox-group">
                     <input type="checkbox" id="privacy-policy" required>
                     <label for="privacy-policy" id="checkPrivacy">I accept the <a href="privacy-policy--log.html">Privacy policy</a></label>
+                    <p id="privacy-policy-error" class="error-message"></p>
                 </div>
                 <button type="button" class="btn-primary" onclick="signUpUser()">Sign up</button>
             </form>

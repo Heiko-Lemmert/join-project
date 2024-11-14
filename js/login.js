@@ -146,14 +146,18 @@ function loader() {
  * @returns {boolean} True if the form inputs are valid, false otherwise.
  */
 function validateForm() {
-    const name = document.getElementById('name-input').value;
+    const name = document.getElementById('name-input').value.trim();
     const email = document.getElementById('email-input').value;
     const password = document.getElementById('password-input').value;
     const passwordConfirm = document.getElementById('confirm-password-input').value;
     const checkMail = isValidEmail(email);
+    const isNameValid = /^[A-Za-zÄäÖöÜüß\s]+$/.test(name);
 
-    if (name && checkMail && password && passwordConfirm) {
-        return true
+    if (isNameValid && checkMail && password && passwordConfirm) {
+        return true;
+    } else {
+        console.error('Validation failed: Name must contain only letters.');
+        return false;
     }
 }
 
@@ -174,6 +178,42 @@ function whichValueIsFalseLogin() {
     }, 1500)
 }
 
+// /**
+//  * Shows error messages and highlights incorrect fields during sign-up.
+//  */
+// function whichValueIsFalseSigin() {
+//     const name = document.getElementById('name-input');
+//     const email = document.getElementById('email-input');
+//     const password = document.getElementById('password-input');
+//     const passwordConfirm = document.getElementById('confirm-password-input');
+//     const checkbox = document.getElementById('privacy-policy');
+//     const checkMail = isValidEmail(email.value);
+
+//     if (!name.value || name.value.length > 0) {
+//         name.classList.add('required-border');
+//     }
+//     if (!checkMail) {
+//         email.classList.add('required-border');
+//     }
+//     if (!isSamePassword()) {
+//         passwordConfirm.classList.add('required-border');
+//         password.classList.add('required-border');
+//     }
+//     if (!checkbox.checked) {
+//         document.getElementById('checkPrivacy').classList.add('required-underline');
+//     } 
+//     setTimeout(() => {
+//         name.classList.remove('required-border');
+//         email.classList.remove('required-border');
+//         password.classList.remove('required-border');
+//         passwordConfirm.classList.remove('required-border');
+//         document.getElementById('checkPrivacy').classList.remove('required-underline');
+//     }, 1500)
+// }
+
+/**
+ * Shows error messages and highlights incorrect fields during sign-up.
+ */
 /**
  * Shows error messages and highlights incorrect fields during sign-up.
  */
@@ -184,27 +224,49 @@ function whichValueIsFalseSigin() {
     const passwordConfirm = document.getElementById('confirm-password-input');
     const checkbox = document.getElementById('privacy-policy');
     const checkMail = isValidEmail(email.value);
+    const isNameValid = /^[A-Za-zÄäÖöÜüß\s]+$/.test(name.value);
+    let hasError = false;
 
-    if (!name.value) {
+    if (!name.value || !isNameValid) {
         name.classList.add('required-border');
+        document.getElementById('name-error').textContent = "Name must contain only letters.";
+        hasError = true;
     }
+
     if (!checkMail) {
         email.classList.add('required-border');
+        document.getElementById('email-error').textContent = "Please enter a valid email address.";
+        hasError = true;
     }
+
     if (!isSamePassword()) {
-        passwordConfirm.classList.add('required-border');
         password.classList.add('required-border');
+        passwordConfirm.classList.add('required-border');
+        document.getElementById('password-error').textContent = "Passwords do not match.";
+        document.getElementById('confirm-password-error').textContent = "Passwords do not match.";
+        hasError = true;
     }
+
     if (!checkbox.checked) {
         document.getElementById('checkPrivacy').classList.add('required-underline');
-    } 
+        document.getElementById('privacy-policy-error').textContent = "Please accept the privacy policy.";
+        hasError = true;
+    }
+
     setTimeout(() => {
         name.classList.remove('required-border');
         email.classList.remove('required-border');
         password.classList.remove('required-border');
         passwordConfirm.classList.remove('required-border');
+        document.getElementById('name-error').textContent = "";
+        document.getElementById('email-error').textContent = "";
+        document.getElementById('password-error').textContent = "";
+        document.getElementById('confirm-password-error').textContent = "";
+        document.getElementById('privacy-policy-error').textContent = "";
         document.getElementById('checkPrivacy').classList.remove('required-underline');
-    }, 1500)
+    }, 1500);
+
+    return !hasError;
 }
 
 /**

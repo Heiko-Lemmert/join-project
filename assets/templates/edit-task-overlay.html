@@ -6,6 +6,8 @@
         <form action="" class="task-form et-form">
             <label for="task-title">Title</label>
             <input required type="text" id="editTaskTitle" placeholder="Enter a Title">
+            <p id="editTitle-error" class="error-message"></p>
+
             <label for="task-description">Description</label>
             <textarea name="task-description" id="editTaskDescription" placeholder="Enter a Description"></textarea>
             <label for="task-contacts">Assigned to</label>
@@ -24,6 +26,8 @@
             </div>
             <label for="task-date">Due date</label>
             <input required type="date" id="editTaskDate" name="edit-task-date">
+            <p id="editDate-error" class="error-message"></p>
+
             <label for="task-prio">Prio</label>
             <div id="prioChooser">
                 <a class="prio-btn btn-high" id="editPrioHigh" onclick="prioChooser('high')">Ugrent</a>
@@ -45,6 +49,8 @@
                     </div>
                 </div>
             </div>
+            <p id="editCategory-error" class="error-message"></p>
+
             <label for="subtask">Subtasks</label>
             <div class="add-subtask" id="editAddSubtask">
                 <input type="text" name="subtask" id="editSubtaskInput" placeholder="Add new subtask">

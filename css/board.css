@@ -118,7 +118,6 @@ h1 {
 .board-bottom {
     display: flex;
     justify-content: space-around;
-    height: 100vh;
     margin-right: 90px;
     margin-left: 48px;
     gap: 20px;

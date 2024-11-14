@@ -212,10 +212,10 @@
         currentPrio = 'medium'
     }
 
-/**
- * Event listener setup for subtask UI elements.
- * Handles clicks on buttons for adding, closing, and saving subtasks.
- */
+    /**
+     * Event listener setup for subtask UI elements.
+     * Handles clicks on buttons for adding, closing, and saving subtasks.
+     */
     function subtaskEventlister() {
         const addSubtaskQuery = addSubtask.querySelectorAll('img');
         addSubtaskQuery.forEach(subElement => {
@@ -231,7 +231,8 @@
                     addBtn.style.display = 'block';
                     addSubtask.classList.toggle('field-activ');
                 } else {
-                    if (subtask.value.length >= 1) {
+                    const subtaskInput = subtask.value.trim();
+                    if (subtaskInput.length >= 1) {
                         createSubtask(subtask.value);
                     }
                 }
@@ -244,33 +245,36 @@
         })
     }
 
-/**
- * Creates a new subtask if the input is valid and there are fewer than 5 subtasks.
- * @param {string} newSubtask - The title of the new subtask.
- */
+    /**
+     * Creates a new subtask if the input is valid and there are fewer than 5 subtasks.
+     * @param {string} newSubtask - The title of the new subtask.
+     */
     function createSubtask(newSubtask) {
-        if (writtenSubtask.length < 5) {
-            writtenSubtask.push({ title: newSubtask, done: false });
+        if (writtenSubtask.length < 20) {
+            writtenSubtask.push({
+                title: newSubtask,
+                done: false
+            });
             subtask.value = '';
             renderSubtask();
         } else {
-            alert('Too many Subtask. Please only enter 5 Subtask');
+            alert('Too many Subtask. Please only enter 20 Subtask');
         }
     }
 
-/**
- * Deletes a subtask based on its ID.
- * @param {number} id - The index of the subtask to delete.
- */
+    /**
+     * Deletes a subtask based on its ID.
+     * @param {number} id - The index of the subtask to delete.
+     */
     function deleteSubtask(id) {
         writtenSubtask.splice(id, 1);
         renderSubtask();
     }
 
-/**
- * Opens the editing interface for a subtask by displaying the input field.
- * @param {number} id - The ID of the subtask to edit.
- */
+    /**
+     * Opens the editing interface for a subtask by displaying the input field.
+     * @param {number} id - The ID of the subtask to edit.
+     */
     function editSubtask(id) {
         const editTask = document.getElementById('edit-' + id);
         const editTaskField = document.getElementById('editTaskField-' + id);
@@ -278,14 +282,15 @@
         editTaskField.focus();
     }
 
-/**
- * Updates the subtask array with the new title after editing.
- * Rerenders the subtask list with updated titles.
- * @param {number} id - The ID of the subtask to update.
- */
+    /**
+     * Updates the subtask array with the new title after editing.
+     * Rerenders the subtask list with updated titles.
+     * @param {number} id - The ID of the subtask to update.
+     */
     function editSubtaskArry(id) {
         const editSubtaskField = document.getElementById('editTaskField-' + id);
-        if (editSubtaskField.value.length > 0) {
+        const editSubtaskInput = editSubtaskField.value.trim()
+        if (editSubtaskInput.length > 0) {
             const newSubtask = editSubtaskField.value;
             writtenSubtask[id].title = newSubtask
             renderSubtask();
@@ -295,9 +300,9 @@
     }
 
 
-/**
- * Renders the list of subtasks in the UI.
- */
+    /**
+     * Renders the list of subtasks in the UI.
+     */
     function renderSubtask() {
         const showSubtask = document.getElementById('showSubtask');
         showSubtask.innerHTML = '';
@@ -307,10 +312,10 @@
         }
     }
 
-/**
- * Clears the form inputs and resets the UI.
- * @param {Event} event - The form submit event.
- */
+    /**
+     * Clears the form inputs and resets the UI.
+     * @param {Event} event - The form submit event.
+     */
     function clearTask(event) {
         const contactOptions = document.getElementById('contactOptions');
         const contactOptionsDivs = contactOptions.querySelectorAll('.sc-check');
@@ -331,10 +336,10 @@
         renderSubtask();
     }
 
-/**
- * Creates a task object and posts it to the server if the form is valid.
- * @param {Event} event - The form submit event.
- */
+    /**
+     * Creates a task object and posts it to the server if the form is valid.
+     * @param {Event} event - The form submit event.
+     */
     function createTask(event) {
         event.preventDefault();
         const isValid = validateForm();
@@ -347,69 +352,108 @@
                 });
             clearTask(event);
             showToast('toast');
-            if (window.location.pathname === '/add-task.html') { setTimeout(() => { window.location.href = 'board.html'; }, 1500) };
+            if (window.location.pathname === '/add-task.html') {
+                setTimeout(() => {
+                    window.location.href = 'board.html';
+                }, 1500)
+            };
         } else {
             whichValueIsFalse();
         }
     }
 
-/**
- * Validates the task form fields to ensure all required fields are filled.
- * @returns {boolean} - Returns true if all fields are valid, otherwise false.
- */
+    /**
+     * Validates the task form fields to ensure all required fields are filled and the date is valid.
+     * @returns {boolean} - Returns true if all fields are valid, otherwise false.
+     */
     function validateForm() {
-        if (taskTitle.value && taskDate.value && taskSelector.innerText !== 'Select task category') {
-            return true
-        }
+        const title = document.getElementById('taskTitle').value.trim();
+        const date = document.getElementById('taskDate').value;
+        const category = document.getElementById('taskSelector').innerText;
+
+        const isTitleValid = title.length > 0;
+        const isDateValid = checkDateValidity(date);
+        const isCategorySelected = category !== 'Select task category';
+
+        return isTitleValid && isDateValid && isCategorySelected;
     }
-/**
- * Retrieves the values of the task form fields and returns an object representing the task.
- * @returns {Object} - An object containing task data including title, description, date, contacts, priority, category, subtasks, and progress status.
- */
+
+    /**
+     * Checks if the selected date is either today or in the future.
+     * @param {string} date - The selected date as a string.
+     * @returns {boolean} - Returns true if the date is today or in the future, otherwise false.
+     */
+    function checkDateValidity(date) {
+        const selectedDate = new Date(date);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        return selectedDate >= today;
+    }
+
+    /**
+     * Retrieves the values of the task form fields and returns an object representing the task.
+     * @returns {Object} - An object containing task data including title, description, date, contacts, priority, category, subtasks, and progress status.
+     */
     function getValues() {
         const title = taskTitle.value;
         const description = taskDescription.value;
         const date = taskDate.value;
 
         return {
-        title: title,
-        description: description,
-        date: date,
-        contacts: selectedContactName,
-        contactColor: selectedContactColor,
-        prio: currentPrio,
-        category: category,
-        subtask: writtenSubtask,
-        progress: progressStatus
-    };
+            title: title,
+            description: description,
+            date: date,
+            contacts: selectedContactName,
+            contactColor: selectedContactColor,
+            prio: currentPrio,
+            category: category,
+            subtask: writtenSubtask,
+            progress: progressStatus
+        };
     }
 
-/**
- * Highlights missing required fields in the form by adding a red border.
- * Removes the highlight after a short delay.
- */
+    /**
+     * Highlights missing or incorrect fields in the form and displays error messages.
+     */
     function whichValueIsFalse() {
-        if (!taskTitle.value) {
-            taskTitle.classList.add('required-border');
+        const title = document.getElementById('taskTitle');
+        const date = document.getElementById('taskDate');
+        const category = document.getElementById('taskSelector');
+        const titleError = document.getElementById('title-error');
+        const dateError = document.getElementById('date-error');
+        const categoryError = document.getElementById('category-error');
+
+        if (!title.value.trim()) {
+            title.classList.add('required-border');
+            titleError.textContent = "Please enter a title.";
         }
-        if (!taskDate.value) {
-            taskDate.classList.add('required-border');
+
+        if (!checkDateValidity(date.value)) {
+            date.classList.add('required-border');
+            dateError.textContent = "Please select a valid date (today or future).";
         }
-        if (taskSelector.innerText === 'Select task category') {
-            taskSelector.classList.add('required-border');
+
+        if (category.innerText === 'Select task category') {
+            category.classList.add('required-border');
+            categoryError.textContent = "Please select a task category.";
         }
+
         setTimeout(() => {
-            taskTitle.classList.remove('required-border');
-            taskDate.classList.remove('required-border');
-            taskSelector.classList.remove('required-border');
-        }, 1000)
+            titleError.textContent = "";
+            dateError.textContent = "";
+            categoryError.textContent = "";
+            title.classList.remove('required-border');
+            date.classList.remove('required-border');
+            category.classList.remove('required-border');
+        }, 1000);
     }
 
-/**
- * Handles click events on the page to close dropdowns when clicking outside of them.
- * Hides contact and task options if the click is outside of the respective elements.
- * @param {Event} event - The click event object.
- */
+    /**
+     * Handles click events on the page to close dropdowns when clicking outside of them.
+     * Hides contact and task options if the click is outside of the respective elements.
+     * @param {Event} event - The click event object.
+     */
     document.addEventListener('click', (event) => {
         const contactOptions = document.getElementById('contactOptions');
         const taskOptions = document.getElementById('taskOptions');
