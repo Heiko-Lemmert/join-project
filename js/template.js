@@ -1,10 +1,17 @@
 /* Board HTML */
 
-
+/**
+ * Generates the HTML structure for a task on the board.
+ * 
+ * @param {Object} currentTask - The current task data.
+ * @param {string} categoryBanner - The category banner HTML.
+ * @param {string} whichSection - The section identifier (e.g., "todo", "in-progress").
+ * @param {number} i - The index of the task.
+ * @param {string} prioImg - The priority image HTML.
+ * @returns {string} - The HTML string for the board task.
+ */
 function generateBoardTasksHTML(currentTask, categoryBanner, whichSection, i, prioImg) {
     if (currentTask && Object.keys(currentTask).length > 0) {
-        // Generiere das HTML für die Aufgabe
-
         return `
         <div class="list" draggable="true" data-task='${JSON.stringify(currentTask)}' onclick="openList(this)">
             <div class="task-card-category">${categoryBanner}</div>
@@ -24,6 +31,14 @@ function generateBoardTasksHTML(currentTask, categoryBanner, whichSection, i, pr
 
 }
 
+/**
+ * Generates the HTML structure for a subtask progress bar.
+ * 
+ * @param {number} subtaskValue - The progress value of the subtask (percentage).
+ * @param {number} subtaskCounter - The number of completed subtasks.
+ * @param {number} subtaskLength - The total number of subtasks.
+ * @returns {string} - The HTML string for the subtask progress.
+ */
 function generateBoardSubtaskHTML(subtaskValue, subtaskCounter, subtaskLength) {
     return `
         <div class="subtask-container">
@@ -33,10 +48,27 @@ function generateBoardSubtaskHTML(subtaskValue, subtaskCounter, subtaskLength) {
         `
 }
 
+/**
+ * Generates the HTML for task contacts' initials with color background.
+ * 
+ * @param {string} contactsInitials - The initials of the contact.
+ * @param {string} contactColor - The background color of the contact initials.
+ * @returns {string} - The HTML string for contact initials.
+ */
 function generateBoardTaskContactsHTML(contactsInitials, contactColor) {
     return `<p class="contact-initials ci-margin" style="background-color: ${contactColor}">${contactsInitials}</p>`
 }
 
+
+/**
+ * Generates the detailed task card overlay HTML.
+ * 
+ * @param {string} categoryBanner - The HTML for the category banner.
+ * @param {Object} openTask - The task data to be displayed.
+ * @param {string} prioTextUpperCase - The priority text in uppercase.
+ * @param {string} prioImg - The HTML for the priority image.
+ * @returns {string} - The HTML string for the task card overlay.
+ */
 function generateTaskCardHTML(categoryBanner, openTask, prioTextUpperCase, prioImg) {
     return `
         <div class="background-bigListView">
@@ -68,6 +100,15 @@ function generateTaskCardHTML(categoryBanner, openTask, prioTextUpperCase, prioI
     `
 }
 
+
+/**
+ * Generates the HTML for a subtask in the overlay view.
+ * 
+ * @param {string} checkImg - The name of the check image file (checked or unchecked).
+ * @param {number} i - The index of the subtask.
+ * @param {Object} subtask - The subtask data.
+ * @returns {string} - The HTML string for the subtask overlay.
+ */
 function generateOverlaySubtaskHTML(checkImg, i, subtask) {
     return `
         <div class="st-overlay">
@@ -77,6 +118,14 @@ function generateOverlaySubtaskHTML(checkImg, i, subtask) {
         `
 }
 
+/**
+ * Generates the HTML for a contact in the overlay view.
+ * 
+ * @param {string} contactsInitials - The initials of the contact.
+ * @param {string} contact - The full name of the contact.
+ * @param {string} color - The background color for the contact initials.
+ * @returns {string} - The HTML string for the overlay contact.
+ */
 function generateOverlayTaskContactsHTML(contactsInitials, contact, color) {
     return `
         <div class="tc-overlay">
@@ -88,6 +137,18 @@ function generateOverlayTaskContactsHTML(contactsInitials, contact, color) {
 
 /* Summary HTML */
 
+/**
+ * Generates the HTML structure for the summary section on the dashboard.
+ * 
+ * @param {number} toDoCount - The count of tasks in the "To-Do" state.
+ * @param {number} doneCount - The count of completed tasks.
+ * @param {number} urgentPrio - The count of tasks marked as urgent.
+ * @param {string} upcomingDeadline - The next upcoming deadline.
+ * @param {number} totalTaskCount - The total number of tasks in the board.
+ * @param {number} progressCount - The count of tasks in progress.
+ * @param {number} feedBackCount - The count of tasks awaiting feedback.
+ * @returns {string} - The HTML string for the summary section.
+ */
 function generateSummaryHTML(toDoCount, doneCount, urgentPrio, upcomingDeadline, totalTaskCount, progressCount, feedBackCount) {
     return `
     <section class="summary-section content-size">
@@ -154,6 +215,14 @@ function generateSummaryHTML(toDoCount, doneCount, urgentPrio, upcomingDeadline,
 
 /* Task HTML */
 
+/**
+ * Generates the HTML for a task contact option with initials and a checkbox icon.
+ * 
+ * @param {string} contactName - The full name of the contact.
+ * @param {string} contactsInitials - The initials of the contact.
+ * @param {string} contactColor - The background color for the contact initials.
+ * @returns {string} - The HTML string for the task contact option.
+ */
 function generateTaskContacts(contactName, contactsInitials, contactColor) {
     return `
         <div class="contact-option">
@@ -163,6 +232,14 @@ function generateTaskContacts(contactName, contactsInitials, contactColor) {
         </div>`
 }
 
+/**
+ * Generates the HTML for a subtask item in the task view.
+ * 
+ * @param {string} dotMarker - The marker or bullet symbol for the subtask.
+ * @param {Object} subtask - The subtask data.
+ * @param {number} i - The index of the subtask.
+ * @returns {string} - The HTML string for the subtask item.
+ */
 function generateSubtaksHTML(dotMarker, subtask, i) {
     return `
         <div class="new-subtask" contenteditable="true">
@@ -183,6 +260,12 @@ function generateSubtaksHTML(dotMarker, subtask, i) {
 }
 
 /* Main HTML */
+
+/**
+ * Generates the HTML for the main header with legal and privacy links.
+ * 
+ * @returns {string} - The HTML string for the header section.
+ */
 function generateHeaderHTML() {
     return `
         <div class="infoBox">
@@ -200,6 +283,12 @@ function generateHeaderHTML() {
 
 /* Contact HTML */
 
+/**
+ * Generates the HTML for the contact section divider with the current letter.
+ * 
+ * @param {string} currentLetter - The first letter of the contact names in the section.
+ * @returns {string} - The HTML string for the contact section divider.
+ */
 function generateFirstLetterHTML(currentLetter) {
     return `
         <div class="contact-letter-section">
@@ -209,6 +298,15 @@ function generateFirstLetterHTML(currentLetter) {
     `
 }
 
+/**
+ * Generates the HTML for a contact item in the contact list.
+ * 
+ * @param {number} index - The index of the contact in the list.
+ * @param {string} bgColor - The background color for the contact avatar.
+ * @param {string} initials - The initials of the contact.
+ * @param {Object} contact - The contact data (name and email).
+ * @returns {string} - The HTML string for the contact item.
+ */
 function generateContactHTML(index, bgColor, initials, contact) {
     return `
         <div class="contact-item" onclick="showContactDetails(${index})">
@@ -222,12 +320,21 @@ function generateContactHTML(index, bgColor, initials, contact) {
         </div>`;
 }
 
-function generateContactDetailsHTML(bgColor, initials, contact) {
-    return `
+/**
+ * Generates the HTML template for displaying contact details.
+ * @param {number} index - The index of the contact in the `contactArray`.
+ * @returns {string} HTML template string for the contact details view.
+ */
+
+function contactDetailsTemplate(index) {
+    let contact = contactArray[index];
+    let initials = generateInitials(contact.name);
+    let bgColor = contact.color;
+
+    return `          
         <div class="card-mainDivv">
             <div class="profile-section">
                <div class="profile-higher-section">
-                  <!-- Initialen anstelle eines Bildes, mit zufälliger Hintergrundfarbe -->
                   <div class="profile-img" style="background-color: ${bgColor}; color: white; border-radius: 50%; 
                       width: 100px; height: 100px; display: flex; justify-content: center; align-items: center; font-size: 36px;">
                       ${initials}
@@ -237,8 +344,8 @@ function generateContactDetailsHTML(bgColor, initials, contact) {
                <div class="contact-name">
                     <h1 class="profile-name">${contact.name}</h1>
                     <div class="profile-actions">
-                        <a href="#" class="profile-edit" onclick="toggleOverlay(); renderDialog();">Edit</a>
-                        <a href="#" class="profile-delete">Delete</a>
+                        <a href="#" class="profile-edit" onclick="toggleOverlay(); renderDialog(${index});">Edit</a>
+                        <a href="#" class="profile-delete" onclick="deleteContact(${index});">Delete</a>
                     </div>
                 </div>
             </div>
@@ -249,31 +356,38 @@ function generateContactDetailsHTML(bgColor, initials, contact) {
                 <p class="contact-label"><strong>Phone</strong></p>
                 <a href="#" class="contact-phone">${contact.number}</a>
             </div>
-        </div>
-    `
+        </div>`;
 }
 
-function generateContactDialogHTML() {
-    return `
-        <div id="dialog" onclick="preventEventBubbling(event)">
-            <div class="contact-form-description">
-                <img src="./assets/img/Capa 2 (1).png">
-                <h2>Add contact</h2>
-                <p>Tasks are better with a team!</p>
-            </div>
-            <div class="contact-form">
-                <img src="./assets/img/Frame 79.png" class="profile-image">
-                <div class="contact-form-text">
-                    <input type="text" placeholder="Name" class="name-input" id="name-input">
-                    <img src="" alt="" class="email-icon">
-                    <input type="email" placeholder="Email" class="email-input" id="email-input">
-                    <img src="" alt="" class="phone-icon">
-                    <input type="tel" placeholder="Phone" class="phone-input" id="phone-input">
-                    <div class="button-container">
-                        <button class="cancel-button" onclick="toggleOverlay();">Cancel</button>
-                        <button class="create-contact-button" onclick="addContact();">Create contact</button>
-                    </div>
+/**
+ * Generates the HTML template for the contact dialog form.
+ * Displays a form for either editing an existing contact or adding a new contact.
+ * 
+ * @param {Object} contact - The contact object to be edited (null for adding a new contact).
+ * @param {number|null} index - The index of the contact in the contact array (null for adding a new contact).
+ * @returns {string} - The HTML string for the contact form dialog.
+ */
+function getDialogTemplate(contact, index = null) {
+    const title = contact ? 'Edit contact' : 'Add contact';
+    const buttonText = contact ? 'Save' : 'Create contact';
+
+    return `<div id="dialog" onclick="preventEventBubbling(event)">
+        <div class="contact-form-description">
+            <img src="./assets/img/Capa 2 (1).png">
+            <h2>${title}</h2>
+            <p>Tasks are better with a team!</p>
+        </div>
+        <div class="contact-form">
+            <img src="./assets/img/Frame 79.png" class="profile-image">
+            <div class="contact-form-text">
+                <input type="text" placeholder="Name" required class="name-input" id="name-input" value="${contact ? contact.name : ''}">
+                <input type="email" placeholder="Email" required class="email-input" id="email-input" value="${contact ? contact.email : ''}">
+                <input type="tel" placeholder="Phone" required class="phone-input" id="phone-input" value="${contact ? contact.number : ''}">
+                <div class="button-container">
+                    <button class="cancel-button" onclick="toggleOverlay();">Cancel</button>
+                    <button class="create-contact-button" onclick="${contact ? `saveContact(${index})` : 'addContact()'}">${buttonText}</button>
                 </div>
             </div>
-        </div>`
+        </div>
+    </div>`;
 }

@@ -22,12 +22,19 @@
     let contacts = [];
     let openTaskProgress = '';
 
+    /**
+     * Initializes the task module by including HTML and loading contacts.
+     */
     function initTask() {
         includeHTML();
         loadAllTasks();
         loadContacts();
     }
 
+    /**
+     * Loads contacts from the database and renders them in the contact selector.
+     * @async
+     */
     async function loadContacts() {
         const loadedContacts = await getData("contacts");
         contacts = Object.values(loadedContacts)[0];
@@ -35,6 +42,9 @@
         attachEventListeners(); // Event-Listener erst nach dem Rendern der Kontakte hinzufügen
     }
 
+    /**
+     * Renders the contact options sorted alphabetically in the contact selector dropdown.
+     */
     function renderTaskContact() {
         contacts.sort((a, b) => a.name.localeCompare(b.name));
         const editContactOptions = document.getElementById('editContactOptions');
@@ -44,13 +54,18 @@
         });
     }
 
-    // Erstellt Click-Events nach dem Rendern.
+    /**
+     * Attaches event listeners for contact selection, task category selection, and subtask interactions.
+     */
     function attachEventListeners() {
         contactEventLister();
         taskEventlister();
         subtaskEventlister();
     }
 
+    /**
+     * Handles click events for contact options in the contact selector dropdown.
+     */
     function contactEventLister() {
         const editContactOptions = document.getElementById('editContactOptions');
         const contactOptionsDivs = editContactOptions.querySelectorAll('.contact-option');
@@ -70,6 +85,10 @@
         });
     };
 
+    /**
+     * Toggles the selection state of a contact option.
+     * @param {HTMLElement} optionDiv - The div element of the contact option.
+     */
     function checkOptionDiv(optionDiv) {
         const checkIcon = optionDiv.querySelector('.check-icon');
         const isSelected = checkIcon.getAttribute('src') === './assets/img/check-btn.png';
@@ -77,6 +96,9 @@
         optionDiv.classList.toggle('sc-check');
     }
 
+    /**
+     * Handles click events for selecting a task category.
+     */
     function taskEventlister() {
         const editTaskOptions = document.getElementById('editTaskOptions');
         const taskOptionsDivs = editTaskOptions.querySelectorAll('.task-option');
@@ -98,6 +120,9 @@
     }
 
 
+    /**
+     * Updates the list of selected contacts based on user selection.
+     */
     function updateSelectedContacts() {
         const editContactOptions = document.getElementById('editContactOptions');
         selected = [];
@@ -125,62 +150,66 @@
         }
     }
 
+    /**
+     * Filters contact options based on the user's input in the search field.
+     */
     function filterContacts() {
-        const searchInput = document.querySelector('#editContactSearch input'); // Greift auf das Suchfeld zu
-        const filterValue = searchInput.value.toLowerCase(); // Holt den Wert des Suchfeldes und wandelt es in Kleinbuchstaben um
+        const searchInput = document.querySelector('#editContactSearch input');
+        const filterValue = searchInput.value.toLowerCase();
         const editContactOptions = document.getElementById('editContactOptions');
-        const contactOptionsDivs = editContactOptions.querySelectorAll('.contact-option'); // Alle Kontaktoptionen
+        const contactOptionsDivs = editContactOptions.querySelectorAll('.contact-option');
 
-        // Schleife durch alle Kontaktoptionen und überprüft, ob der Name mit dem Filter übereinstimmt
         contactOptionsDivs.forEach(optionDiv => {
-            const contactName = optionDiv.querySelector('label').textContent.toLowerCase(); // Name des Kontakts in Kleinbuchstaben
+            const contactName = optionDiv.querySelector('label').textContent.toLowerCase();
             if (contactName.includes(filterValue)) {
-                optionDiv.style.display = 'flex'; // Zeigt den Kontakt an, wenn der Name mit dem Filter übereinstimmt
+                optionDiv.style.display = 'flex';
             } else {
-                optionDiv.style.display = 'none'; // Versteckt den Kontakt, wenn er nicht übereinstimmt
+                optionDiv.style.display = 'none';
             }
         });
     }
 
-    // Event Listener, um die Funktion bei Eingabe im Suchfeld auszuführen
     document.querySelector('#editContactSearch input').addEventListener('input', filterContacts);
 
 
-    // Funktionen für die Priorität Button`s
+    /**
+     * Chooses the priority level for a task and updates the UI accordingly.
+     * @param {string} prio - The priority level ('high', 'medium', 'low').
+     */
     function prioChooser(prio) {
         switch (prio) {
             case 'high':
-                setPrioBtn('editPrioHigh', prio);
-                break;
             case 'medium':
-                setPrioBtn('editPrioMedium', prio);
-                break;
             case 'low':
-                setPrioBtn('editPrioLow', prio);
-                break;
-            default:
+                setPrioBtn(`prio${prio.charAt(0).toUpperCase() + prio.slice(1)}`, prio);
                 break;
         }
     }
 
+    /**
+     * Sets the priority button as checked and updates the current priority.
+     * @param {string} id - The ID of the priority button.
+     * @param {string} prio - The priority level.
+     */
     function setPrioBtn(id, prio) {
         removeClassPrio();
         document.getElementById(id).classList.add('checked-' + prio);
         currentPrio = prio
     }
 
-    function resetPrioBtn() {
-        removeClassPrio();
-        document.getElementById('prioMedium').classList.add('checked-medium');
-        currentPrio = 'medium'
-    }
-
+    /**
+     * Removes all checked classes from priority buttons.
+     */
     function removeClassPrio() {
         document.getElementById('editPrioHigh').classList.remove('checked-high');
         document.getElementById('editPrioMedium').classList.remove('checked-medium');
         document.getElementById('editPrioLow').classList.remove('checked-low');
     }
 
+    /**
+     * Event listener setup for subtask UI elements.
+     * Handles clicks on buttons for adding, closing, and saving subtasks.
+     */
     function subtaskEventlister() {
         const addSubtaskQuery = editAddSubtask.querySelectorAll('img');
         addSubtaskQuery.forEach(subElement => {
@@ -209,6 +238,10 @@
         })
     }
 
+    /**
+     * Creates a new subtask if the input is valid and there are fewer than 5 subtasks.
+     * @param {string} newSubtask - The title of the new subtask.
+     */
     function createSubtask(newSubtask) {
         if (writtenSubtask.length < 5) {
             writtenSubtask.push({ title: newSubtask, done: false });
@@ -219,11 +252,19 @@
         }
     }
 
+    /**
+     * Deletes a subtask based on its ID.
+     * @param {number} id - The index of the subtask to delete.
+     */
     function deleteSubtask(id) {
         writtenSubtask.splice(id, 1);
         renderSubtask();
     }
 
+    /**
+     * Opens the editing interface for a subtask by displaying the input field.
+     * @param {number} id - The ID of the subtask to edit.
+     */
     function editSubtask(id) {
         const editTask = document.getElementById('edit-' + id);
         const editTaskField = document.getElementById('editTaskField-' + id);
@@ -231,6 +272,11 @@
         editTaskField.focus();
     }
 
+    /**
+     * Updates the subtask array with the new title after editing.
+     * Rerenders the subtask list with updated titles.
+     * @param {number} id - The ID of the subtask to update.
+     */
     function editSubtaskArry(id) {
         const editSubtaskField = document.getElementById('editTaskField-' + id);
         if (editSubtaskField.value.length > 0) {
@@ -242,6 +288,10 @@
         }
     }
 
+
+    /**
+     * Renders the list of subtasks in the UI.
+     */
     function renderSubtask() {
         const editShowSubtask = document.getElementById('editShowSubtask');
         editShowSubtask.innerHTML = '';
@@ -251,6 +301,10 @@
         }
     }
 
+    /**
+     * Populates the edit task form with data retrieved from the database using the task key.
+     * @param {string} key - The database key of the task to edit.
+     */
     async function fillEditTask(key) {
         const taskDataFromDB = await getData("tasks/" + key);
         openTaskProgress = taskDataFromDB.progress;
@@ -268,32 +322,36 @@
 
     }
 
+    /**
+     * Updates the selected contacts in the edit form based on the contact data from the database.
+     * @param {string[]} contacts - Array of contact names from the database.
+     */
     function readContactFromDB(contacts) {
-        // Kontakte auslesen und im Dropdown anzeigen
-        const selectedContactsFromDB = contacts; // Array der Kontakte aus der DB
+        const selectedContactsFromDB = contacts;
         const editContactOptions = document.getElementById('editContactOptions');
 
-        // Setzt alle Kontakte zurück (ohne Auswahl)
         editContactOptions.querySelectorAll('.contact-option').forEach(optionDiv => {
             const checkIcon = optionDiv.querySelector('.check-icon');
-            checkIcon.setAttribute('src', './assets/img/no-check-btn.png'); // Entfernt Häkchen
-            optionDiv.classList.remove('sc-check'); // Entfernt Auswahlklasse
+            checkIcon.setAttribute('src', './assets/img/no-check-btn.png');
+            optionDiv.classList.remove('sc-check');
         });
 
-        // Wähle die Kontakte aus, die in der Datenbank gespeichert sind
         editContactOptions.querySelectorAll('.contact-option').forEach(optionDiv => {
             const contactName = optionDiv.querySelector('label').textContent;
 
             if (selectedContactsFromDB.includes(contactName)) {
                 const checkIcon = optionDiv.querySelector('.check-icon');
-                checkIcon.setAttribute('src', './assets/img/check-btn.png'); // Setzt Häkchen
-                optionDiv.classList.add('sc-check'); // Fügt Auswahlklasse hinzu
+                checkIcon.setAttribute('src', './assets/img/check-btn.png');
+                optionDiv.classList.add('sc-check');
             }
         });
-        // Kontakte anzeigen
         updateSelectedContacts();
     }
 
+/**
+ * Submits the edited task data to the database and displays a success message if valid.
+ * @param {Event} event - The submit event object.
+ */   
     function editTask(event) {
         event.preventDefault();
         const isValid = validateForm();
@@ -311,20 +369,42 @@
         }
     }
 
+    /**
+     * Validates the task form fields to ensure all required fields are filled.
+     * @returns {boolean} - Returns true if all fields are valid, otherwise false.
+     */
     function validateForm() {
         if (editTaskTitle.value && editTaskDate.value && editTaskSelector.innerText !== 'Select task category') {
             return true
         }
     }
 
+    /**
+     * Retrieves the values of the task form fields and returns an object representing the task.
+     * @returns {Object} - An object containing task data including title, description, date, contacts, priority, category, subtasks, and progress status.
+     */
     function getValues() {
         const title = editTaskTitle.value;
         const description = editTaskDescription.value;
         const date = editTaskDate.value;
 
-        return { 'title': title, 'description': description, 'date': date, 'contacts': selectedContactName, 'contactColor': selectedContactColor, 'prio': currentPrio, 'category': category, 'subtask': writtenSubtask, 'progress': openTaskProgress }
+        return {
+            title: title,
+            description: description,
+            date: date,
+            contacts: selectedContactName,
+            contactColor: selectedContactColor,
+            prio: currentPrio,
+            category: category,
+            subtask: writtenSubtask,
+            progress: progressStatus
+        };
     }
 
+    /**
+     * Highlights missing required fields in the form by adding a red border.
+     * Removes the highlight after a short delay.
+     */
     function whichValueIsFalse() {
         if (!editTaskTitle.value) {
             editTaskTitle.classList.add('required-border');
@@ -343,6 +423,11 @@
 
     }
 
+    /**
+     * Handles click events on the page to close dropdowns when clicking outside of them.
+     * Hides contact and task options if the click is outside of the respective elements.
+     * @param {Event} event - The click event object.
+     */
     document.addEventListener('click', (event) => {
         const editContactOptions = document.getElementById('editContactOptions');
         const editTaskOptions = document.getElementById('editTaskOptions');
