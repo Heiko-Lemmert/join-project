@@ -324,6 +324,20 @@ h1 {
     height: 8px;
 }
 
+.extra-contacts {
+    background-color: #0038ff;
+    color: white;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border-color: #fff;
+    border: 1px solid;
+}
+
 /* Task Card Overlay Styling */
 
 .task-card-overlay-top {

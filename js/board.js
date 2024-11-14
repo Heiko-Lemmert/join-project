@@ -126,7 +126,7 @@ function renderBoardSubtaskCounter(subtasks, section, i) {
 }
 
 /**
- * Renders contacts assigned to a task on the task card.
+ * Renders contacts assigned to a task on the task card. Displays only up to 4 contacts and adds "+N" if there are more.
  * @param {Array} taskContacts - Array of contacts assigned to the task.
  * @param {string} section - The section identifier.
  * @param {number} index - Task index.
@@ -134,11 +134,29 @@ function renderBoardSubtaskCounter(subtasks, section, i) {
  */
 function renderBoardTaskContacts(taskContacts, section, index, color) {
     const boardTaskContacts = document.getElementById('boardTaskContacts-' + section + '-' + index);
-    taskContacts.forEach((contact, i) => {
-        let contactColor = color[i];
-        let contactsInitials = generateInitials(contact);
+    boardTaskContacts.innerHTML = ''; // Clear previous contacts
+
+    // Maximum Anzahl an gerenderten Kontakten
+    const maxVisibleContacts = 4;
+    const totalContacts = taskContacts.length;
+
+    // Schleife für die ersten 4 Kontakte
+    for (let i = 0; i < Math.min(maxVisibleContacts, totalContacts); i++) {
+        const contact = taskContacts[i];
+        const contactColor = color[i];
+        const contactsInitials = generateInitials(contact);
         boardTaskContacts.innerHTML += generateBoardTaskContactsHTML(contactsInitials, contactColor);
-    });
+    }
+
+    // Wenn mehr als 4 Kontakte vorhanden sind, füge "+N" hinzu
+    if (totalContacts > maxVisibleContacts) {
+        const extraContacts = totalContacts - maxVisibleContacts;
+        boardTaskContacts.innerHTML += `
+            <div class="contact-circle extra-contacts">
+                +${extraContacts}
+            </div>
+        `;
+    }
 }
 
 /**
