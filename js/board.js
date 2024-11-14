@@ -79,6 +79,7 @@ function renderBoard() {
     renderSection(doneSection, 'rightNum2');
     checkForEmptyLists();
     dagAndDrop();
+    checkForList();
 }
 
 /**
@@ -388,6 +389,7 @@ function dagAndDrop() {
                 selected = null;
                 checkForEmptyLists();
                 dagAndDrop();
+                checkForList();
             }
         });
     }

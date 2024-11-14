@@ -53,14 +53,41 @@ async function deleteData(path = "") {
  * @param {string} [path=""] - The path to update data in the database.
  * @param {Object} [data={}] - The updated data object to be sent.
  * @returns {Promise<Object>} - Returns a promise that resolves to the response data as a JSON object.
- */
-async function updateData(path = "", data = {}) {
-    let response = await fetch(BASE_URL + path + ".json", {
-        method: "PUT",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data)
-    });
-    return responseToJson = await response.json();
+ */async function updateData(path = "", data = {}, timeout = 10000) {
+    const controller = new AbortController();
+    const signal = controller.signal;
+
+    // Setze einen Timeout für die Anfrage
+    const timeoutId = setTimeout(() => controller.abort(), timeout);
+
+    try {
+        console.log("Updating data at:", BASE_URL + path + ".json");
+
+        const response = await fetch(BASE_URL + path + ".json", {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+            signal: signal
+        });
+
+        clearTimeout(timeoutId); // Lösche das Timeout, wenn die Anfrage erfolgreich war
+
+        if (!response.ok) {
+            throw new Error(`HTTP-Fehler! Status: ${response.status}`);
+        }
+
+        const responseToJson = await response.json();
+        console.log("Data updated successfully:", responseToJson);
+        return responseToJson;
+
+    } catch (error) {
+        if (error.name === 'AbortError') {
+            console.error("Die Anfrage wurde abgebrochen (Timeout).");
+        } else {
+            console.error("Fehler beim Aktualisieren der Daten:", error);
+        }
+        throw error;
+    }
 }
