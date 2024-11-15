@@ -53,7 +53,7 @@ async function deleteData(path = "") {
  * @param {string} [path=""] - The path to update data in the database.
  * @param {Object} [data={}] - The updated data object to be sent.
  * @returns {Promise<Object>} - Returns a promise that resolves to the response data as a JSON object.
- */async function updateData(path = "", data = {}, timeout = 30000) {
+ */async function updateData(path = "", data = {}, timeout = 10000) {
     const controller = new AbortController();
     const signal = controller.signal;
 
