@@ -388,7 +388,7 @@ function dagAndDrop() {
                 updateData("tasks/" + selectedTask.databaseKey, selectedTask);
                 selected = null;
                 checkForEmptyLists();
-                dagAndDrop();
+                // dagAndDrop();//the problem solved
                 checkForList();
             }
         });
