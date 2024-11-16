@@ -219,6 +219,7 @@ h1 {
     flex-direction: column;
     border-radius: 40px;
     min-height: 400px;
+    max-height: 90vh;
     width: 500px;
     background-color: whitesmoke;
     scrollbar-width: none;
