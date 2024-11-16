@@ -57,11 +57,11 @@ async function deleteData(path = "") {
     const controller = new AbortController();
     const signal = controller.signal;
 
-    // Setze einen Timeout für die Anfrage
+   
     const timeoutId = setTimeout(() => controller.abort(), timeout);
 
     try {
-        console.log("Updating data at:", BASE_URL + path + ".json");
+        //console.log("Updating data at:", BASE_URL + path + ".json");
 
         const response = await fetch(BASE_URL + path + ".json", {
             method: "PUT",
@@ -79,7 +79,6 @@ async function deleteData(path = "") {
         }
 
         const responseToJson = await response.json();
-        console.log("Data updated successfully:", responseToJson);
         return responseToJson;
 
     } catch (error) {
