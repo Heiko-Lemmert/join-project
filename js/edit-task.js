@@ -181,7 +181,7 @@
             case 'high':
             case 'medium':
             case 'low':
-                setPrioBtn(`prio${prio.charAt(0).toUpperCase() + prio.slice(1)}`, prio);
+                setPrioBtn(`editPrio${prio.charAt(0).toUpperCase() + prio.slice(1)}`, prio);
                 break;
         }
     }
@@ -244,7 +244,7 @@
      * @param {string} newSubtask - The title of the new subtask.
      */
     function createSubtask(newSubtask) {
-        if (writtenSubtask.length < 20) {
+        if (writtenSubtask.length < 30) {
             writtenSubtask.push({
                 title: newSubtask,
                 done: false
@@ -252,7 +252,7 @@
             editSubtaskInput.value = '';
             renderSubtask();
         } else {
-            alert('Too many Subtask. Please only enter 20 Subtask');
+            alert('Too many Subtask. Please only enter 30 Subtask');
         }
     }
 

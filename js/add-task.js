@@ -250,7 +250,7 @@
      * @param {string} newSubtask - The title of the new subtask.
      */
     function createSubtask(newSubtask) {
-        if (writtenSubtask.length < 20) {
+        if (writtenSubtask.length < 30) {
             writtenSubtask.push({
                 title: newSubtask,
                 done: false
@@ -258,7 +258,7 @@
             subtask.value = '';
             renderSubtask();
         } else {
-            alert('Too many Subtask. Please only enter 20 Subtask');
+            alert('Too many Subtask. Please only enter 30 Subtask');
         }
     }
 

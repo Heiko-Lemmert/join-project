@@ -185,24 +185,6 @@ function closeViewList() {
 }
 
 /**
- * Chooses the priority image based on the task's priority level.
- * @param {string} prio - Task priority ('high', 'medium', 'low').
- * @returns {string} HTML string for the priority image.
- */
-function prioImgChooser(prio) {
-    switch (prio) {
-        case 'high':
-            return '<img class="task-card-prio" src="./assets/img/prio-high.png" alt=""></img>';
-        case 'medium':
-            return '<img class="task-card-prio-medium" src="./assets/img/prio-medium.png" alt=""></img>';
-        case 'low':
-            return '<img class="task-card-prio" src="./assets/img/prio-low.png" alt=""></img>';
-        default:
-            break;
-    }
-}
-
-/**
  * Converts priority text to a capitalized string.
  * @param {string} prio - Task priority.
  * @returns {string} Capitalized priority string.
@@ -275,4 +257,22 @@ function filterAndShowTask() {
  */
 function clearContainers(containers) {
     containers.forEach(container => container.innerHTML = '');
+}
+
+/**
+ * Chooses the priority image based on the task's priority level.
+ * @param {string} prio - Task priority ('high', 'medium', 'low').
+ * @returns {string} HTML string for the priority image.
+ */
+function prioImgChooser(prio) {
+    switch (prio) {
+        case 'high':
+            return '<img class="task-card-prio" src="./assets/img/prio-high.png" alt=""></img>';
+        case 'medium':
+            return '<img class="task-card-prio-medium" src="./assets/img/prio-medium.png" alt=""></img>';
+        case 'low':
+            return '<img class="task-card-prio" src="./assets/img/prio-low.png" alt=""></img>';
+        default:
+            break;
+    }
 }
