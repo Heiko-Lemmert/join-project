@@ -303,6 +303,5 @@ function isSamePassword() {
             signUpBtn.disabled = !this.checked; // Aktivieren, wenn Checkbox ausgewählt ist
         });
     } else {
-        console.error('Elemente privacy-policy oder signUpBtn nicht gefunden.');
-    }
+         }
 });
