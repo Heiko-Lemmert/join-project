@@ -505,8 +505,11 @@ button img {
     transform: translate(-50%, -50%);
     width: 80%;
     min-height: 90%;
+    max-height: 95%;
     border-radius: 25px;
     padding: 50px;
+    scrollbar-width: none;
+    overflow-y: scroll;
 }
 
 .at-overlay-hidden,

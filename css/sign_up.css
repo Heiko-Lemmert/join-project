@@ -118,7 +118,11 @@ h1 {
 }
 
 .btn-primary:hover {
-    background-color: #1f2a39;
+    background-color: #33465e;
+}
+
+.btn-primary:disabled {
+    background-color: #6c6c6c;
 }
 
 .footer {
