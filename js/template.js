@@ -391,3 +391,5 @@ function getDialogTemplate(contact, index = null) {
         </div>
     </div>`;
 }
+
+

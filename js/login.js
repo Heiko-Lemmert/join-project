@@ -294,4 +294,15 @@ function isSamePassword() {
             return false
         }
     } else {return false}
-}
+}document.addEventListener('DOMContentLoaded', () => {
+    const privacyPolicyCheckbox = document.getElementById('privacy-policy');
+    const signUpBtn = document.getElementById('signUpBtn');
+
+    if (privacyPolicyCheckbox && signUpBtn) {
+        privacyPolicyCheckbox.addEventListener('change', function () {
+            signUpBtn.disabled = !this.checked; // Aktivieren, wenn Checkbox ausgewählt ist
+        });
+    } else {
+        console.error('Elemente privacy-policy oder signUpBtn nicht gefunden.');
+    }
+});

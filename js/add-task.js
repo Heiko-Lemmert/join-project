@@ -489,3 +489,4 @@
     window.clearTask = clearTask;
 
 }());
+
