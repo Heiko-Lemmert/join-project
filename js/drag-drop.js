@@ -80,7 +80,7 @@ function checkForList() {
         } else if ((window.innerWidth > 970)) {
             if (lists.length <= 1) {
                 scrollDiv.style.overflowY = "hidden";
-            } else  {
+            } else {
                 scrollDiv.style.overflowY = "hidden";
             }
         }
